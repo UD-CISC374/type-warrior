@@ -17,7 +17,6 @@ export default class MainScene extends Phaser.Scene {
     this.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, "background");
     this.background.setOrigin(0, 0);
 
-    //this.player = this.add.image(this.scale.width / 2 - 50, this.scale.height / 2 - 20, "standing");
     this.player = this.physics.add.sprite(this.scale.width / 2 - 8, this.scale.height - 64, "idle");
     this.player.play("idle_anim");
 
@@ -37,13 +36,11 @@ export default class MainScene extends Phaser.Scene {
   }
 
   update() {
-    //this.player.play("idle_anim");
 
     this.wordLabel.text = "Command:    " + this.words;
     this.healthLabel.text = "Health: " + this.health;
     this.addLetters();
     this.movePlayer();
-   // this.player.play("idle_anim");
   }
 
   addLetters() {
@@ -72,26 +69,28 @@ export default class MainScene extends Phaser.Scene {
     if (this.words == "move left") {
       this.player.x -= 25;
       this.words = "";
-     // this.player.play("idle_anim");
     }
 
     if (this.words == "move right") {
       this.player.x += 25;
       this.words = "";
-      //this.player.play("idle_anim");
+    }
+
+    if(this.words == "move forward") {
+      this.player.y -= 25;
+      this.words = "";
+    }
+
+    if(this.words == "move backward") {
+      this.player.y += 25;
+      this.words = "";
     }
 
     if(this.words == "attack"){
-      //this.player = this.physics.add.sprite(this.scale.width / 2 - 8, this.scale.height - 64, "idle");
       this.player.play("attack_anim");
       this.player.once('animationcomplete', ()=>{
       this.player.play("idle_anim");
-
       });
-   // this.player.play("idle_anim");
-
-      //this.player.play("idle_anim");
-      //AnimationTimeline
       this.words = "";
     }
   }
