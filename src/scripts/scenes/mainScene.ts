@@ -72,19 +72,24 @@ export default class MainScene extends Phaser.Scene {
     if (this.words == "move left") {
       this.player.x -= 25;
       this.words = "";
-      this.player.play("idle_anim");
+     // this.player.play("idle_anim");
     }
 
     if (this.words == "move right") {
       this.player.x += 25;
       this.words = "";
-      this.player.play("idle_anim");
+      //this.player.play("idle_anim");
     }
 
     if(this.words == "attack"){
       //this.player = this.physics.add.sprite(this.scale.width / 2 - 8, this.scale.height - 64, "idle");
       this.player.play("attack_anim");
-      
+      this.player.once('animationcomplete', ()=>{
+      this.player.play("idle_anim");
+
+      });
+   // this.player.play("idle_anim");
+
       //this.player.play("idle_anim");
       //AnimationTimeline
       this.words = "";
