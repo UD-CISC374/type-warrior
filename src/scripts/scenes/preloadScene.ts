@@ -19,6 +19,16 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 35
     });
 
+    this.load.spritesheet("knight-idle", "assets/spritesheets/knight-idle.png",{
+      frameWidth: 90,
+      frameHeight: 45
+    });
+
+    this.load.spritesheet("knight-attack", "assets/spritesheets/knight-attack.png",{
+      frameWidth: 90,
+      frameHeight: 45
+    });
+
   }
 
   create() {
@@ -35,6 +45,20 @@ export default class PreloadScene extends Phaser.Scene {
     this.anims.create({
       key: "idle_anim",
       frames: this.anims.generateFrameNumbers("idle", { start: 0, end: 1}),
+      frameRate: 5,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "knight-idle",
+      frames: this.anims.generateFrameNumbers("knight-idle", { start: 0, end: 3}),
+      frameRate: 5,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "knight-attacl",
+      frames: this.anims.generateFrameNumbers("knight-attack", { start: 0, end: 4}),
       frameRate: 5,
       repeat: -1
     });

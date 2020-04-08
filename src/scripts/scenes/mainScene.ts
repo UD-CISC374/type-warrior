@@ -3,11 +3,13 @@ import ExampleObject from '../objects/exampleObject';
 
 export default class MainScene extends Phaser.Scene {
   private player: Phaser.Physics.Arcade.Sprite;
+  private knight: Phaser.Physics.Arcade.Sprite;
   private background: Phaser.GameObjects.TileSprite;
   private words: string;
   private health: integer;
   private wordLabel: Phaser.GameObjects.BitmapText;
   private healthLabel: Phaser.GameObjects.BitmapText;
+  private EnemyisFlipped: boolean;
 
   constructor() {
     super({ key: 'MainScene' });
@@ -19,6 +21,9 @@ export default class MainScene extends Phaser.Scene {
 
     this.player = this.physics.add.sprite(this.scale.width / 2 - 8, this.scale.height - 64, "idle");
     this.player.play("idle_anim");
+ 
+    this.knight = this.physics.add.sprite(250, 100, "knight-attack");
+    this.knight.play("knight-idle");
 
 
 
@@ -41,6 +46,23 @@ export default class MainScene extends Phaser.Scene {
     this.healthLabel.text = "Health: " + this.health;
     this.addLetters();
     this.movePlayer();
+    this.moveEnemies();
+  }
+
+  moveEnemies(){
+    if(this.knight.x < this.player.x){
+      this.knight.x += .05;
+      if(this.EnemyisFlipped){this.knight.setFlipX(false); this.EnemyisFlipped = false;}
+    }else if(this.knight.x > this.player.x){
+      this.knight.x -= .05;
+      if(!this.EnemyisFlipped){this.knight.setFlipX(true); this.EnemyisFlipped = true;}
+      
+    } 
+    if(this.knight.y < this.player.y){
+      this.knight.y += .05;
+    }else if(this.knight.y > this.player.y){
+      this.knight.y -= .05;
+    }
   }
 
   addLetters() {
@@ -91,6 +113,7 @@ export default class MainScene extends Phaser.Scene {
       this.player.once('animationcomplete', ()=>{
       this.player.play("idle_anim");
       });
+      
       this.words = "";
     }
   }
