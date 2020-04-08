@@ -1,11 +1,11 @@
 import ExampleObject from '../objects/exampleObject';
+import Player from '../objects/player';
 
 
 export default class MainScene extends Phaser.Scene {
-  private player: Phaser.Physics.Arcade.Sprite;
+  private player: Player;
   private background: Phaser.GameObjects.TileSprite;
   private words: string;
-  private health: integer;
   private wordLabel: Phaser.GameObjects.BitmapText;
   private healthLabel: Phaser.GameObjects.BitmapText;
 
@@ -17,12 +17,8 @@ export default class MainScene extends Phaser.Scene {
     this.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, "background");
     this.background.setOrigin(0, 0);
 
-    this.player = this.physics.add.sprite(this.scale.width / 2 - 8, this.scale.height - 64, "idle");
-    this.player.play("idle_anim");
+    this.player = new Player(this, this.scale.width / 2 - 8, this.scale.height - 64);
 
-
-
-    this.player.setScale(2, 2);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
     for(let i : number = Phaser.Input.Keyboard.KeyCodes.A; i <= Phaser.Input.Keyboard.KeyCodes.Z; i++) {
@@ -30,7 +26,6 @@ export default class MainScene extends Phaser.Scene {
     }
 
     this.words = "";
-    this.health = 100;
     this.wordLabel = this.add.bitmapText(10, 5, "pixelFont", "Command", 16);
     this.healthLabel = this.add.bitmapText(this.scale.width - 75, 5, "pixelFont", "health", 16);
   }
@@ -38,9 +33,11 @@ export default class MainScene extends Phaser.Scene {
   update() {
 
     this.wordLabel.text = "Command:    " + this.words;
-    this.healthLabel.text = "Health: " + this.health;
+    this.healthLabel.text = "Health: " + this.player.get_health();
     this.addLetters();
-    this.movePlayer();
+    if(this.player.movePlayer(this.words)) {
+      this.words = "";
+    }
   }
 
   addLetters() {
@@ -62,36 +59,6 @@ export default class MainScene extends Phaser.Scene {
     if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.BACKSPACE])) {
       this.words = "";
       return;
-    }
-  }
-
-  movePlayer() {
-    if (this.words == "move left") {
-      this.player.x -= 25;
-      this.words = "";
-    }
-
-    if (this.words == "move right") {
-      this.player.x += 25;
-      this.words = "";
-    }
-
-    if(this.words == "move forward") {
-      this.player.y -= 25;
-      this.words = "";
-    }
-
-    if(this.words == "move backward") {
-      this.player.y += 25;
-      this.words = "";
-    }
-
-    if(this.words == "attack"){
-      this.player.play("attack_anim");
-      this.player.once('animationcomplete', ()=>{
-      this.player.play("idle_anim");
-      });
-      this.words = "";
     }
   }
 }
