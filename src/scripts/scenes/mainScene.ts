@@ -4,10 +4,13 @@ import Player from '../objects/player';
 
 export default class MainScene extends Phaser.Scene {
   private player: Player;
+  private knight: Phaser.Physics.Arcade.Sprite;
+
   private background: Phaser.GameObjects.TileSprite;
   private words: string;
   private wordLabel: Phaser.GameObjects.BitmapText;
   private healthLabel: Phaser.GameObjects.BitmapText;
+  private EnemyisFlipped: boolean;
 
   constructor() {
     super({ key: 'MainScene' });
@@ -18,6 +21,8 @@ export default class MainScene extends Phaser.Scene {
     this.background.setOrigin(0, 0);
 
     this.player = new Player(this, this.scale.width / 2 - 8, this.scale.height - 64);
+    this.knight = this.physics.add.sprite(250, 100, "knight-attack");
+    this.knight.play("knight-idle");
 
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
@@ -35,8 +40,27 @@ export default class MainScene extends Phaser.Scene {
     this.wordLabel.text = "Command:    " + this.words;
     this.healthLabel.text = "Health: " + this.player.get_health();
     this.addLetters();
+
     if(this.player.movePlayer(this.words)) {
       this.words = "";
+    }
+
+    this.moveEnemies();
+  }
+
+  moveEnemies(){
+    if(this.knight.x < this.player.x){
+      this.knight.x += .05;
+      if(this.EnemyisFlipped){this.knight.setFlipX(false); this.EnemyisFlipped = false;}
+    }else if(this.knight.x > this.player.x){
+      this.knight.x -= .05;
+      if(!this.EnemyisFlipped){this.knight.setFlipX(true); this.EnemyisFlipped = true;}
+      
+    } 
+    if(this.knight.y < this.player.y){
+      this.knight.y += .05;
+    }else if(this.knight.y > this.player.y){
+      this.knight.y -= .05;
     }
   }
 
