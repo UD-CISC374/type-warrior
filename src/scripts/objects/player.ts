@@ -6,6 +6,5 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.play("idle_anim");
         this.health = 100;
         scene.add.existing(this);
-
     }
 }
