@@ -2,7 +2,7 @@ import ExampleObject from '../objects/exampleObject';
 
 
 export default class MainScene extends Phaser.Scene {
-  private player;
+  private player: Phaser.Physics.Arcade.Sprite;
   private background: Phaser.GameObjects.TileSprite;
   private words: string;
   private health: integer;
