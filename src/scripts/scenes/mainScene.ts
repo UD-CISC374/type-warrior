@@ -96,7 +96,7 @@ export default class MainScene extends Phaser.Scene {
    // "\n" + "move right" + "\n" + "attack left" + "\n" + "attack right"];
 
     for(let i = 0; i < this.allComs.length; i++){
-      if(this.allComs[i].isUnlocked() == true){
+      if(this.allComs[i].isUnlocked()){
         this.commands = [this.commands + "\n" + this.allComs[i].getName() + " : " + this.allComs[i].getDescrip()];
       }
     }

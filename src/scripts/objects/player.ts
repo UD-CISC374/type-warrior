@@ -22,7 +22,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (words == "sword"){
             this.whichAttack = "sword-attack_anim";
             this.weapon = "sword";
-            words = "";
+            return true;
         }
 
         if (words == "move left") {
