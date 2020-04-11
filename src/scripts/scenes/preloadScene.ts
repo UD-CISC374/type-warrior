@@ -27,7 +27,7 @@ export default class PreloadScene extends Phaser.Scene {
 
     this.load.spritesheet("knight-attack", "assets/spritesheets/knight-attack.png", {
       frameWidth: 90,
-      frameHeight: 45
+      frameHeight: 60
     });
 
   }
@@ -58,7 +58,7 @@ export default class PreloadScene extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: "knight-attacl",
+      key: "knight-attack",
       frames: this.anims.generateFrameNumbers("knight-attack", { start: 0, end: 4 }),
       frameRate: 5,
       repeat: -1
