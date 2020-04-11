@@ -12,9 +12,12 @@ export default class MainScene extends Phaser.Scene {
   private healthLabel: Phaser.GameObjects.BitmapText;
   private EnemyisFlipped: boolean;
   private enemy_health: number;
+  
+ 
   private allComs: Array<command>;
   private commands: string[];
   private commandDisplay: Phaser.GameObjects.BitmapText;
+  
   //list of commands
   private helpC: command;
   private shopC: command;
@@ -42,6 +45,7 @@ export default class MainScene extends Phaser.Scene {
     this.enemy_health = 10;
     this.enemy_exists = true;
     this.player = new Player(this, this.scale.width / 2 - 8, this.scale.height - 64);
+    
 
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);

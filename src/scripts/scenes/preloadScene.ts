@@ -10,9 +10,14 @@ export default class PreloadScene extends Phaser.Scene {
 
     this.load.bitmapFont("pixelFont", "assets/fonts/font.png", "assets/fonts/font.xml");
 
-    this.load.spritesheet("attack", "assets/spritesheets/attack.png", {
+    this.load.spritesheet("sword-attack", "assets/spritesheets/sword-attack.png", {
       frameWidth: 50,
       frameHeight: 35
+    });
+
+    this.load.spritesheet("attack", "assets/spritesheets/punch.png", {
+      frameWidth: 47,
+      frameHeight: 25
     });
 
     this.load.spritesheet("idle", "assets/spritesheets/idle.png", {
@@ -35,6 +40,12 @@ export default class PreloadScene extends Phaser.Scene {
   create() {
     this.scene.start('MainScene');
 
+    this.anims.create({
+      key: "sword-attack_anim",
+      frames: this.anims.generateFrameNumbers("sword-attack", { start: 0, end: 4 }),
+      frameRate: 20,
+      repeat: 0
+    });
 
     this.anims.create({
       key: "attack_anim",
