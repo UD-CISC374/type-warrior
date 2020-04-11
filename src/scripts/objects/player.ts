@@ -3,6 +3,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     private is_flipped: boolean;
     private weapon: string;
     private whichAttack: string;
+    private commands: Map<string,boolean>;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, "idle");
@@ -11,6 +12,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.health = 100;
         this.is_flipped = false;
         this.weapon = "fist";
+        this.commands = new Map();
+        this.commands.set("move left", false);
         scene.add.existing(this);
     }
 
@@ -26,6 +29,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (words == "move left") {
+            if(!this.commands.get("move left")) {
+                return true;
+            }
             if (!this.is_flipped) {
                 this.setFlipX(true);
                 this.is_flipped = true;
@@ -99,4 +105,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     public get_health() {
         return this.health;
     }
+
+    public set_health(new_health: number) {
+        this.health = new_health;
+    }
+
+    public make_player(a_player: Player) {
+        this.health = a_player.health;
+        this.is_flipped = a_player.is_flipped;
+        this.weapon = a_player.weapon;
+        this.whichAttack = a_player.whichAttack;
+        this.commands = a_player.commands;
+    }
+
+    public add_command(key: string, value: boolean) {
+        this.commands.set(key, value);
+    }
+
 }

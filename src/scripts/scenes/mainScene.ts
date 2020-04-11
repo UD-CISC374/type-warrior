@@ -2,51 +2,63 @@ import Player from '../objects/player';
 import command from '../objects/command';
 
 export default class MainScene extends Phaser.Scene {
+  // the player
   private player: Player;
-  private knight: Phaser.Physics.Arcade.Sprite;
-  private enemy_exists: boolean;
 
-  private background: Phaser.GameObjects.TileSprite;
-  private words: string;
-  private wordLabel: Phaser.GameObjects.BitmapText;
-  private healthLabel: Phaser.GameObjects.BitmapText;
+  // temporary values for enemies
+  private knight: Phaser.Physics.Arcade.Sprite;
+  private enemy_exists: boolean;  
   private EnemyisFlipped: boolean;
   private enemy_health: number;
-  
- 
+
+  // the background
+  private background: Phaser.GameObjects.TileSprite;
+
+  // the players typing input as a string
+  private words: string;
+
+  // the bitmap texts that display to the screen
+  private wordLabel: Phaser.GameObjects.BitmapText;
+  private healthLabel: Phaser.GameObjects.BitmapText;
+  private commandDisplay: Phaser.GameObjects.BitmapText;
+
+  // Command storage 
   private allComs: Array<command>;
   private commands: string[];
-  private commandDisplay: Phaser.GameObjects.BitmapText;
-  
-  //list of commands
-  private helpC: command;
-  private shopC: command;
-  private leftC: command;
-  private rightC: command;
-  private forwardC: command;
-  private backwardC: command;
-  private turnaC: command;
-  private aleftC: command;
-  private arightC: command;
-  private aforwardC: command;
-  private abackwardC: command;
+  private command_map: Map<string, [string, boolean]>;
 
-
+  // the constructor for the scene
   constructor() {
     super({ key: 'MainScene' });
   }
 
-  create() {
+  // init function. Allows passing the player object between scenes
+  init(data) {
+    // initiate the background as the back most image
     this.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, "background");
     this.background.setOrigin(0, 0);
 
+    // inititates the enemy over top the background
     this.knight = this.physics.add.sprite(250, 100, "knight-idle");
     this.knight.play("knight-idle");
     this.enemy_health = 10;
     this.enemy_exists = true;
-    this.player = new Player(this, this.scale.width / 2 - 8, this.scale.height - 64);
-    
 
+    // check if the player is passed from another scene
+    if (data.player == undefined) {
+      // if the player isn't passed, initiate the default player
+      this.player = new Player(this, this.scale.width / 2 - 8, this.scale.height - 64);
+    } else {
+      // if the player is passed from another scene, create the player over top the background
+      this.player = new Player(this, data.player.x, data.player.y);
+      // use the function in the player object to transfer all the important data from the passed player to the scene's player
+      this.player.make_player(data.player);
+    }
+  }
+
+  // create function for the scene
+  create() {
+    // add the necessary input keys for the player to type
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
@@ -55,71 +67,64 @@ export default class MainScene extends Phaser.Scene {
       this.input.keyboard.addKey(i);
     }
 
+    // initiate the words to an empty string
     this.words = "";
+
     //declaring commands
-    this.allComs = [];
-    this.commands = [""];
-
-    this.helpC = new command("help", "Brings up command list", true); 
-    this.allComs.push(this.helpC);
-
-    this.leftC = new command("move left", "Move your character to the left", true);
-    this.allComs.push(this.leftC);
-
-    this.rightC = new command("move right", "Move your character to the right", true);
-    this.allComs.push(this.rightC);
-
-    this.forwardC = new command("move forward", "Advance your character forwards", true);
-    this.allComs.push(this.forwardC);
-
-    this.backwardC = new command("move backward", "Retreat backwards", true);
-    this.allComs.push(this.backwardC);
-    
-    this.turnaC = new command("turn around", "Rotate your character 180", true);
-    this.allComs.push(this.turnaC);
-
-    this.aleftC = new command("attack left", "attack to the left direction", true);
-    this.allComs.push(this.aleftC);
-
-    this.arightC = new command("attack right", "attack to the right direction", true);
-    this.allComs.push(this.arightC);
-
-    this.aforwardC = new command("attack forward", "attack in front", true);
-    this.allComs.push(this.aforwardC);
-
-    this.abackwardC = new command("attack backward", "attack behind you", true);
-    this.allComs.push(this.abackwardC);
-
-    this.shopC = new command("shop!", "Transports you to a shop to upgrade your hero", true);
-    this.allComs.push(this.shopC);
-   // this.commands = ["\n" + "move forward" + "\n" + "move left" + 
-   // "\n" + "move right" + "\n" + "attack left" + "\n" + "attack right"];
-
-    for(let i = 0; i < this.allComs.length; i++){
-      if(this.allComs[i].isUnlocked()){
-        this.commands = [this.commands + "\n" + this.allComs[i].getName() + " : " + this.allComs[i].getDescrip()];
+    this.command_map = new Map();
+    this.command_map.set("help", ["Brings up command list", true]);
+    this.command_map.set("move left", ["Move your character to the left", true]);
+    this.command_map.set("move right", ["Move your character to the right", true]);
+    this.command_map.set("move forward", ["Advance your character forwards", true]);
+    this.command_map.set("move backward", ["Retreat backwards", true]);
+    this.command_map.set("turn around", ["Rotate your character 180", true]);
+    this.command_map.set("attack left", ["attack to the left direction", true]);
+    this.command_map.set("attack right", ["attack to the right direction", true]);
+    this.command_map.set("attack forward", ["attack in front", true]);
+    this.command_map.set("attack backward", ["attack behind you", true]);
+    this.command_map.set("shop!", ["Transports you to a shop to upgrade your hero", true]);
+    this.command_map.set("attack right with sword", ["attack to the right direction with a sword",false]);
+    let comms: string[] = [""];
+    this.command_map.forEach(function (value, key) {
+      if (value[1]) {
+        comms = [comms + "\n" + key + " : " + value[0]];
       }
-    }
+    });
+    this.commands = comms;
+
+     // inititate the bitmaps to display
     this.wordLabel = this.add.bitmapText(10, 5, "pixelFont", "Command", 16);
     this.healthLabel = this.add.bitmapText(this.scale.width - 75, 5, "pixelFont", "health", 16);
     this.commandDisplay = this.add.bitmapText(10, 15, "pixelFont", "display", 16);
     this.commandDisplay.tint = 0x00000;
   }
 
+  // the update function
   update() {
-    
+    // set the commandDisplay to default false
     this.commandDisplay.setVisible(false);
+
+    // update the word label to display what the player has typed
     this.wordLabel.text = "Command:    " + this.words;
-    this.healthLabel.text = "Health: " + this.enemy_health;//this.player.get_health();
+
+    // update the health label to display the character's current health
+    this.healthLabel.text = "Health: " + this.player.get_health();
+
+    // update the command display to hold all available commands
     this.commandDisplay.text = "Commands: " + this.commands;
-    this.addLetters();
 
-    this.hit_enemy();
+    // check if the player is typing
+    this.addLetters();    
 
+    // check if the player entered a valid command
     if (this.player.movePlayer(this.words)) {
+      // checks if the enemy is attacked by the command
+      this.hit_enemy();
+      // reset the player's entered words
       this.words = "";
     }
 
+    // spawns a new enemy if there is none and the player types in the correct command
     if (this.words == "fight onward!" && !this.enemy_exists) {
       this.knight.x = 250;
       this.knight.y = 100;
@@ -129,17 +134,21 @@ export default class MainScene extends Phaser.Scene {
       this.words = "";
     }
 
+    // checks if the player wants to open the shop
     if (this.words == "shop!") {
-      this.scene.start('ShopScene', { player: this.player });
+      this.scene.start('ShopScene', { player: this.player, commands: this.command_map });
     }
 
-    if (this.words == this.helpC.getName()){
+    // if the player types in "help" then the available commands are displayed to the screen
+    if (this.words == "help") {
       this.commandDisplay.setVisible(true);
     }
 
+    // update enemy position
     this.moveEnemies();
   }
 
+  // enemy position updating function. follows the players position
   moveEnemies() {
     if (this.knight.x < this.player.x - 25) {
       this.knight.x += .05;
@@ -156,6 +165,7 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
+  // listens for player input and update accordingly
   addLetters() {
     let key_a: number = Phaser.Input.Keyboard.KeyCodes.A;
     let key_z: number = Phaser.Input.Keyboard.KeyCodes.Z;
@@ -184,6 +194,7 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
+  // checks if the enemy is damaged and killed by the attacks
   hit_enemy() {
     if ((this.words == "attack right") && (this.knight.x > this.player.x) && (this.knight.x < this.player.x + 50) &&
       (this.knight.y < this.player.y + 25) && (this.knight.y > this.player.y - 25)) {

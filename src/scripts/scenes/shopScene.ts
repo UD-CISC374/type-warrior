@@ -5,6 +5,9 @@ export default class shopScene extends Phaser.Scene {
     private player: Player;
     private wordLabel: Phaser.GameObjects.BitmapText;
     private words: String;
+    private command_shopList: Map<string,[number,boolean]>;
+    private shoplist_display: Phaser.GameObjects.BitmapText;
+    private shoplist: string[];
 
     constructor() {
         super({ key: 'ShopScene' });
@@ -12,6 +15,17 @@ export default class shopScene extends Phaser.Scene {
 
     init(data) {
         this.player = data.player;
+
+        this.shoplist = [""];
+
+        let curr_commands: Map<string,[number,boolean]> = new Map();
+        data.commands.forEach(function(value,key) {
+            if(!value[1]) {
+                curr_commands.set(key,[100,false]);
+            }
+        });
+
+        this.command_shopList = curr_commands;
     }
 
     create() {
@@ -26,16 +40,46 @@ export default class shopScene extends Phaser.Scene {
             this.input.keyboard.addKey(i);
         }
 
+        this.shoplist_display = this.add.bitmapText(10, 15, "pixelFont", "display", 16);
+        //this.shoplist_display.tint = 0x00000;
+        this.shoplist_display.setVisible(false);
+        this.shoplist_display.text = "Available Purchases: " + this.shoplist;
+
         this.wordLabel = this.add.bitmapText(10, 5, "pixelFont", "Command", 16);
         this.words = "";
+
+        let temp_shoplist: string[] = this.shoplist;
+        this.command_shopList.forEach(function(value,key) {
+            temp_shoplist = [temp_shoplist + "\n" + key + " : " + value[0]];
+        });
+        this.shoplist = temp_shoplist;
     }
 
     update() {
         this.wordLabel.text = "Command:    " + this.words;
         this.addLetters();
 
+        this.shoplist_display.text = "Available Purchases: " + this.shoplist;
+
         if(this.words == "done!") {
             this.scene.start('MainScene', {player: this.player});
+        } else if(this.words == "shop list!") {
+            this.shoplist_display.setVisible(true);
+            this.words = "";
+        } else if(this.words == "close shop list!") {
+            this.shoplist_display.setVisible(false);
+            this.words = "";
+        } else if(this.words == "help") {
+
+        } else if(this.words == "buy attack right with sword" && this.command_shopList.has("attack right with sword")) {
+            this.player.add_command("attack right with sword", true);
+            this.command_shopList.delete("attack right with sword");
+            this.words = "";
+            let temp_shoplist: string[] = [""];
+            this.command_shopList.forEach(function(value,key) {
+                temp_shoplist = [temp_shoplist + "\n" + key + " : " + value[0]];
+            });
+            this.shoplist = temp_shoplist;
         }
     }
 
