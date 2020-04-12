@@ -4,8 +4,8 @@ export default class shopScene extends Phaser.Scene {
     private background: Phaser.GameObjects.TileSprite;
     private player: Player;
     private wordLabel: Phaser.GameObjects.BitmapText;
-    private words: String;
-    private command_shopList: Map<string,[number,boolean]>;
+    private words: string;
+    private command_shopList: Map<string, number>;
     private shoplist_display: Phaser.GameObjects.BitmapText;
     private shoplist: string[];
 
@@ -18,14 +18,7 @@ export default class shopScene extends Phaser.Scene {
 
         this.shoplist = [""];
 
-        let curr_commands: Map<string,[number,boolean]> = new Map();
-        data.commands.forEach(function(value,key) {
-            if(!value[1]) {
-                curr_commands.set(key,[100,false]);
-            }
-        });
-
-        this.command_shopList = curr_commands;
+        this.command_shopList = data.commands;
     }
 
     create() {
@@ -41,7 +34,7 @@ export default class shopScene extends Phaser.Scene {
         }
 
         this.shoplist_display = this.add.bitmapText(10, 15, "pixelFont", "display", 16);
-        //this.shoplist_display.tint = 0x00000;
+        this.shoplist_display.tint = 0xff6611;
         this.shoplist_display.setVisible(false);
         this.shoplist_display.text = "Available Purchases: " + this.shoplist;
 
@@ -49,8 +42,8 @@ export default class shopScene extends Phaser.Scene {
         this.words = "";
 
         let temp_shoplist: string[] = this.shoplist;
-        this.command_shopList.forEach(function(value,key) {
-            temp_shoplist = [temp_shoplist + "\n" + key + " : " + value[0]];
+        this.command_shopList.forEach(function (value, key) {
+            temp_shoplist = [temp_shoplist + "\n" + key + " : " + value];
         });
         this.shoplist = temp_shoplist;
     }
@@ -61,26 +54,37 @@ export default class shopScene extends Phaser.Scene {
 
         this.shoplist_display.text = "Available Purchases: " + this.shoplist;
 
-        if(this.words == "done!") {
-            this.scene.start('MainScene', {player: this.player});
-        } else if(this.words == "shop list!") {
+        if (this.words == "done!") {
+            this.scene.start('MainScene', { player: this.player });
+        } else if (this.words == "shop list!") {
             this.shoplist_display.setVisible(true);
             this.words = "";
-        } else if(this.words == "close shop list!") {
+        } else if (this.words == "close shop list!") {
             this.shoplist_display.setVisible(false);
             this.words = "";
-        } else if(this.words == "help") {
+        } else if (this.words == "help") {
 
-        } else if(this.words == "buy attack right with sword" && this.command_shopList.has("attack right with sword")) {
-            this.player.add_command("attack right with sword", true);
-            this.command_shopList.delete("attack right with sword");
-            this.words = "";
-            let temp_shoplist: string[] = [""];
-            this.command_shopList.forEach(function(value,key) {
-                temp_shoplist = [temp_shoplist + "\n" + key + " : " + value[0]];
-            });
-            this.shoplist = temp_shoplist;
         }
+
+        let temp_words: string = this.words;
+        let temp_player: Player = this.player;
+        let temp_commands: Map<string, number> = this.command_shopList;
+        this.command_shopList.forEach(function (value, key) {
+            if (temp_words == ("buy " + key)) {
+                temp_player.add_command(key, true);
+                temp_commands.delete(key);
+                temp_words = "";
+            }
+        });
+        this.words = temp_words;
+        this.player = temp_player;
+        this.command_shopList = temp_commands;
+
+        let temp_shoplist: string[] = [""];
+        this.command_shopList.forEach(function (value, key) {
+            temp_shoplist = [temp_shoplist + "\n" + key + " : " + value];
+        });
+        this.shoplist = temp_shoplist;
     }
 
     addLetters() {

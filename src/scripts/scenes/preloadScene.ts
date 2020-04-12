@@ -1,6 +1,7 @@
 import Player from "../objects/player";
 
 export default class PreloadScene extends Phaser.Scene {
+  private commands: Map<string,[string,boolean,number]>;
   constructor() {
     super({ key: 'PreloadScene' });
   }
@@ -40,8 +41,6 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('MainScene');
-
     this.anims.create({
       key: "sword-attack_anim",
       frames: this.anims.generateFrameNumbers("sword-attack", { start: 0, end: 4 }),
@@ -76,5 +75,35 @@ export default class PreloadScene extends Phaser.Scene {
       frameRate: 5,
       repeat: -1
     });
+
+    //declaring commands
+    this.commands = new Map();
+
+    // misc commands
+    this.commands.set("help", ["Brings up command list", true,0]);
+    this.commands.set("shop!", ["Transports you to a shop to upgrade your hero", true,0]);
+
+    // movement commands
+    this.commands.set("move left", ["Move your character to the left", true,0]);
+    this.commands.set("move right", ["Move your character to the right", true,0]);
+    this.commands.set("move forward", ["Advance your character forwards", true,0]);
+    this.commands.set("move backward", ["Retreat backwards", true,0]);
+    this.commands.set("turn around", ["Rotate your character 180", true,0]);
+
+    // default attack commands (punches)
+    this.commands.set("attack left", ["attack to the left direction", true,0]);
+    this.commands.set("attack right", ["attack to the right direction", true,0]);
+    this.commands.set("attack forward", ["attack in front", true,0]);
+    this.commands.set("attack backward", ["attack behind you", true,0]);
+
+    // purchasable commands
+    // sword commands
+    this.commands.set("attack left with sword", ["attack to the left direction", false,100]);
+    this.commands.set("attack right with sword", ["attack to the right direction with a sword",false,100]);
+    this.commands.set("attack forward with sword", ["attack in front", false,100]);
+    this.commands.set("attack backward with sword", ["attack behind you", false,100]);
+
+    // start the main scene and pass it the commands list
+    this.scene.start('MainScene', {commands: this.commands});
   }
 }

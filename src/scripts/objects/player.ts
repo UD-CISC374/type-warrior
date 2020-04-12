@@ -68,7 +68,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (words == "attack right") {
             this.setFlipX(false);
             this.is_flipped = false;
-            this.play(this.whichAttack);
+            this.play('attack_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
             });
@@ -78,7 +78,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (words == "attack left") {
             this.setFlipX(true);
             this.is_flipped = true;
-            this.play(this.whichAttack);
+            this.play('attack_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
             });
@@ -86,7 +86,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (words == "attack forward") {
-            this.play(this.whichAttack);
+            this.play('attack_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
             });
@@ -94,7 +94,40 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (words == "attack backward") {
-            this.play(this.whichAttack);
+            this.play('attack_anim');
+            this.once('animationcomplete', () => {
+                this.play("idle_anim");
+            });
+            return true;
+        }
+
+        if((words == "attack right with sword") && (this.commands.get("attack right with sword") != undefined)) {
+            this.setFlipX(false);
+            this.is_flipped = false;
+            this.play('sword-attack_anim');
+            this.once('animationcomplete', () => {
+                this.play("idle_anim");
+            });
+            return true;
+        }
+        if((words == "attack left with sword") && (this.commands.get("attack left with sword") != undefined)) {
+            this.setFlipX(true);
+            this.is_flipped = true;
+            this.play('sword-attack_anim');
+            this.once('animationcomplete', () => {
+                this.play("idle_anim");
+            });
+            return true;
+        }
+        if((words == "attack forward with sword") && (this.commands.get("attack forward with sword") != undefined)) {
+            this.play('sword-attack_anim');
+            this.once('animationcomplete', () => {
+                this.play("idle_anim");
+            });
+            return true;
+        }
+        if((words == "attack backward with sword") && (this.commands.get("attack backward with sword") != undefined)) {
+            this.play('sword-attack_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
             });
@@ -104,6 +137,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     public get_health() {
         return this.health;
+    }
+
+    public get_commands() {
+        return this.commands;
     }
 
     public set_health(new_health: number) {
@@ -122,4 +159,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.commands.set(key, value);
     }
 
+    public add_commands(commands: Map<string,boolean>) {
+        this.commands = commands;
+    }
 }
