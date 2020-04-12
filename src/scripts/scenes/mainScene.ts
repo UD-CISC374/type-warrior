@@ -1,15 +1,13 @@
 import Player from '../objects/player';
-import command from '../objects/command';
+import Enemy from '../objects/enemy';
 
 export default class MainScene extends Phaser.Scene {
   // the player
   private player: Player;
 
-  // temporary values for enemies
-  private knight: Phaser.Physics.Arcade.Sprite;
-  private enemy_exists: boolean;  
-  private EnemyisFlipped: boolean;
-  private enemy_health: number;
+  // the current enemy
+  private current_enemy: Enemy;
+  private enemy_exists: boolean;
 
   // the background
   private background: Phaser.GameObjects.TileSprite;
@@ -23,10 +21,9 @@ export default class MainScene extends Phaser.Scene {
   private commandDisplay: Phaser.GameObjects.BitmapText;
 
   // Command storage 
-  private allComs: Array<command>;
   private commands: string[];
   private command_map: Map<string, [string, boolean]>;
-  private store_map: Map<string,number>;
+  private store_map: Map<string, number>;
 
   // the constructor for the scene
   constructor() {
@@ -40,9 +37,7 @@ export default class MainScene extends Phaser.Scene {
     this.background.setOrigin(0, 0);
 
     // inititates the enemy over top the background
-    this.knight = this.physics.add.sprite(250, 100, "knight-idle");
-    this.knight.play("knight-idle");
-    this.enemy_health = 10;
+    this.current_enemy = new Enemy(this, 250, 100, 0);
     this.enemy_exists = true;
 
     // check if the player is passed from another scene
@@ -50,19 +45,19 @@ export default class MainScene extends Phaser.Scene {
       // if the player isn't passed, initiate the default player
       // temporary variables to get the data from the passed map
       let temp_player: Player = new Player(this, this.scale.width / 2 - 8, this.scale.height - 64);
-      let temp_shopCom: Map<string,number> = new Map();
-      let temp_commands: Map<string,[string,boolean]> = new Map();
+      let temp_shopCom: Map<string, number> = new Map();
+      let temp_commands: Map<string, [string, boolean]> = new Map();
       // for each loop to get the data from the passed map
-      data.commands.forEach(function(value,key) {
-        if(value[1]) {
+      data.commands.forEach(function (value, key) {
+        if (value[1]) {
           // if the command is true or available to use it is added to the players command list
-          temp_player.add_command(key,value[1]);
+          temp_player.add_command(key, value[1]);
         } else {
           // otherwise it is added to the shop list
-          temp_shopCom.set(key,value[2]);
+          temp_shopCom.set(key, value[2]);
         }
         // adds all the passed commands to the scenes list of all commands
-        temp_commands.set(key,[value[0],value[1]]);
+        temp_commands.set(key, [value[0], value[1]]);
       });
       // sets the scenes variables to the temporary variables used for the for each loop
       this.command_map = temp_commands;
@@ -102,7 +97,7 @@ export default class MainScene extends Phaser.Scene {
     });
     this.commands = comms;
 
-     // inititate the bitmaps to display
+    // inititate the bitmaps to display
     this.wordLabel = this.add.bitmapText(10, 5, "pixelFont", "Command", 16);
     this.healthLabel = this.add.bitmapText(this.scale.width - 75, 5, "pixelFont", "health", 16);
     this.commandDisplay = this.add.bitmapText(10, 15, "pixelFont", "display", 16);
@@ -115,7 +110,7 @@ export default class MainScene extends Phaser.Scene {
     if (this.words == "shop!") {
       this.scene.start('ShopScene', { player: this.player, commands: this.store_map });
     }
-    
+
     // set the commandDisplay to default false
     this.commandDisplay.setVisible(false);
 
@@ -134,51 +129,31 @@ export default class MainScene extends Phaser.Scene {
     this.healthLabel.text = "Health: " + this.player.get_health();
 
     // check if the player is typing
-    this.addLetters();   
-    
-    // update enemy position
-    this.moveEnemies();
+    this.addLetters();
 
-    if(!Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
+    // update enemy position
+    this.current_enemy.move(this.player);
+
+    if (!Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
       return;
+    }
+
+    // spawns a new enemy if there is none and the player types in the correct command
+    if (this.words == "fight onward!" && !this.enemy_exists) {
+      this.current_enemy.destroy();
+      this.current_enemy = new Enemy(this, 250, 100, 0);
+      this.enemy_exists = true;
+      this.words = "";
     }
 
     // check if the player entered a valid command
     if (this.player.movePlayer(this.words)) {
       // checks if the enemy is attacked by the command
-      this.hit_enemy();
+      this.enemy_exists = this.current_enemy.hit_enemy(this.player, this.words);
       // reset the player's entered words
       this.words = "";
     } else {
       this.words = "";
-    }
-
-    // spawns a new enemy if there is none and the player types in the correct command
-    if (this.words == "fight onward!" && !this.enemy_exists) {
-      this.knight.x = 250;
-      this.knight.y = 100;
-      this.knight.setVisible(true);
-      this.enemy_health = 100;
-      this.enemy_exists = true;
-      this.words = "";
-    }
-
-  }
-
-  // enemy position updating function. follows the players position
-  moveEnemies() {
-    if (this.knight.x < this.player.x - 25) {
-      this.knight.x += .05;
-      if (this.EnemyisFlipped) { this.knight.setFlipX(false); this.EnemyisFlipped = false; }
-    } else if (this.knight.x > this.player.x + 25) {
-      this.knight.x -= .05;
-      if (!this.EnemyisFlipped) { this.knight.setFlipX(true); this.EnemyisFlipped = true; }
-
-    }
-    if (this.knight.y < this.player.y - 25) {
-      this.knight.y += .05;
-    } else if (this.knight.y > this.player.y + 25) {
-      this.knight.y -= .05;
     }
   }
 
@@ -211,36 +186,12 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
-  // checks if the enemy is damaged and killed by the attacks
-  hit_enemy() {
-    if ((this.words == "attack right") && (this.knight.x > this.player.x) && (this.knight.x < this.player.x + 50) &&
-      (this.knight.y < this.player.y + 25) && (this.knight.y > this.player.y - 25)) {
-      this.enemy_health -= 10;
-    } else if ((this.words == "attack left") && (this.knight.x < this.player.x) && (this.knight.x > this.player.x - 50) &&
-      (this.knight.y < this.player.y + 25) && (this.knight.y > this.player.y - 25)) {
-      this.enemy_health -= 10;
-    } else if ((this.words == "attack forward") && (this.knight.y < this.player.y) && (this.knight.y > this.player.y - 50) &&
-      (this.knight.x < this.player.x + 25) && (this.knight.x > this.player.x - 25)) {
-      this.enemy_health -= 10;
-    } else if ((this.words == "attack backward") && (this.knight.y > this.player.y) && (this.knight.y < this.player.y + 50) &&
-      (this.knight.x < this.player.x + 25) && (this.knight.x > this.player.x - 25)) {
-      this.enemy_health -= 10;
-    }
-
-    if (this.enemy_health <= 0) {
-      this.knight.setVisible(false);
-      this.knight.x = -50;
-      this.knight.y = -50;
-      this.enemy_exists = false;
-    }
-  }
-
   update_commands() {
-    let temp_commands: Map<string,[string,boolean]> = this.command_map;
-    let temp_playerComms: Map<string,boolean> = this.player.get_commands();
-    this.command_map.forEach(function(value,key) {
-      if(temp_playerComms.get(key) != undefined) {
-        temp_commands.set(key,[value[0],true]);
+    let temp_commands: Map<string, [string, boolean]> = this.command_map;
+    let temp_playerComms: Map<string, boolean> = this.player.get_commands();
+    this.command_map.forEach(function (value, key) {
+      if (temp_playerComms.get(key) != undefined) {
+        temp_commands.set(key, [value[0], true]);
       }
     });
   }
