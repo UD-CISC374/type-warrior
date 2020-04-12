@@ -1,8 +1,6 @@
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     private health: number;
     private is_flipped: boolean;
-    private weapon: string;
-    private whichAttack: string;
     private commands: Map<string,boolean>;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -11,23 +9,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setScale(2, 2);
         this.health = 100;
         this.is_flipped = false;
-        this.weapon = "fist";
         this.commands = new Map();
         this.commands.set("move left", false);
         scene.add.existing(this);
     }
 
     public movePlayer(words: string) {
-        if(this.weapon == "fist"){
-            this.whichAttack = "attack_anim";
-        }
-        //filler for buying sword
-        if (words == "sword"){
-            this.whichAttack = "sword-attack_anim";
-            this.weapon = "sword";
-            return true;
-        }
-
         if (words == "move left") {
             if(!this.commands.get("move left")) {
                 return true;
@@ -150,8 +137,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     public make_player(a_player: Player) {
         this.health = a_player.health;
         this.is_flipped = a_player.is_flipped;
-        this.weapon = a_player.weapon;
-        this.whichAttack = a_player.whichAttack;
         this.commands = a_player.commands;
     }
 
