@@ -140,7 +140,6 @@ export default class MainScene extends Phaser.Scene {
 
     // spawns a new enemy if there is none and the player types in the correct command
     if (this.words == "fight onward!" && !this.enemy_exists) {
-      this.current_enemy.destroy();
       this.current_enemy = new Enemy(this, 250, 100, 0);
       this.enemy_exists = true;
       this.words = "";

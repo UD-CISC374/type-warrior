@@ -11,12 +11,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             case 0:
                 this.setTexture('knight-idle');
                 this.play("knight-idle");
-                this.health = 100;
+                this.health = 10;
                 break;
             default:
                 this.setTexture('knight-idle');
                 this.play("knight-idle");
-                this.health = 100;
+                this.health = 10;
                 break;
         };
         this.is_flipped = false;
@@ -55,9 +55,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (this.health <= 0) {
-            this.setVisible(false);
-            this.x = -50;
-            this.y = -50;
+            this.destroy();
             return false;
         } else {
             return true;
