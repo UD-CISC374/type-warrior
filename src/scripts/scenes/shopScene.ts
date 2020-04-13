@@ -39,6 +39,7 @@ export default class shopScene extends Phaser.Scene {
         this.shoplist_display.text = "Available Purchases: " + this.shoplist;
 
         this.wordLabel = this.add.bitmapText(10, 5, "pixelFont", "Command", 16);
+        this.wordLabel.tint = 0xff6611;
         this.words = "";
 
         let temp_shoplist: string[] = this.shoplist;
