@@ -2,6 +2,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     private health: number;
     private is_flipped: boolean;
     private commands: Map<string,boolean>;
+    private coins: number;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, "idle");
@@ -10,7 +11,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.health = 100;
         this.is_flipped = false;
         this.commands = new Map();
-        this.commands.set("move left", false);
+        this.coins = 0;
         scene.add.existing(this);
     }
 
@@ -130,6 +131,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         return this.commands;
     }
 
+    public get_coins() {
+        return this.coins;
+    }
+
     public set_health(new_health: number) {
         this.health = new_health;
     }
@@ -146,5 +151,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     public add_commands(commands: Map<string,boolean>) {
         this.commands = commands;
+    }
+
+    public add_coins(coins: number) {
+        this.coins += coins;
     }
 }
