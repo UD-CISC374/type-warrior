@@ -44,15 +44,23 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.y -= .05;
         }
 
-        this.health_bar.setX(this.x+5);
-        this.health_bar.setY(this.y-25);
-        this.health_bar.setSize((this.current_health/this.max_health)*75,5);
+        if(this.current_health > 0) {
+            this.health_bar.setX(this.x+5);
+            this.health_bar.setY(this.y-25);
+            this.health_bar.setSize((this.current_health/this.max_health)*75,5);
+        } else {
+            this.health_bar.destroy();
+        }
     }
 
     public hit_enemy(player: Player, words: string): boolean {
-        if ((words == "attack right") && (this.x > player.x) && (this.x < player.x + 50) &&
+        if ((words.includes("attack right")) && (this.x > player.x) && (this.x < player.x + 50) &&
             (this.y < player.y + 25) && (this.y > player.y - 25)) {
-            this.current_health -= 10;
+                if(words == "attack right") {
+                    this.current_health -= 10;
+                } else if(words == "attack right with sword") {
+                    this.current_health -= 30;
+                }
         } else if ((words == "attack left") && (this.x < player.x) && (this.x > player.x - 50) &&
             (this.y < player.y + 25) && (this.y > player.y - 25)) {
             this.current_health -= 10;
@@ -66,9 +74,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         if (this.current_health <= 0) {
             this.destroy();
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
+    }
+
+    get_health() {
+        return this.current_health;
     }
 }

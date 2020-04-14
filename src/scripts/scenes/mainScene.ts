@@ -148,7 +148,6 @@ export default class MainScene extends Phaser.Scene {
     // check if the player entered a valid command
     if (this.player.movePlayer(this.words)) {
       // checks if the enemy is attacked by the command
-      this.enemy_exists = this.current_enemy.hit_enemy(this.player, this.words);
       if(this.current_enemy.hit_enemy(this.player, this.words)) {
         this.enemy_exists = false;
         this.player.add_coins(10);
@@ -195,5 +194,6 @@ export default class MainScene extends Phaser.Scene {
         temp_commands.set(key, [value[0], true]);
       }
     });
+    this.command_map = temp_commands;
   }
 }
