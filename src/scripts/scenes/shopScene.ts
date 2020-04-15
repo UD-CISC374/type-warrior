@@ -9,6 +9,7 @@ export default class shopScene extends Phaser.Scene {
     private shoplist_display: Phaser.GameObjects.BitmapText;
     private shoplist: string[];
     private heal_player: number;
+    private coinDisplay: Phaser.GameObjects.BitmapText;
 
     constructor() {
         super({ key: 'ShopScene' });
@@ -43,6 +44,10 @@ export default class shopScene extends Phaser.Scene {
         this.wordLabel.tint = 0xff6611;
         this.words = "";
 
+
+        this.coinDisplay = this.add.bitmapText(this.scale.width - 175, 5, "pixelFont", "Coins", 16);
+        this.coinDisplay.setText("Coins: " + this.player.get_coins());
+
         let temp_shoplist: string[] = this.shoplist;
         this.command_shopList.forEach(function (value, key) {
             temp_shoplist = [temp_shoplist + "\n" + key + " : " + value];
@@ -67,13 +72,13 @@ export default class shopScene extends Phaser.Scene {
             this.words = "";
         } else if (this.words == "help") {
 
-        } else if(this.words == "heal!") {
-            if(this.player.get_coins() < this.heal_player) {
-                this.player.heal(this.player.get_coins()*2);
+        } else if (this.words == "heal!") {
+            if (this.player.get_coins() < this.heal_player) {
+                this.player.heal(this.player.get_coins() * 2);
                 this.heal_player -= this.player.get_coins();
                 this.player.subtract_coins(this.player.get_coins());
             } else {
-                this.player.heal(this.heal_player*2);
+                this.player.heal(this.heal_player * 2);
                 this.player.subtract_coins(this.heal_player);
                 this.heal_player = 0;
             }

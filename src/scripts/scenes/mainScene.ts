@@ -19,6 +19,7 @@ export default class MainScene extends Phaser.Scene {
   private wordLabel: Phaser.GameObjects.BitmapText;
   private healthLabel: Phaser.GameObjects.BitmapText;
   private commandDisplay: Phaser.GameObjects.BitmapText;
+  private coinDisplay: Phaser.GameObjects.BitmapText;
 
   // Command storage 
   private commands: string[];
@@ -103,6 +104,8 @@ export default class MainScene extends Phaser.Scene {
     this.healthLabel = this.add.bitmapText(this.scale.width - 75, 5, "pixelFont", "health", 16);
     this.commandDisplay = this.add.bitmapText(10, 15, "pixelFont", "display", 16);
     this.commandDisplay.tint = 0x00000;
+    this.coinDisplay = this.add.bitmapText(this.scale.width - 175, 5, "pixelFont", "Coins", 16);
+    this.coinDisplay.setText("Coins: " + this.player.get_coins());
 
     this.timeAttack = this.time.now;
   }
@@ -119,6 +122,10 @@ export default class MainScene extends Phaser.Scene {
 
     // update the command display to hold all available commands
     this.commandDisplay.text = "Commands: " + this.commands;
+
+    // update the coins display with the players current coins
+    this.coinDisplay.setText("Coins: " + this.player.get_coins());
+
 
     // if the player types in "help" then the available commands are displayed to the screen
     if (this.words == "help") {
