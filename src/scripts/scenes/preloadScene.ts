@@ -73,7 +73,7 @@ export default class PreloadScene extends Phaser.Scene {
       key: "knight-attack",
       frames: this.anims.generateFrameNumbers("knight-attack", { start: 0, end: 4 }),
       frameRate: 5,
-      repeat: -1
+      repeat: 0
     });
 
     //declaring commands

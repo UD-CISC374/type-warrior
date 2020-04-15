@@ -6,18 +6,19 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private current_health: number;
     private is_flipped: boolean;
     private health_bar: Phaser.GameObjects.Rectangle;
+    private inRange: boolean;
 
     constructor(scene: Phaser.Scene, x: number, y: number, difficulty: number) {
         super(scene, x, y, '');
         switch (difficulty) {
             case 0:
-                this.setTexture('knight-idle');
+               // this.setTexture('knight-idle');
                 this.play("knight-idle");
                 this.max_health = 100;
                 this.current_health = 100;
                 break;
             default:
-                this.setTexture('knight-idle');
+               // this.setTexture('knight-idle');
                 this.play("knight-idle");
                 this.max_health = 100;
                 this.current_health = 100;
@@ -38,12 +39,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             if (!this.is_flipped) { this.setFlipX(true); this.is_flipped = true; }
 
         }
-        if (this.y < player.y - 25) {
-            this.y += .05;
-        } else if (this.y > player.y + 25) {
-            this.y -= .05;
+        if (this.y < player.y) {
+            this.y += .25;
+        } else if (this.y > player.y) {
+            this.y -= .25;
         }
 
+        
         if(this.current_health > 0) {
             this.health_bar.setX(this.x+5);
             this.health_bar.setY(this.y-25);
@@ -82,5 +84,33 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     get_health() {
         return this.current_health;
+    }
+
+    public within_range(player: Player){
+        this.inRange = false;
+        if ((this.x > player.x) && (this.x < player.x + 50) &&
+            (this.y < player.y + 25) && (this.y > player.y - 25)) {
+            this.inRange = true;
+        } else if ((this.x < player.x) && (this.x > player.x - 50) &&
+            (this.y < player.y + 25) && (this.y > player.y - 25)) {
+            this.inRange = true;
+        } else if ((this.y < player.y) && (this.y > player.y - 50) &&
+            (this.x < player.x + 25) && (this.x > player.x - 25)) {
+            this.inRange = true;
+        } else if ((this.y > player.y) && (this.y < player.y + 50) &&
+            (this.x < player.x + 25) && (this.x > player.x - 25)) {
+            this.inRange = true;
+        }
+        return this.inRange;
+    }
+
+    public hit_Player(player: Player){
+        
+        this.play('knight-attack');
+        this.once('animationcomplete', () => {
+            this.play("knight-idle");
+        });
+        player.set_health((player.get_health() - 25));
+        
     }
 }
