@@ -105,11 +105,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     public hit_Player(player: Player){
-        
+        //switches animation
         this.play('knight-attack');
         this.once('animationcomplete', () => {
             this.play("knight-idle");
         });
+
+        //maybe should check if player is still in range?
         player.set_health((player.get_health() - 25));
         
     }
