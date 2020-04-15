@@ -104,7 +104,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         return this.inRange;
     }
 
-    public hit_Player(player: Player){
+    public hit_Player(player: Player) {
         //switches animation
         this.play('knight-attack');
         this.once('animationcomplete', () => {

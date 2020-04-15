@@ -138,16 +138,17 @@ export default class MainScene extends Phaser.Scene {
     this.current_enemy.move(this.player);
 
     //check if enemy is in range to attack
-    if (this.current_enemy.within_range(this.player)) {
-      //The 7000 is in milliseconds, therefore 
-      //there is a 7 second delay between enemy attacks
-      //we need to change this later to make 7000 be based off difficulty 
-      //of enemy
-      if (this.time.now > this.timeAttack + 7000) {
-        this.current_enemy.hit_Player(this.player);
-        this.timeAttack = this.time.now;
+    if (this.enemy_exists) {
+      if (this.current_enemy.within_range(this.player)) {
+        //The 7000 is in milliseconds, therefore 
+        //there is a 7 second delay between enemy attacks
+        //we need to change this later to make 7000 be based off difficulty 
+        //of enemy
+        if (this.time.now > this.timeAttack + 7000) {
+          this.current_enemy.hit_Player(this.player);
+          this.timeAttack = this.time.now;
+        }
       }
-
     }
 
     if (!Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
