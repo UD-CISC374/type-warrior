@@ -59,6 +59,9 @@ export default class shopScene extends Phaser.Scene {
         this.wordLabel.text = "Command:    " + this.words;
         this.addLetters();
 
+        // update the coins display with the players current coins
+        this.coinDisplay.setText("Coins: " + this.player.get_coins());
+
         this.heal_player = Math.round((100 - this.player.get_health()) / 2);
         this.shoplist_display.text = "Available Purchases: " + this.shoplist + "\nheal player: " + this.heal_player + " coins";
 
