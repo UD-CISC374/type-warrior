@@ -38,6 +38,11 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 60
     });
 
+    this.load.spritesheet("magic_cast", "assets/spritesheets/magic_cast.png", {
+      frameWidth: 50,
+      frameHeight: 30
+    });
+
   }
 
   create() {
@@ -73,6 +78,13 @@ export default class PreloadScene extends Phaser.Scene {
       key: "knight-attack",
       frames: this.anims.generateFrameNumbers("knight-attack", { start: 0, end: 4 }),
       frameRate: 5,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: "magic_anim",
+      frames: this.anims.generateFrameNumbers("magic_cast", {}),
+      frameRate: 7,
       repeat: 0
     });
 
