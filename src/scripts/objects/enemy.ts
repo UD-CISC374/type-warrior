@@ -12,20 +12,20 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, '');
         switch (difficulty) {
             case 0:
-               // this.setTexture('knight-idle');
+                // this.setTexture('knight-idle');
                 this.play("knight-idle");
-                this.max_health = 100;
-                this.current_health = 100;
+                this.max_health = 50;
+                this.current_health = 50;
                 break;
             default:
-               // this.setTexture('knight-idle');
+                // this.setTexture('knight-idle');
                 this.play("knight-idle");
-                this.max_health = 100;
-                this.current_health = 100;
+                this.max_health = 50;
+                this.current_health = 50;
                 break;
         };
         this.is_flipped = false;
-        this.health_bar = new Phaser.GameObjects.Rectangle(this.scene,x+10,y-25,(this.current_health/this.max_health)*75,5,0xff0000);
+        this.health_bar = new Phaser.GameObjects.Rectangle(this.scene, x + 10, y - 25, (this.current_health / this.max_health) * 75, 5, 0xff0000);
         this.scene.add.existing(this.health_bar);
         this.scene.add.existing(this);
     }
@@ -45,11 +45,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.y -= .25;
         }
 
-        
-        if(this.current_health > 0) {
-            this.health_bar.setX(this.x+5);
-            this.health_bar.setY(this.y-25);
-            this.health_bar.setSize((this.current_health/this.max_health)*75,5);
+
+        if (this.current_health > 0) {
+            this.health_bar.setX(this.x + 5);
+            this.health_bar.setY(this.y - 25);
+            this.health_bar.setSize((this.current_health / this.max_health) * 75, 5);
         } else {
             this.health_bar.destroy();
         }
@@ -58,11 +58,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     public hit_enemy(player: Player, words: string): boolean {
         if ((words.includes("attack right")) && (this.x > player.x) && (this.x < player.x + 50) &&
             (this.y < player.y + 25) && (this.y > player.y - 25)) {
-                if(words == "attack right") {
-                    this.current_health -= 10;
-                } else if(words == "attack right with sword") {
-                    this.current_health -= 30;
-                }
+            if (words == "attack right") {
+                this.current_health -= 10;
+            } else if (words == "attack right with sword") {
+                this.current_health -= 30;
+            }
         } else if ((words == "attack left") && (this.x < player.x) && (this.x > player.x - 50) &&
             (this.y < player.y + 25) && (this.y > player.y - 25)) {
             this.current_health -= 10;
@@ -86,7 +86,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         return this.current_health;
     }
 
-    public within_range(player: Player){
+    public within_range(player: Player) {
         this.inRange = false;
         if ((this.x > player.x) && (this.x < player.x + 50) &&
             (this.y < player.y + 25) && (this.y > player.y - 25)) {
@@ -104,13 +104,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         return this.inRange;
     }
 
-    public hit_Player(player: Player){
-        
+    public hit_Player(player: Player) {
+
         this.play('knight-attack');
         this.once('animationcomplete', () => {
             this.play("knight-idle");
         });
         player.set_health((player.get_health() - 25));
-        
+
     }
 }

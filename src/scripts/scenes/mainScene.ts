@@ -104,7 +104,7 @@ export default class MainScene extends Phaser.Scene {
     this.commandDisplay = this.add.bitmapText(10, 15, "pixelFont", "display", 16);
     this.commandDisplay.tint = 0x00000;
 
-   this.timeAttack = this.time.now;
+    this.timeAttack = this.time.now;
   }
 
   // the update function
@@ -138,14 +138,16 @@ export default class MainScene extends Phaser.Scene {
     this.current_enemy.move(this.player);
 
     //check if enemy is in range to attack
-    if(this.current_enemy.within_range(this.player)){
-      //Attack   
-      if(this.time.now > this.timeAttack + 7000){
-       this.current_enemy.hit_Player(this.player);     
-       this.timeAttack = this.time.now;
+    if (this.enemy_exists) {
+      if (this.current_enemy.within_range(this.player)) {
+        //Attack   
+        if (this.time.now > this.timeAttack + 7000) {
+          this.current_enemy.hit_Player(this.player);
+          this.timeAttack = this.time.now;
+        }
       }
 
-   }
+    }
 
     if (!Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
       return;
@@ -161,13 +163,13 @@ export default class MainScene extends Phaser.Scene {
     // check if the player entered a valid command
     if (this.player.movePlayer(this.words)) {
       // checks if the enemy is attacked by the command
-      if(this.current_enemy.hit_enemy(this.player, this.words)) {
+      if (this.current_enemy.hit_enemy(this.player, this.words)) {
         this.enemy_exists = false;
         this.player.add_coins(10);
       }
     }
 
-    
+
     // reset the player's entered words
     this.words = "";
   }

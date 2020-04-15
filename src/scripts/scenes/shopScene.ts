@@ -8,6 +8,7 @@ export default class shopScene extends Phaser.Scene {
     private command_shopList: Map<string, number>;
     private shoplist_display: Phaser.GameObjects.BitmapText;
     private shoplist: string[];
+    private heal_player: number;
 
     constructor() {
         super({ key: 'ShopScene' });
@@ -53,7 +54,8 @@ export default class shopScene extends Phaser.Scene {
         this.wordLabel.text = "Command:    " + this.words;
         this.addLetters();
 
-        this.shoplist_display.text = "Available Purchases: " + this.shoplist;
+        this.heal_player = Math.round((100 - this.player.get_health()) / 2);
+        this.shoplist_display.text = "Available Purchases: " + this.shoplist + "\nheal player: " + this.heal_player + " coins";
 
         if (this.words == "done!") {
             this.scene.start('MainScene', { player: this.player });
@@ -65,6 +67,17 @@ export default class shopScene extends Phaser.Scene {
             this.words = "";
         } else if (this.words == "help") {
 
+        } else if(this.words == "heal!") {
+            if(this.player.get_coins() < this.heal_player) {
+                this.player.heal(this.player.get_coins()*2);
+                this.heal_player -= this.player.get_coins();
+                this.player.subtract_coins(this.player.get_coins());
+            } else {
+                this.player.heal(this.heal_player*2);
+                this.player.subtract_coins(this.heal_player);
+                this.heal_player = 0;
+            }
+            this.words = "";
         }
 
         let temp_words: string = this.words;
