@@ -172,9 +172,9 @@ export default class MainScene extends Phaser.Scene {
     // check if the player entered a valid command
     if (this.player.movePlayer(this.words)) {
       // checks if the enemy is attacked by the command
-      if (this.current_enemy.hit_enemy(this.player, this.words)) {
+      if (this.current_enemy.hit_enemy(this.player, this.words) && this.enemy_exists) {
         this.enemy_exists = false;
-        this.player.add_coins(10);
+        this.player.add_coins(this.current_enemy.get_coins());
       }
     }
 

@@ -143,6 +143,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.health = a_player.health;
         this.is_flipped = a_player.is_flipped;
         this.commands = a_player.commands;
+        this.coins = a_player.coins;
     }
 
     public add_command(key: string, value: boolean) {

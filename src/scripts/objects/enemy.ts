@@ -86,6 +86,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         return this.current_health;
     }
 
+    get_coins(): number {
+        return Math.round(this.max_health/3);
+    }
+
     public within_range(player: Player) {
         this.inRange = false;
         if ((this.x > player.x) && (this.x < player.x + 50) &&
