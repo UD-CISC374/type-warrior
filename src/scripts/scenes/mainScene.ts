@@ -20,13 +20,17 @@ export default class MainScene extends Phaser.Scene {
   private healthLabel: Phaser.GameObjects.BitmapText;
   private commandDisplay: Phaser.GameObjects.BitmapText;
   private coinDisplay: Phaser.GameObjects.BitmapText;
+  private levelDisplay: Phaser.GameObjects.BitmapText;
 
   // Command storage 
   private commands: string[];
   private command_map: Map<string, [string, boolean]>;
   private store_map: Map<string, number>;
 
-  private timeAttack; Time;
+  private timeAttack;
+
+  private level: number; 
+
   // the constructor for the scene
   constructor() {
     super({ key: 'MainScene' });
@@ -77,6 +81,7 @@ export default class MainScene extends Phaser.Scene {
 
   // create function for the scene
   create() {
+    this.level = 1;
     // add the necessary input keys for the player to type
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
@@ -106,7 +111,7 @@ export default class MainScene extends Phaser.Scene {
     this.commandDisplay.tint = 0x00000;
     this.coinDisplay = this.add.bitmapText(this.scale.width - 175, 5, "pixelFont", "Coins", 16);
     this.coinDisplay.setText("Coins: " + this.player.get_coins());
-
+    this.levelDisplay = this.add.bitmapText(this.scale.width - 175, 25, "pixelFont", "Coins", 16);
     this.timeAttack = this.time.now;
   }
 
@@ -126,6 +131,8 @@ export default class MainScene extends Phaser.Scene {
     // update the coins display with the players current coins
     this.coinDisplay.setText("Coins: " + this.player.get_coins());
 
+    //update level display
+    this.levelDisplay.setText("Level " + this.level);
 
     // if the player types in "help" then the available commands are displayed to the screen
     if (this.words == "help") {
@@ -151,11 +158,15 @@ export default class MainScene extends Phaser.Scene {
         //there is a 7 second delay between enemy attacks
         //we need to change this later to make 7000 be based off difficulty 
         //of enemy
-        if (this.time.now > this.timeAttack + 7000) {
+        if (this.time.now > this.timeAttack + (10000 - (this.level * 1000))) {
           this.current_enemy.hit_Player(this.player);
           this.timeAttack = this.time.now;
         }
       }
+    }
+
+    if(this.player.get_health() == 0){
+        this.player.setVisible(false);
     }
 
     if (!Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
@@ -167,6 +178,7 @@ export default class MainScene extends Phaser.Scene {
       this.current_enemy = new Enemy(this, 250, 100, 0);
       this.enemy_exists = true;
       this.words = "";
+      this.level += 1;
     }
 
     // check if the player entered a valid command
