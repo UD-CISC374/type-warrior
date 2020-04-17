@@ -27,8 +27,7 @@ export default class MainScene extends Phaser.Scene {
   private command_map: Map<string, [string, boolean]>;
   private store_map: Map<string, number>;
 
-  private timeAttack;
-
+  private timeAttack: number;
   private level: number; 
 
   // the constructor for the scene
@@ -77,11 +76,11 @@ export default class MainScene extends Phaser.Scene {
       // updates the scenes command list
       this.update_commands();
     }
+    this.level = data.level;
   }
 
   // create function for the scene
   create() {
-    this.level = 1;
     // add the necessary input keys for the player to type
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
@@ -119,7 +118,7 @@ export default class MainScene extends Phaser.Scene {
   update() {
     // checks if the player wants to open the shop
     if (this.words == "shop!") {
-      this.scene.start('ShopScene', { player: this.player, commands: this.store_map });
+      this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level});
     }
 
     // set the commandDisplay to default false

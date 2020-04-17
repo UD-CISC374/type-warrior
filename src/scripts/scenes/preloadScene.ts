@@ -122,6 +122,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.commands.set("attack backward with sword", ["attack behind you", false, 100]);
 
     // start the main scene and pass it the commands list
-    this.scene.start('MainScene', { commands: this.commands });
+    let start_level:number = 1;
+    this.scene.start('MainScene', { commands: this.commands, level: start_level });
   }
 }

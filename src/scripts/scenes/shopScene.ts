@@ -11,6 +11,8 @@ export default class shopScene extends Phaser.Scene {
     private heal_player: number;
     private coinDisplay: Phaser.GameObjects.BitmapText;
 
+    private level: number;
+
     constructor() {
         super({ key: 'ShopScene' });
     }
@@ -21,6 +23,8 @@ export default class shopScene extends Phaser.Scene {
         this.shoplist = [""];
 
         this.command_shopList = data.commands;
+
+        this.level = data.level;
     }
 
     create() {
@@ -66,7 +70,7 @@ export default class shopScene extends Phaser.Scene {
         this.shoplist_display.text = "Available Purchases: " + this.shoplist + "\nheal player: " + this.heal_player + " coins";
 
         if (this.words == "done!") {
-            this.scene.start('MainScene', { player: this.player });
+            this.scene.start('MainScene', { player: this.player, level: this.level });
         } else if (this.words == "shop list!") {
             this.shoplist_display.setVisible(true);
             this.words = "";
