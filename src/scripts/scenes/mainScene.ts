@@ -93,7 +93,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     // initiate the words to an empty string
-    this.words = "";
+    this.words = "help";
 
     // inititates the comms string to use for the command display
     let comms: string[] = [""];
