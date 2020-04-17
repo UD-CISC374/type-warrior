@@ -93,7 +93,10 @@ export default class PreloadScene extends Phaser.Scene {
 
     // misc commands
     this.commands.set("help", ["Brings up command list", true, 0]);
+    this.commands.set("fight onward!", ["Move to next level", true, 0]);
     this.commands.set("shop!", ["Transports you to a shop to upgrade your hero", true, 0]);
+    this.commands.set("shop list!", ["While in shop shows you available purchases", true, 0]);
+
 
     // movement commands
     this.commands.set("move left", ["Move your character to the left", true, 0]);
