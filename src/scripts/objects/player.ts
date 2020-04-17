@@ -3,6 +3,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     private is_flipped: boolean;
     private commands: Map<string, boolean>;
     private coins: number;
+    private blocking: boolean;
+
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, "idle");
@@ -16,6 +18,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     public movePlayer(words: string) {
+        if(words == "block"){
+            this.blocking = true;
+        }else{
+            this.blocking = false;
+        }
+
         if (words == "move left") {
             if (!this.commands.get("move left")) {
                 return true;
@@ -170,5 +178,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if(this.coins < 0) {
             this.coins = 0;
         }
+    }
+
+    public isBlocking(){
+        return this.blocking;
     }
 }

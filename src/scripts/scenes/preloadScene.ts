@@ -105,11 +105,14 @@ export default class PreloadScene extends Phaser.Scene {
     this.commands.set("move backward", ["Retreat backwards", true, 0]);
     this.commands.set("turn around", ["Rotate your character 180", true, 0]);
 
+
+
     // default attack commands (punches)
     this.commands.set("attack left", ["attack to the left direction", true, 0]);
     this.commands.set("attack right", ["attack to the right direction", true, 0]);
     this.commands.set("attack forward", ["attack in front", true, 0]);
     this.commands.set("attack backward", ["attack behind you", true, 0]);
+    this.commands.set("block", ["Take 0 damage until another command is entered", true, 0]);
 
     // purchasable commands
     // sword commands

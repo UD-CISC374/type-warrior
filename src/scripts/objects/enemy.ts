@@ -116,7 +116,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         });
 
         //maybe should check if player is still in range?
-        player.set_health((player.get_health() - 25));
-
+        if(!player.isBlocking()){
+             player.set_health((player.get_health() - 25));
+        }
     }
 }
