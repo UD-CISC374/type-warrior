@@ -21,14 +21,24 @@ export default class MainScene extends Phaser.Scene {
   private commandDisplay: Phaser.GameObjects.BitmapText;
   private coinDisplay: Phaser.GameObjects.BitmapText;
   private levelDisplay: Phaser.GameObjects.BitmapText;
+  private WPMLabel: Phaser.GameObjects.BitmapText;
 
   // Command storage 
   private commands: string[];
   private command_map: Map<string, [string, boolean]>;
   private store_map: Map<string, number>;
 
+  // time tracker for the enemy attack delay
   private timeAttack: number;
+
+  // the level the player is currently on
   private level: number; 
+
+  // time tracker for WPM
+  private timeWPM: number;
+
+  // the last tracked WPM of the player
+  private WPM: number;
 
   // the constructor for the scene
   constructor() {
@@ -94,6 +104,9 @@ export default class MainScene extends Phaser.Scene {
     // initiate the words to an empty string
     this.words = "help";
 
+    // initiate the player words per minute to 0
+    this.WPM = 0;
+
     // inititates the comms string to use for the command display
     let comms: string[] = [""];
     this.command_map.forEach(function (value, key) {
@@ -112,6 +125,7 @@ export default class MainScene extends Phaser.Scene {
     this.coinDisplay.setText("Coins: " + this.player.get_coins());
     this.levelDisplay = this.add.bitmapText(this.scale.width - 175, 25, "pixelFont", "Coins", 16);
     this.timeAttack = this.time.now;
+    this.WPMLabel = this.add.bitmapText(10, this.scale.height-10, "pixelFont", "WPM:", 16);
   }
 
   // the update function
@@ -120,6 +134,9 @@ export default class MainScene extends Phaser.Scene {
     if (this.words == "shop!") {
       this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level});
     }
+
+    // update the display of the WPM
+    this.WPMLabel.text = "WPM: " + Math.round(this.WPM);
 
     // set the commandDisplay to default false
     this.commandDisplay.setVisible(false);
@@ -144,8 +161,13 @@ export default class MainScene extends Phaser.Scene {
     // update the health label to display the character's current health
     this.healthLabel.text = "Health: " + this.player.get_health();
 
+    let words_wpm: string = this.words;
     // check if the player is typing
     this.addLetters();
+    // if a letter is added, start the WPM timer
+    if(words_wpm == "" && this.words != "") {
+      this.timeWPM = this.time.now;
+    }
 
     // update enemy position
     this.current_enemy.move(this.player);
@@ -171,6 +193,8 @@ export default class MainScene extends Phaser.Scene {
     if (!Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
       return;
     }
+    this.timeWPM = this.time.now - this.timeWPM;
+    this.WPM = this.getWPM();
 
     // spawns a new enemy if there is none and the player types in the correct command
     if (this.words == "fight onward!" && !this.enemy_exists) {
@@ -234,5 +258,8 @@ export default class MainScene extends Phaser.Scene {
     this.command_map = temp_commands;
   }
 
-
+  getWPM(): number {
+    let minutes: number = this.timeWPM * (0.001 / 60);
+    return this.words.split(" ").length / minutes;
+  }
 }
