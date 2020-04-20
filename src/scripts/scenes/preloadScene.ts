@@ -123,6 +123,6 @@ export default class PreloadScene extends Phaser.Scene {
 
     // start the main scene and pass it the commands list
     let start_level:number = 1;
-    this.scene.start('MainScene', { commands: this.commands, level: start_level });
+    this.scene.start('MainMenuScene', { commands: this.commands, level: start_level });
   }
 }
