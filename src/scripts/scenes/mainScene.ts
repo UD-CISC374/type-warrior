@@ -170,8 +170,9 @@ export default class MainScene extends Phaser.Scene {
     }
 
     // update enemy position
-    this.current_enemy.move(this.player);
-
+    if(this.words!="help"){
+       this.current_enemy.move(this.player);
+    }
     //check if enemy is in range to attack
     if (this.enemy_exists) {
       if (this.current_enemy.within_range(this.player)) {
