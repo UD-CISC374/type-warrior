@@ -24,11 +24,13 @@ export default class MainScene extends Phaser.Scene {
   private WPMLabel: Phaser.GameObjects.BitmapText;
   private fightDisplay: Phaser.GameObjects.BitmapText;
   private suggestDisplay: Phaser.GameObjects.BitmapText;
+  private suggestCommandsDisplay: Phaser.GameObjects.BitmapText;
 
   // Command storage 
   private commands: string[];
   private command_map: Map<string, [string, boolean]>;
   private store_map: Map<string, number>;
+  private suggestedCommands: string[];
 
   // time tracker for the enemy attack delay
   private timeAttack: number;
@@ -123,6 +125,8 @@ export default class MainScene extends Phaser.Scene {
     this.healthLabel = this.add.bitmapText(this.scale.width - 75, 5, "pixelFont", "health", 16);
     this.commandDisplay = this.add.bitmapText(10, 15, "pixelFont", "display", 16);
     this.commandDisplay.tint = 0x00000;
+    this.suggestCommandsDisplay = this.add.bitmapText(10, 25, "pixelFont", "Suggested: ", 16);
+    
     this.coinDisplay = this.add.bitmapText(this.scale.width - 175, 5, "pixelFont", "Coins", 16);
     this.coinDisplay.setText("Coins: " + this.player.get_coins());
     this.levelDisplay = this.add.bitmapText(this.scale.width - 175, 25, "pixelFont", "Coins", 16);
@@ -142,16 +146,17 @@ export default class MainScene extends Phaser.Scene {
     if (this.words == "shop!") {
       this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level});
     }
-
+    
+    this.suggestedCommands = this.checkContain();
     // update the display of the WPM
     this.WPMLabel.text = "WPM: " + Math.round(this.WPM);
 
     // set the commandDisplay to default false
     this.commandDisplay.setVisible(false);
-
+    
     // update the command display to hold all available commands
     this.commandDisplay.text = "Commands: " + this.commands;
-
+    this.suggestCommandsDisplay.text = "Suggested: " + this.suggestedCommands;
     // update the coins display with the players current coins
     this.coinDisplay.setText("Coins: " + this.player.get_coins());
 
@@ -275,5 +280,17 @@ export default class MainScene extends Phaser.Scene {
   getWPM(): number {
     let minutes: number = this.timeWPM * (0.001 / 60);
     return this.words.split(" ").length / minutes;
+  }
+
+  checkContain(): string[]{
+    let temp = this.words;
+    let result = false;
+    let suggestedCommands = [""];
+    this.command_map.forEach(function (value, key) {
+      if(key.includes(temp) && value[1] && (temp!="")){
+        suggestedCommands = [suggestedCommands + key + "\n"];
+      }
+    }, this.command_map);
+    return suggestedCommands;
   }
 }
