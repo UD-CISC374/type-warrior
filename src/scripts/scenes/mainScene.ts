@@ -22,6 +22,8 @@ export default class MainScene extends Phaser.Scene {
   private coinDisplay: Phaser.GameObjects.BitmapText;
   private levelDisplay: Phaser.GameObjects.BitmapText;
   private WPMLabel: Phaser.GameObjects.BitmapText;
+  private fightDisplay: Phaser.GameObjects.BitmapText;
+  private suggestDisplay: Phaser.GameObjects.BitmapText;
 
   // Command storage 
   private commands: string[];
@@ -126,6 +128,12 @@ export default class MainScene extends Phaser.Scene {
     this.levelDisplay = this.add.bitmapText(this.scale.width - 175, 25, "pixelFont", "Coins", 16);
     this.timeAttack = this.time.now;
     this.WPMLabel = this.add.bitmapText(10, this.scale.height-10, "pixelFont", "WPM:", 16);
+    this.WPMLabel.tint = 0x00000;
+    this.fightDisplay = this.add.bitmapText(0, this.scale.height-170, "pixelFont", "'fight onward!' to continue", 40);
+    this.fightDisplay.setVisible(false);
+    this.fightDisplay.tint = 0x00000;
+    this.suggestDisplay = this.add.bitmapText(10, this.scale.height-30, "pixelFont", "try 'shop' or 'help", 20);
+    this.suggestDisplay.tint = 0x00000;
   }
 
   // the update function
@@ -175,16 +183,21 @@ export default class MainScene extends Phaser.Scene {
     }
     //check if enemy is in range to attack
     if (this.enemy_exists) {
-      if (this.current_enemy.within_range(this.player)) {
-        //The 7000 is in milliseconds, therefore 
-        //there is a 7 second delay between enemy attacks
-        //we need to change this later to make 7000 be based off difficulty 
-        //of enemy
-        if (this.time.now > this.timeAttack + (10000 - (this.level * 1000))) {
-          this.current_enemy.hit_Player(this.player);
-          this.timeAttack = this.time.now;
+      this.fightDisplay.setVisible(false);
+      if(this.player.get_health() > 0){
+        if (this.current_enemy.within_range(this.player)) {
+           //The 7000 is in milliseconds, therefore 
+           //there is a 7 second delay between enemy attacks
+           //we need to change this later to make 7000 be based off difficulty 
+           //of enemy
+          if (this.time.now > this.timeAttack + (10000 - (this.level * 1000))) {
+            this.current_enemy.hit_Player(this.player);
+            this.timeAttack = this.time.now;
+         }
         }
       }
+    }else{
+      this.fightDisplay.setVisible(true);
     }
 
     if(this.player.get_health() == 0){
