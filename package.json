@@ -10,12 +10,12 @@
     "name": "Educational Phaser Game Template"
   },
   "author": {
-    "name": "Austin Cory Bart",
-    "url": "https://github.com/UD-CISC374/educational-game-project-william-rembish-matthew-novosel/deployments"
+    "name": "Matthew Novosel, William Rembish",
+    "url": "educational-game-project-william-rembish-matthew-novosel"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/UD-CISC374/educational-game-project-william-rembish-matthew-novosel/deployments"
+    "url": "educational-game-project-william-rembish-matthew-novosel"
   },
   "scripts": {
     "start": "webpack-dev-server --config config/webpack.dev.js",
