@@ -36,7 +36,7 @@ export default class MainScene extends Phaser.Scene {
   private timeAttack: number;
 
   // the level the player is currently on
-  private level: number; 
+  private level: number;
 
   // time tracker for WPM
   private timeWPM: number;
@@ -123,37 +123,40 @@ export default class MainScene extends Phaser.Scene {
     // inititate the bitmaps to display
     this.wordLabel = this.add.bitmapText(10, 5, "pixelFont", "Command", 16);
     this.healthLabel = this.add.bitmapText(this.scale.width - 75, 5, "pixelFont", "health", 16);
-    this.commandDisplay = this.add.bitmapText(10, 15, "pixelFont", "display", 16);
+    this.commandDisplay = this.add.bitmapText(10, 40, "pixelFont", "display", 16);
     this.commandDisplay.tint = 0x00000;
     this.suggestCommandsDisplay = this.add.bitmapText(10, 25, "pixelFont", "Suggested: ", 16);
-    
+
     this.coinDisplay = this.add.bitmapText(this.scale.width - 175, 5, "pixelFont", "Coins", 16);
     this.coinDisplay.setText("Coins: " + this.player.get_coins());
     this.levelDisplay = this.add.bitmapText(this.scale.width - 175, 25, "pixelFont", "Coins", 16);
     this.timeAttack = this.time.now;
-    this.WPMLabel = this.add.bitmapText(10, this.scale.height-10, "pixelFont", "WPM:", 16);
+    this.WPMLabel = this.add.bitmapText(10, this.scale.height - 10, "pixelFont", "WPM:", 16);
     this.WPMLabel.tint = 0x00000;
-    this.fightDisplay = this.add.bitmapText(0, this.scale.height-170, "pixelFont", "'fight onward!' to continue", 40);
+    this.fightDisplay = this.add.bitmapText(0, this.scale.height - 170, "pixelFont", "'fight onward!' to continue", 40);
     this.fightDisplay.setVisible(false);
     this.fightDisplay.tint = 0x00000;
-    this.suggestDisplay = this.add.bitmapText(10, this.scale.height-30, "pixelFont", "try 'shop' or 'help", 20);
+    this.suggestDisplay = this.add.bitmapText(10, this.scale.height - 30, "pixelFont", "try 'shop' or 'help", 20);
     this.suggestDisplay.tint = 0x00000;
   }
 
   // the update function
   update() {
+    if(!this.player.visible) {
+      this.scene.start('MainMenuScene');
+    }
     // checks if the player wants to open the shop
     if (this.words == "shop!") {
-      this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level});
+      this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level });
     }
-    
+
     this.suggestedCommands = this.checkContain();
     // update the display of the WPM
     this.WPMLabel.text = "WPM: " + Math.round(this.WPM);
 
     // set the commandDisplay to default false
     this.commandDisplay.setVisible(false);
-    
+
     // update the command display to hold all available commands
     this.commandDisplay.text = "Commands: " + this.commands;
     this.suggestCommandsDisplay.text = "Suggested: " + this.suggestedCommands;
@@ -178,35 +181,35 @@ export default class MainScene extends Phaser.Scene {
     // check if the player is typing
     this.addLetters();
     // if a letter is added, start the WPM timer
-    if(words_wpm == "" && this.words != "") {
+    if (words_wpm == "" && this.words != "") {
       this.timeWPM = this.time.now;
     }
 
     // update enemy position
-    if(this.words!="help"){
-       this.current_enemy.move(this.player);
+    if (this.words != "help") {
+      this.current_enemy.move(this.player);
     }
     //check if enemy is in range to attack
     if (this.enemy_exists) {
       this.fightDisplay.setVisible(false);
-      if(this.player.get_health() > 0){
+      if (this.player.get_health() > 0) {
         if (this.current_enemy.within_range(this.player)) {
-           //The 7000 is in milliseconds, therefore 
-           //there is a 7 second delay between enemy attacks
-           //we need to change this later to make 7000 be based off difficulty 
-           //of enemy
+          //The 7000 is in milliseconds, therefore 
+          //there is a 7 second delay between enemy attacks
+          //we need to change this later to make 7000 be based off difficulty 
+          //of enemy
           if (this.time.now > this.timeAttack + (10000 - (this.level * 1000))) {
             this.current_enemy.hit_Player(this.player);
             this.timeAttack = this.time.now;
-         }
+          }
         }
       }
-    }else{
+    } else {
       this.fightDisplay.setVisible(true);
     }
 
-    if(this.player.get_health() == 0){
-        this.player.setVisible(false);
+    if (this.player.get_health() <= 0) {
+      this.player.setVisible(false);
     }
 
     if (!Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
@@ -282,15 +285,18 @@ export default class MainScene extends Phaser.Scene {
     return this.words.split(" ").length / minutes;
   }
 
-  checkContain(): string[]{
+  checkContain(): string[] {
+    if(this.words == "") {
+      return [""];
+    }
     let temp = this.words;
     let result = false;
     let suggestedCommands = [""];
     this.command_map.forEach(function (value, key) {
-      if(key.includes(temp) && value[1] && (temp!="")){
+      if (key.includes(temp) && value[1]) {
         suggestedCommands = [suggestedCommands + key + "\n"];
       }
-    }, this.command_map);
+    });
     return suggestedCommands;
   }
 }

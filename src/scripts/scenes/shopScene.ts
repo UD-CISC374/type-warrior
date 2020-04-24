@@ -61,7 +61,7 @@ export default class shopScene extends Phaser.Scene {
         this.shopExplanation.tint = 0xff6611;
 
 
-        this.coinDisplay = this.add.bitmapText(this.scale.width - 175, 5, "pixelFont", "Coins", 16);
+        this.coinDisplay = this.add.bitmapText(10, this.scale.height-20, "pixelFont", "Coins", 20);
         this.coinDisplay.setText("Coins: " + this.player.get_coins());
         this.coinDisplay.tint = 0xff6611;
 
