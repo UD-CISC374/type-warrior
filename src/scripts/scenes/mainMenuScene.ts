@@ -84,7 +84,7 @@ export default class MainScene extends Phaser.Scene {
                 // if the player selected help, then listen to see if they press enter to go back to the options list
                 if (this.words != "" || Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
                     this.menuLabel.setText(this.menuOptions);
-                    this.menuLabel.setX(this.scale.width/3);
+                    this.menuLabel.setX(this.scale.width/4);
                     this.menuOption = 0;
                     this.words = "";
                 }
