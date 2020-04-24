@@ -12,19 +12,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-phaser-game-template/alphaassets/fonts/font.xml"
   },
   {
-    "revision": "53cefca2a0f75654486b180949686165",
+    "revision": "5eaf7191c25f46504be4483c9382bb58",
     "url": "/educational-phaser-game-template/alphaassets/icons/favicon.ico"
   },
   {
-    "revision": "8ab30def0ad109a97117bd62db942d75",
+    "revision": "e3a04faa2bd64efe46ed8217de33fe8f",
     "url": "/educational-phaser-game-template/alphaassets/icons/icons-16.png"
   },
   {
-    "revision": "feee71db2bb3ba5d11b26658baf97783",
+    "revision": "1c761df5ad00e4ba1001d274c09badae",
     "url": "/educational-phaser-game-template/alphaassets/icons/icons-192.png"
   },
   {
-    "revision": "cb71713be71d0b8820c7ea6af9c5ddc6",
+    "revision": "0de5960059da0e116ce99c04cb2b2fb2",
     "url": "/educational-phaser-game-template/alphaassets/icons/icons-512.png"
   },
   {
@@ -104,19 +104,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-phaser-game-template/alphaassets/spritesheets/sword-attack.png"
   },
   {
-    "revision": "53cefca2a0f75654486b180949686165",
+    "revision": "5eaf7191c25f46504be4483c9382bb58",
     "url": "/educational-phaser-game-template/alphafavicon.ico"
   },
   {
-    "revision": "879c30b19dd767ae558f",
-    "url": "/educational-phaser-game-template/alphagen.main.1bcd7ed0c944656887eb.bundle.js"
+    "revision": "c350dd4f2b1c4bc67833",
+    "url": "/educational-phaser-game-template/alphagen.main.7aa90f83c33cdd941c38.bundle.js"
   },
   {
     "revision": "5e69403aa42e950fedff",
     "url": "/educational-phaser-game-template/alphagen.vendors.0805bb80903235d40eaf.bundle.js"
   },
   {
-    "revision": "3b60a54807748b7f26a670bf56c9822f",
+    "revision": "1ae2f07b6fa18888e19169622d71aef6",
     "url": "/educational-phaser-game-template/alphaindex.html"
   },
   {

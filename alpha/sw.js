@@ -1,4 +1,4 @@
-importScripts("/educational-phaser-game-template/alphaprecache-manifest.5ab48ae44ab5b997f5f66d340abc77cd.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("/educational-phaser-game-template/alphaprecache-manifest.8d4c365a0d0774744c1525b9a5b15def.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 /**
  * You should only modify this, if you know what you are doing.
