@@ -101,10 +101,12 @@ export default class MainScene extends Phaser.Scene {
                 this.menuLabel.text = "Type move + a direction to move\nType attack + a direction to attack\nType block to block damage\nHit the enter key to enter a command\nHit backspace to delete what you've typed\npress any key to start game...";
                 this.menuOption = 1;
                 this.words = "";
-            } else if ("help") {
+            } else if (this.words == "help") {
                 this.menuLabel.setX(0);
                 this.menuLabel.text = "Type move + a direction to move\nType attack + a direction to attack\nType block to block damage\nHit the enter key to enter a command\nHit backspace to delete what you've typed\npress any key to go back to the options list...";
                 this.menuOption = 2;
+                this.words = "";
+            } else {
                 this.words = "";
             }
         }
