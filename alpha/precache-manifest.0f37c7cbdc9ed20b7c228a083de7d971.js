@@ -108,15 +108,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/educational-phaser-game-template/alphafavicon.ico"
   },
   {
-    "revision": "1084657a64681098f13a",
-    "url": "/educational-phaser-game-template/alphagen.main.3caaa03dd4472cf3e7a8.bundle.js"
+    "revision": "cd4918e842227110f172",
+    "url": "/educational-phaser-game-template/alphagen.main.0f7a69027d3afda80bfa.bundle.js"
   },
   {
     "revision": "5e69403aa42e950fedff",
     "url": "/educational-phaser-game-template/alphagen.vendors.0805bb80903235d40eaf.bundle.js"
   },
   {
-    "revision": "6f676ab724bb12f3297d238e68205105",
+    "revision": "d04558076a6f729cf54b411c26f8f804",
     "url": "/educational-phaser-game-template/alphaindex.html"
   },
   {
