@@ -1,4 +1,6 @@
 export default class Player extends Phaser.Physics.Arcade.Sprite {
+    
+    
     private health: number;
     private is_flipped: boolean;
     private commands: Map<string, boolean>;
