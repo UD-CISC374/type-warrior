@@ -38,6 +38,16 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 60
     });
 
+    this.load.spritesheet("demon-attack", "assets/spritesheets/demon-attack.png", {
+      frameWidth: 100,
+      frameHeight: 70
+    });
+
+    this.load.spritesheet("demon-idle", "assets/spritesheets/demon-idle.png", {
+      frameWidth: 100,
+      frameHeight: 70
+    });
+
     this.load.spritesheet("magic_cast", "assets/spritesheets/magic_cast.png", {
       frameWidth: 50,
       frameHeight: 30
@@ -72,6 +82,20 @@ export default class PreloadScene extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers("knight-idle", { start: 0, end: 3 }),
       frameRate: 5,
       repeat: -1
+    });
+
+    this.anims.create({
+      key: "demon-idle",
+      frames: this.anims.generateFrameNumbers("demon-idle", { start: 0, end: 5 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "demon-attack",
+      frames: this.anims.generateFrameNumbers("demon-attack", { start: 0, end: 5 }),
+      frameRate: 10,
+      repeat: 0
     });
 
     this.anims.create({

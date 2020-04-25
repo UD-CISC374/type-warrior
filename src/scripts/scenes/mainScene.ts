@@ -56,7 +56,7 @@ export default class MainScene extends Phaser.Scene {
     this.background.setOrigin(0, 0);
 
     // inititates the enemy over top the background
-    this.current_enemy = new Enemy(this, 250, 100, 0);
+    this.current_enemy = new Enemy(this, 250, 100, 1);
     this.enemy_exists = true;
 
     // check if the player is passed from another scene

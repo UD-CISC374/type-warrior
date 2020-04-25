@@ -2,6 +2,7 @@ import Player from "./player";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     // properties of an enemy
+    private enemy_class: number;
     private max_health: number;
     private current_health: number;
     private is_flipped: boolean;
@@ -13,12 +14,20 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         switch (difficulty) {
             case 0:
                 // this.setTexture('knight-idle');
+                this.enemy_class = 0;
                 this.play("knight-idle");
                 this.max_health = 50;
                 this.current_health = 50;
                 break;
+            case 1:
+                this.enemy_class = 1;
+                this.play("demon-idle");
+                this.max_health = 75;
+                this.current_health = 75;
+                break;
             default:
                 // this.setTexture('knight-idle');
+                this.enemy_class = 0;
                 this.play("knight-idle");
                 this.max_health = 50;
                 this.current_health = 50;
@@ -110,10 +119,17 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     public hit_Player(player: Player) {
         //switches animation
-        this.play('knight-attack');
-        this.once('animationcomplete', () => {
-            this.play("knight-idle");
-        });
+        if(this.enemy_class == 0){
+            this.play('knight-attack');
+            this.once('animationcomplete', () => {
+                this.play("knight-idle");
+            });
+        }else if(this.enemy_class == 1){
+            this.play('demon-attack');
+            this.once('animationcomplete', () => {
+                this.play("demon-idle");
+            });
+        }
 
         //maybe should check if player is still in range?
         if(!player.isBlocking()){
