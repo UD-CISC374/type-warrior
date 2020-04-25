@@ -11,11 +11,11 @@
   },
   "author": {
     "name": "Matthew Novosel, William Rembish",
-    "url": "https://github.com/UD-CISC374/educational-game-project-william-rembish-matthew-novosel/deployments"
+    "url": "https://github.com/UD-CISC374/type-warrior/deployments"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/UD-CISC374/educational-game-project-william-rembish-matthew-novosel/deployments"
+    "url": "https://github.com/UD-CISC374/type-warrior/deployments"
   },
   "scripts": {
     "start": "webpack-dev-server --config config/webpack.dev.js",
