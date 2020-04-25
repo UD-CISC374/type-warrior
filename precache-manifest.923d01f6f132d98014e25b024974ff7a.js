@@ -12,19 +12,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/fonts/font.xml"
   },
   {
-    "revision": "53cefca2a0f75654486b180949686165",
+    "revision": "5eaf7191c25f46504be4483c9382bb58",
     "url": "assets/icons/favicon.ico"
   },
   {
-    "revision": "8ab30def0ad109a97117bd62db942d75",
+    "revision": "e3a04faa2bd64efe46ed8217de33fe8f",
     "url": "assets/icons/icons-16.png"
   },
   {
-    "revision": "feee71db2bb3ba5d11b26658baf97783",
+    "revision": "1c761df5ad00e4ba1001d274c09badae",
     "url": "assets/icons/icons-192.png"
   },
   {
-    "revision": "cb71713be71d0b8820c7ea6af9c5ddc6",
+    "revision": "0de5960059da0e116ce99c04cb2b2fb2",
     "url": "assets/icons/icons-512.png"
   },
   {
@@ -104,16 +104,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/spritesheets/sword-attack.png"
   },
   {
-    "revision": "53cefca2a0f75654486b180949686165",
+    "revision": "5eaf7191c25f46504be4483c9382bb58",
     "url": "favicon.ico"
   },
   {
-    "revision": "119104241be9896232ba6ca7fafba090",
+    "revision": "2c7a566217c1bd45380294da70bece0b",
     "url": "index.html"
   },
   {
-    "revision": "f09a82d7cf2cb796d919",
-    "url": "main.b54e818ee48ffa6bf5bc.bundle.js"
+    "revision": "707af43be146aaf35683",
+    "url": "main.e5b56a9c353a1cb03efe.bundle.js"
   },
   {
     "revision": "003187cab0ecf7a20e343e2ba6db4a34",
