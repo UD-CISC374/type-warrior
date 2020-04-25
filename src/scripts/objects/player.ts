@@ -1,25 +1,38 @@
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     
-    
+    private maxHealth: number;
     private health: number;
     private is_flipped: boolean;
     private commands: Map<string, boolean>;
     private coins: number;
     private blocking: boolean;
+    private health_bar: Phaser.GameObjects.Rectangle;
 
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, "idle");
         this.play("idle_anim");
         this.setScale(2, 2);
+        this.maxHealth = 100;
         this.health = 100;
         this.is_flipped = false;
         this.commands = new Map();
         this.coins = 0;
+        this.health_bar = new Phaser.GameObjects.Rectangle(this.scene, x + 5, y - 25, (this.health / this.maxHealth) * 75, 5, 0x00ff00);
+        scene.add.existing(this.health_bar);
         scene.add.existing(this);
     }
 
     public movePlayer(words: string) {
+        if (this.health > 0) {
+            this.health_bar.setX(this.x + 5);
+            this.health_bar.setY(this.y - 25);
+            this.health_bar.setSize((this.health / this.maxHealth) * 75, 5);
+        } else {
+            this.health_bar.destroy();
+        }
+
+
         if(words == "block"){
             this.blocking = true;
         }else{
@@ -131,6 +144,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             });
             return true;
         }
+
     }
 
     public get_health() {
