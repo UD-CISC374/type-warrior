@@ -9,6 +9,7 @@ export default class MainScene extends Phaser.Scene {
   private current_enemy: Enemy;
   private enemy_exists: boolean;
   private enemies: Array<Enemy>;
+  private tempList: Array<Enemy>;
   // the background
   private background: Phaser.GameObjects.TileSprite;
 
@@ -257,15 +258,15 @@ export default class MainScene extends Phaser.Scene {
           this.enemies = [];
          }else{
            this.enemies[i].setActive(false);
-           let tempList; 
+           this.tempList = [];
            let counter = 0;
            for(let j = 0; j < this.enemies.length; j++){
              if(this.enemies[i].active){
-               tempList[counter] = (this.enemies[i]);
+               this.tempList[counter] = (this.enemies[i]);
                counter++;
              }
            }
-           this.enemies = tempList;
+           this.enemies = this.tempList;
          }
          this.player.add_coins(this.current_enemy.get_coins());
         }
