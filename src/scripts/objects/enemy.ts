@@ -88,6 +88,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (this.current_health <= 0) {
+            this.health_bar.destroy();
             this.destroy();
             return true;
         } else {
@@ -100,7 +101,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     get_coins(): number {
-        return Math.round(this.max_health/3);
+        return Math.round(this.max_health / 3);
     }
 
     public within_range(player: Player) {
@@ -125,12 +126,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         //this.lastAttack = t;
 
         //switches animation
-        if(this.enemy_class == 0){
+        if (this.enemy_class == 0) {
             this.play('knight-attack');
             this.once('animationcomplete', () => {
                 this.play("knight-idle");
             });
-        }else if(this.enemy_class == 1){
+        } else if (this.enemy_class == 1) {
             this.play('demon-attack');
             this.once('animationcomplete', () => {
                 this.play("demon-idle");
@@ -138,12 +139,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
 
         //maybe should check if player is still in range?
-        if(!player.isBlocking()){
-             player.set_health((player.get_health() - 25));
+        if (!player.isBlocking()) {
+            player.set_health((player.get_health() - 25));
         }
     }
 
-    public lastAttacked(): number{
+    public lastAttacked(): number {
         return this.lastAttack;
     }
 }

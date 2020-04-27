@@ -145,7 +145,7 @@ export default class MainScene extends Phaser.Scene {
 
   // the update function
   update() {
-    if(!this.player.visible) {
+    if (!this.player.visible) {
       this.scene.start('MainMenuScene');
     }
     // checks if the player wants to open the shop
@@ -178,7 +178,7 @@ export default class MainScene extends Phaser.Scene {
     this.wordLabel.text = "Command:    " + this.words;
 
     // update the health label to display the character's current health
-    this.healthLabel.text = "Health: " + this.player.get_health();
+    this.healthLabel.text = "Health: " + this.enemies.length;
 
     let words_wpm: string = this.words;
     // check if the player is typing
@@ -189,28 +189,28 @@ export default class MainScene extends Phaser.Scene {
     }
     // update enemy position
     if (this.words != "help") {
-      for(let i = 0; i < this.enemies.length; i++){
+      for (let i = 0; i < this.enemies.length; i++) {
         //this.current_enemy.setVisible(false);
         this.enemies[i].move(this.player);
       }
     }
     //check if enemy is in range to attack
-    if (this.enemy_exists) {
+    if (this.enemies.length != 0) {
       this.fightDisplay.setVisible(false);
       if (this.player.get_health() > 0) {
-        for(let i = 0; i < this.enemies.length; i++){
+        for (let i = 0; i < this.enemies.length; i++) {
           this.current_enemy = this.enemies[i];
           if (this.current_enemy.within_range(this.player)) {
-           //The 7000 is in milliseconds, therefore 
-           //there is a 7 second delay between enemy attacks
-           //we need to change this later to make 7000 be based off difficulty 
-           //of enemy
+            //The 7000 is in milliseconds, therefore 
+            //there is a 7 second delay between enemy attacks
+            //we need to change this later to make 7000 be based off difficulty 
+            //of enemy
             if (this.time.now > this.timeAttack + (10000)) {
-             this.current_enemy.hit_Player(this.player);
-             this.timeAttack = this.time.now;
+              this.current_enemy.hit_Player(this.player);
+              this.timeAttack = this.time.now;
+            }
           }
         }
-       }
       }
     } else {
       this.fightDisplay.setVisible(true);
@@ -227,52 +227,41 @@ export default class MainScene extends Phaser.Scene {
     this.WPM = this.getWPM();
 
     // spawns a new enemy if there is none and the player types in the correct command
-    if (this.words == "fight onward!" && !this.enemy_exists) {
+    if (this.words == "fight onward!" && this.enemies.length == 0) {
       this.enemies = [];
-      for(let i = 0; i < this.level; i++){
+      for (let i = 0; i < this.level; i++) {
         let x = Math.random() * 500;
         let y = Math.random() * 500;
-        let z = Phaser.Math.Between(0,1);
+        let z = Phaser.Math.Between(0, 1);
         this.current_enemy = new Enemy(this, x, y, z);
-        this.enemies[i] = (this.current_enemy);
+        this.enemies.push(this.current_enemy);
       }
-      
+
       this.enemy_exists = true;
       this.words = "";
       this.level += 1;
     }
 
     //EASTER EGG
-    if(this.words == "plus ultra!"){
+    if (this.words == "plus ultra!") {
       this.player.add_coins(10000000);
     }
 
     // check if the player entered a valid command
     if (this.player.movePlayer(this.words)) {
       // checks if the enemy is attacked by the command
-      for(let i = 0; i < this.enemies.length; i++){
+      for (let i = 0; i < this.enemies.length; i++) {
         this.current_enemy = this.enemies[i];
-        if (this.current_enemy.hit_enemy(this.player, this.words) && this.enemy_exists) {
-         if(this.enemies.length == 1){
-          this.enemy_exists = false;
-          this.enemies = [];
-         }else{
-           this.enemies[i].setActive(false);
-           this.tempList = [];
-           let counter = 0;
-           for(let j = 0; j < this.enemies.length; j++){
-             if(this.enemies[i].active){
-               this.tempList[counter] = (this.enemies[i]);
-               counter++;
-             }
-           }
-           this.enemies = this.tempList;
-         }
-         this.player.add_coins(this.current_enemy.get_coins());
+        if (this.current_enemy.hit_enemy(this.player, this.words)) {
+          this.enemies[i].setActive(false);
+          let index = this.enemies.indexOf(this.enemies[i], 0);
+          if (index > -1) {
+            this.enemies.splice(index, 1);
+          }
+          this.player.add_coins(this.current_enemy.get_coins());
         }
       }
     }
-
 
     // reset the player's entered words
     this.words = "";
@@ -324,7 +313,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   checkContain(): string[] {
-    if(this.words == "") {
+    if (this.words == "") {
       return [""];
     }
     let temp = this.words;
