@@ -175,7 +175,7 @@ export default class MainScene extends Phaser.Scene {
     this.wordLabel.text = "Command:    " + this.words;
 
     // update the health label to display the character's current health
-    this.healthLabel.text = "Health: " + this.enemies.length;
+    this.healthLabel.text = "Health: " + this.player.get_health();
 
     let words_wpm: string = this.words;
     // check if the player is typing
