@@ -7,9 +7,7 @@ export default class MainScene extends Phaser.Scene {
 
   // the current enemy
   private current_enemy: Enemy;
-  private enemy_exists: boolean;
   private enemies: Array<Enemy>;
-  private tempList: Array<Enemy>;
   // the background
   private background: Phaser.GameObjects.TileSprite;
 
@@ -58,7 +56,6 @@ export default class MainScene extends Phaser.Scene {
 
     // inititates the enemy over top the background
     this.current_enemy = new Enemy(this, 250, 100, 1);
-    this.enemy_exists = true;
     this.enemies = [];
     this.enemies.push(this.current_enemy);
 
@@ -236,8 +233,6 @@ export default class MainScene extends Phaser.Scene {
         this.current_enemy = new Enemy(this, x, y, z);
         this.enemies.push(this.current_enemy);
       }
-
-      this.enemy_exists = true;
       this.words = "";
       this.level += 1;
     }
