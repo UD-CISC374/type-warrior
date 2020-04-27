@@ -21,11 +21,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.commands = new Map();
         this.coins = 0;
         this.health_bar = new Phaser.GameObjects.Rectangle(this.scene, x + 5, y - 25, (this.health / this.maxHealth) * 75, 5, 0x00ff00);
+        this.x_destination = this.x;
+        this.y_destination = this.y;
         scene.add.existing(this.health_bar);
         scene.add.existing(this);
     }
 
     public move(): void {
+        if(this.x == this.x_destination && this.y == this.y_destination) {
+            this.play("idle_anim");
+        }
         if (this.x > this.x_destination) {
             this.x -= 1;
         } else if (this.x < this.x_destination) {
@@ -63,6 +68,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 this.is_flipped = true;
             }
             this.x_destination = this.x - 25;
+            this.play("player_move_anim");
             return true;
         }
 
@@ -72,16 +78,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 this.is_flipped = false;
             }
             this.x_destination = this.x + 25;
+            this.play("player_move_anim");
             return true;
         }
 
         if (words == "move forward") {
             this.y_destination = this.y - 25;
+            this.play("player_move_anim");
             return true;
         }
 
         if (words == "move backward") {
             this.y_destination = this.y + 25;
+            this.play("player_move_anim");
             return true;
         }
 
