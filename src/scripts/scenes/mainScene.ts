@@ -252,8 +252,21 @@ export default class MainScene extends Phaser.Scene {
       for(let i = 0; i < this.enemies.length; i++){
         this.current_enemy = this.enemies[i];
         if (this.current_enemy.hit_enemy(this.player, this.words) && this.enemy_exists) {
-         this.enemies = [];
-         this.enemy_exists = false;
+         if(this.enemies.length == 1){
+          this.enemy_exists = false;
+          this.enemies = [];
+         }else{
+           this.enemies[i].setActive(false);
+           let tempList; 
+           let counter = 0;
+           for(let j = 0; j < this.enemies.length; j++){
+             if(this.enemies[i].active){
+               tempList[counter] = (this.enemies[i]);
+               counter++;
+             }
+           }
+           this.enemies = tempList;
+         }
          this.player.add_coins(this.current_enemy.get_coins());
         }
       }

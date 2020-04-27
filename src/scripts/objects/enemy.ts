@@ -1,4 +1,5 @@
 import Player from "./player";
+import { Time } from "phaser";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     // properties of an enemy
@@ -8,6 +9,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private is_flipped: boolean;
     private health_bar: Phaser.GameObjects.Rectangle;
     private inRange: boolean;
+    private lastAttack: number;
+    time: any;
 
     constructor(scene: Phaser.Scene, x: number, y: number, difficulty: number) {
         super(scene, x, y, '');
@@ -33,6 +36,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.current_health = 50;
                 break;
         };
+        //this.lastAttacked = this.time.now;
         this.is_flipped = false;
         this.health_bar = new Phaser.GameObjects.Rectangle(this.scene, x + 10, y - 25, (this.current_health / this.max_health) * 75, 5, 0xff0000);
         this.scene.add.existing(this.health_bar);
@@ -118,6 +122,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     public hit_Player(player: Player) {
+        //this.lastAttack = t;
+
         //switches animation
         if(this.enemy_class == 0){
             this.play('knight-attack');
@@ -135,5 +141,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         if(!player.isBlocking()){
              player.set_health((player.get_health() - 25));
         }
+    }
+
+    public lastAttacked(): number{
+        return this.lastAttack;
     }
 }
