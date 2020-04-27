@@ -41,10 +41,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     public move(player: Player) {
         if (this.x < player.x - 25) {
-            this.x += .05;
+            this.x += .25;
             if (this.is_flipped) { this.setFlipX(false); this.is_flipped = false; }
         } else if (this.x > player.x + 25) {
-            this.x -= .05;
+            this.x -= .25;
             if (!this.is_flipped) { this.setFlipX(true); this.is_flipped = true; }
 
         }
