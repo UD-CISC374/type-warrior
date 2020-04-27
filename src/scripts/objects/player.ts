@@ -1,5 +1,5 @@
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-    
+
     private maxHealth: number;
     private health: number;
     private is_flipped: boolean;
@@ -7,6 +7,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     private coins: number;
     private blocking: boolean;
     private health_bar: Phaser.GameObjects.Rectangle;
+    private x_destination: number;
+    private y_destination: number;
 
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -23,7 +25,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
     }
 
-    public movePlayer(words: string) {
+    public move(): void {
+        if (this.x > this.x_destination) {
+            this.x -= 1;
+        } else if (this.x < this.x_destination) {
+            this.x += 1;
+        }
+
+        if (this.y > this.y_destination) {
+            this.y -= 1;
+        } else if (this.y < this.y_destination) {
+            this.y += 1;
+        }
+
         if (this.health > 0) {
             this.health_bar.setX(this.x + 5);
             this.health_bar.setY(this.y - 25);
@@ -31,11 +45,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         } else {
             this.health_bar.destroy();
         }
+    }
 
-
-        if(words == "block"){
+    public command(words: string) {
+        if (words == "block") {
             this.blocking = true;
-        }else{
+        } else {
             this.blocking = false;
         }
 
@@ -47,7 +62,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 this.setFlipX(true);
                 this.is_flipped = true;
             }
-            this.x -= 25;
+            this.x_destination = this.x - 25;
             return true;
         }
 
@@ -56,17 +71,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 this.setFlipX(false);
                 this.is_flipped = false;
             }
-            this.x += 25;
+            this.x_destination = this.x + 25;
             return true;
         }
 
         if (words == "move forward") {
-            this.y -= 25;
+            this.y_destination = this.y - 25;
             return true;
         }
 
         if (words == "move backward") {
-            this.y += 25;
+            this.y_destination = this.y + 25;
             return true;
         }
 
@@ -184,19 +199,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     public heal(heal_amount: number) {
         this.health += heal_amount;
-        if(this.health > 100) {
+        if (this.health > 100) {
             this.health = 100;
         }
     }
 
     public subtract_coins(coin_loss: number) {
         this.coins -= coin_loss;
-        if(this.coins < 0) {
+        if (this.coins < 0) {
             this.coins = 0;
         }
     }
 
-    public isBlocking(){
+    public isBlocking() {
         return this.blocking;
     }
 }

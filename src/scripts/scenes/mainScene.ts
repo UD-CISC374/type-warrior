@@ -142,6 +142,7 @@ export default class MainScene extends Phaser.Scene {
 
   // the update function
   update() {
+    this.player.move();
     if (!this.player.visible) {
       this.scene.start('MainMenuScene');
     }
@@ -243,7 +244,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     // check if the player entered a valid command
-    if (this.player.movePlayer(this.words)) {
+    if (this.player.command(this.words)) {
       // checks if the enemy is attacked by the command
       for (let i = 0; i < this.enemies.length; i++) {
         this.current_enemy = this.enemies[i];
