@@ -6,7 +6,7 @@ export default class MainScene extends Phaser.Scene {
     // the string containing the words the player types
     private words: string;
 
-    // background of the main menu?
+    // background of the main menu
     private background: Phaser.GameObjects.TileSprite;
 
     // the word label to display what the player is typing
