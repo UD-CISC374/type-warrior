@@ -53,6 +53,11 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 70
     });
 
+    this.load.spritesheet("minotaur-idle", "assets/spritesheets/Minotaur.png", {
+      frameWidth: 97,
+      frameHeight: 80
+    });
+
     this.load.spritesheet("magic_cast", "assets/spritesheets/magic_cast.png", {
       frameWidth: 50,
       frameHeight: 30
@@ -97,6 +102,13 @@ export default class PreloadScene extends Phaser.Scene {
     });
 
     this.anims.create({
+      key: "knight-attack",
+      frames: this.anims.generateFrameNumbers("knight-attack", { start: 0, end: 4 }),
+      frameRate: 5,
+      repeat: 0
+    });
+
+    this.anims.create({
       key: "demon-idle",
       frames: this.anims.generateFrameNumbers("demon-idle", { start: 0, end: 5 }),
       frameRate: 10,
@@ -111,10 +123,10 @@ export default class PreloadScene extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: "knight-attack",
-      frames: this.anims.generateFrameNumbers("knight-attack", { start: 0, end: 4 }),
+      key: "minotaur-idle",
+      frames: this.anims.generateFrameNumbers("minotaur-idle", { start: 0, end: 4 }),
       frameRate: 5,
-      repeat: 0
+      repeat: -1
     });
 
     this.anims.create({
