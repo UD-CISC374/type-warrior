@@ -68,6 +68,15 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 30
     });
 
+    this.load.spritesheet("fireball_LR", "assets/spritesheets/fireball_LR.png", {
+      frameWidth: 31.5,
+      frameHeight: 9
+    });
+
+    this.load.spritesheet("fireball_UD", "assets/spritesheets/fireball_UD.png", {
+      frameWidth: 31.5,
+      frameHeight: 20
+    });
   }
 
   create() {
@@ -148,6 +157,20 @@ export default class PreloadScene extends Phaser.Scene {
       repeat: 0
     });
 
+    this.anims.create({
+      key: "fireball_LR_anim",
+      frames: this.anims.generateFrameNumbers("fireball_LR", {}),
+      frameRate: 20,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: "fireball_UD_anim",
+      frames: this.anims.generateFrameNumbers("fireball_UD", {}),
+      frameRate: 20,
+      repeat: -1
+    });
+
     //declaring commands
     this.commands = new Map();
 
@@ -155,7 +178,6 @@ export default class PreloadScene extends Phaser.Scene {
     this.commands.set("help", ["Brings up command list", true, 0]);
     this.commands.set("fight onward!", ["Move to next level", true, 0]);
     this.commands.set("shop!", ["Transports you to a shop to upgrade your hero", true, 0]);
-    this.commands.set("shop list!", ["While in shop shows you available purchases", true, 0]);
 
 
     // movement commands
@@ -176,12 +198,17 @@ export default class PreloadScene extends Phaser.Scene {
 
     // purchasable commands
     // sword commands
-    this.commands.set("attack left with sword", ["attack to the left direction", false, 100]);
-    this.commands.set("attack right with sword", ["attack to the right direction with a sword", false, 100]);
-    this.commands.set("attack forward with sword", ["attack in front", false, 100]);
-    this.commands.set("attack backward with sword", ["attack behind you", false, 100]);
+    this.commands.set("attack left with sword", ["attack to the left direction", false, 45]);
+    this.commands.set("attack right with sword", ["attack to the right direction with a sword", false, 45]);
+    this.commands.set("attack forward with sword", ["attack in front", false, 45]);
+    this.commands.set("attack backward with sword", ["attack behind you", false, 45]);
+    // magic commands
+    this.commands.set("cast fireball left", ["casts fireball in the left direction", false, 75]);
+    this.commands.set("cast fireball right", ["casts fireball in the right direction", false, 75]);
+    this.commands.set("cast fireball forward", ["casts fireball forward", false, 75]);
+    this.commands.set("cast fireball backward", ["casts fireball backward", false, 75]);
 
-    // start the main scene and pass it the commands list
+    // start the main menu scene and pass it the commands list
     let start_level:number = 1;
     this.scene.start('MainMenuScene', { commands: this.commands, level: start_level });
   }
