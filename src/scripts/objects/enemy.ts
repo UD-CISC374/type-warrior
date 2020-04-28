@@ -36,7 +36,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.current_health = 50;
                 break;
         };
-        //this.lastAttacked = this.time.now;
+        this.lastAttack = scene.time.now;
         this.is_flipped = false;
         this.health_bar = new Phaser.GameObjects.Rectangle(this.scene, x + 10, y - 25, (this.current_health / this.max_health) * 75, 5, 0xff0000);
         this.scene.add.existing(this.health_bar);
@@ -125,25 +125,23 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         //this.lastAttack = t;
 
         //switches animation
-        if (this.enemy_class == 0) {
-            this.play('knight-attack');
-            this.once('animationcomplete', () => {
+        if (this.scene.time.now > (this.lastAttack + 10000)) {
+            this.lastAttack = this.scene.time.now;
+            if (this.enemy_class == 0) {
+                this.play('knight-attack');
+                this.once('animationcomplete', () => {
                 this.play("knight-idle");
             });
-        } else if (this.enemy_class == 1) {
-            this.play('demon-attack');
-            this.once('animationcomplete', () => {
+            }   else if (this.enemy_class == 1) {
+                this.play('demon-attack');
+                this.once('animationcomplete', () => {
                 this.play("demon-idle");
-            });
+                });
+            }
+            //maybe should check if player is still in range?
+            if (!player.isBlocking()) {
+                player.set_health((player.get_health() - 25));
+            }
         }
-
-        //maybe should check if player is still in range?
-        if (!player.isBlocking()) {
-            player.set_health((player.get_health() - 25));
-        }
-    }
-
-    public lastAttacked(): number {
-        return this.lastAttack;
     }
 }
