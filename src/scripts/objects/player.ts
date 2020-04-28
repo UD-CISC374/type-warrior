@@ -29,7 +29,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     public move(): void {
         if(this.x == this.x_destination && this.y == this.y_destination) {
-            this.play("idle_anim");
+            return;
         }
         if (this.x > this.x_destination) {
             this.x -= 1;
@@ -49,6 +49,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.health_bar.setSize((this.health / this.maxHealth) * 75, 5);
         } else {
             this.health_bar.destroy();
+        }
+
+        if(this.x == this.x_destination && this.y == this.y_destination) {
+            this.play("idle_anim");
         }
     }
 
