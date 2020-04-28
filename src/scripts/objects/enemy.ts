@@ -10,7 +10,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     private health_bar: Phaser.GameObjects.Rectangle;
     private inRange: boolean;
     private lastAttack: number;
-    time: any;
+    time: number;
 
     constructor(scene: Phaser.Scene, x: number, y: number, difficulty: number) {
         super(scene, x, y, '');
@@ -44,6 +44,24 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     public move(player: Player) {
+        if (!(this.x >= player.x - 25 && this.x <= player.x + 25 && this.y == player.y)) {
+            switch (this.enemy_class) {
+                case 0:
+                    break;
+                case 1:
+                    if (this.anims.getCurrentKey() != "demon_move_anim" && this.anims.getCurrentKey() != "demon-attack") {
+                        this.play("demon_move_anim");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        let temp_x: number = this.x;
+        let temp_y: number = this.y;
+
         if (this.x < player.x - 25) {
             this.x += .25;
             if (this.is_flipped) { this.setFlipX(false); this.is_flipped = false; }
@@ -58,11 +76,28 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.y -= .25;
         }
 
+        if (this.x == temp_x && this.y == temp_y) {
+
+            switch (this.enemy_class) {
+                case 0:
+                    break;
+                case 1:
+                    if (this.anims.getCurrentKey() != "demon-idle" && this.anims.getCurrentKey() != "demon-attack") {
+                        this.play("demon-idle");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
 
         if (this.current_health > 0) {
             this.health_bar.setX(this.x + 5);
             this.health_bar.setY(this.y - 25);
-            this.health_bar.setSize((this.current_health / this.max_health) * 75, 5);
+            if (this.health_bar.width != Math.round((this.current_health / this.max_health) * 75)) {
+                this.health_bar.width -= 1;
+            }
         } else {
             this.health_bar.destroy();
         }
@@ -127,16 +162,21 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         //switches animation
         if (this.scene.time.now > (this.lastAttack + 10000)) {
             this.lastAttack = this.scene.time.now;
-            if (this.enemy_class == 0) {
-                this.play('knight-attack');
-                this.once('animationcomplete', () => {
-                this.play("knight-idle");
-            });
-            }   else if (this.enemy_class == 1) {
-                this.play('demon-attack');
-                this.once('animationcomplete', () => {
-                this.play("demon-idle");
-                });
+            switch (this.enemy_class) {
+                case 0:
+                    this.play('knight-attack');
+                    this.once('animationcomplete', () => {
+                        this.play("knight-idle");
+                    });
+                    break;
+                case 1:
+                    this.play('demon-attack');
+                    this.once('animationcomplete', () => {
+                        this.play("demon-idle");
+                    });
+                    break;
+                default:
+                    break;
             }
             //maybe should check if player is still in range?
             if (!player.isBlocking()) {

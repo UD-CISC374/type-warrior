@@ -28,30 +28,38 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     public move(): void {
-        if(this.x == this.x_destination && this.y == this.y_destination) {
+        if (this.health > 0) {
+            this.health_bar.setX(this.x + 5);
+            this.health_bar.setY(this.y - 25);
+            // gradual shrink of healthbar when player takes damage
+            if (this.health_bar.width != Math.round((this.health / this.maxHealth) * 75)) {
+                this.health_bar.width -= 1;
+            }
+        } else {
+            this.health_bar.destroy();
+        }
+
+        // if the player is at where they are supposed to be at, do nothing
+        if (this.x == this.x_destination && this.y == this.y_destination) {
             return;
         }
+
+        // if the player isn't in the correct x location move toward it
         if (this.x > this.x_destination) {
             this.x -= 1;
         } else if (this.x < this.x_destination) {
             this.x += 1;
         }
 
+        // if the player isn't in the correct y location move toward it
         if (this.y > this.y_destination) {
             this.y -= 1;
         } else if (this.y < this.y_destination) {
             this.y += 1;
         }
 
-        if (this.health > 0) {
-            this.health_bar.setX(this.x + 5);
-            this.health_bar.setY(this.y - 25);
-            this.health_bar.setSize((this.health / this.maxHealth) * 75, 5);
-        } else {
-            this.health_bar.destroy();
-        }
-
-        if(this.x == this.x_destination && this.y == this.y_destination) {
+        // if the movement brings the player to the correct x and y location, switch from movement animation to idle animation
+        if (this.x == this.x_destination && this.y == this.y_destination) {
             this.play("idle_anim");
         }
     }
@@ -64,9 +72,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (words == "move left") {
-            if (!this.commands.get("move left")) {
-                return true;
-            }
             if (!this.is_flipped) {
                 this.setFlipX(true);
                 this.is_flipped = true;

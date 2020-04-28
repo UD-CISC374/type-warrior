@@ -203,7 +203,7 @@ export default class MainScene extends Phaser.Scene {
             //there is a 7 second delay between enemy attacks
             //we need to change this later to make 7000 be based off difficulty 
             //of enemy
-           /* if (this.time.now > this.timeAttack + (10000)) {
+            /* if (this.time.now > this.timeAttack + (10000)) {
               this.current_enemy.hit_Player(this.player);
               this.timeAttack = this.time.now;
             }*/

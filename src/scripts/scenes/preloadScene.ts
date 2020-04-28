@@ -53,6 +53,11 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 70
     });
 
+    this.load.spritesheet("demon_move", "assets/spritesheets/demon-run.png", {
+      frameWidth: 100,
+      frameHeight:70
+    });
+
     this.load.spritesheet("minotaur-idle", "assets/spritesheets/Minotaur.png", {
       frameWidth: 97,
       frameHeight: 80
@@ -120,6 +125,13 @@ export default class PreloadScene extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers("demon-attack", { start: 0, end: 5 }),
       frameRate: 10,
       repeat: 0
+    });
+
+    this.anims.create({
+      key: "demon_move_anim",
+      frames: this.anims.generateFrameNumbers("demon_move", {}),
+      frameRate: 6,
+      repeat: -1
     });
 
     this.anims.create({
