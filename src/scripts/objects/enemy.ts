@@ -44,7 +44,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     public move(player: Player) {
-        if (!(this.x >= player.x - 25 && this.x <= player.x + 25 && this.y == player.y)) {
+        if (!(this.x >= player.x - 25 && this.x <= player.x + 25 && this.y >= player.y - 25 && this.y <= player.y + 25)) {
             switch (this.enemy_class) {
                 case 0:
                     break;
@@ -70,9 +70,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             if (!this.is_flipped) { this.setFlipX(true); this.is_flipped = true; }
 
         }
-        if (this.y < player.y) {
+        if (this.y < player.y - 25) {
             this.y += .25;
-        } else if (this.y > player.y) {
+        } else if (this.y > player.y + 25) {
             this.y -= .25;
         }
 
