@@ -21,7 +21,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setScale(2, 2);
         this.maxHealth = 100;
         this.health = 100;
-        this.strength = 0;
+        this.strength = 1;
         this.speed = 0;
         this.is_flipped = false;
         this.commands = new Map();

@@ -62,18 +62,44 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         let temp_x: number = this.x;
         let temp_y: number = this.y;
 
-        if (this.x < player.x - 25) {
-            this.x += .25;
-            if (this.is_flipped) { this.setFlipX(false); this.is_flipped = false; }
-        } else if (this.x > player.x + 25) {
-            this.x -= .25;
-            if (!this.is_flipped) { this.setFlipX(true); this.is_flipped = true; }
-
-        }
-        if (this.y < player.y - 25) {
-            this.y += .25;
-        } else if (this.y > player.y + 25) {
-            this.y -= .25;
+        if(!(this.x < player.x + 25 && this.x > player.x - 25 && this.y < player.y + 25 && this.y > player.y - 25)) {
+            if(this.y != player.y) {
+                if (this.x < player.x) {
+                    this.x += .25;
+                    if (this.is_flipped) { this.setFlipX(false); this.is_flipped = false; }
+                } else if (this.x > player.x) {
+                    this.x -= .25;
+                    if (!this.is_flipped) { this.setFlipX(true); this.is_flipped = true; }
+                }
+            } else {
+                if (this.x < player.x - 25) {
+                    this.x += .25;
+                    if (this.is_flipped) { this.setFlipX(false); this.is_flipped = false; }
+                } else if (this.x > player.x + 25) {
+                    this.x -= .25;
+                    if (!this.is_flipped) { this.setFlipX(true); this.is_flipped = true; }
+                }
+            }
+    
+            if(this.x != player.x) {
+                if (this.y < player.y) {
+                    this.y += .25;
+                } else if (this.y > player.y) {
+                    this.y -= .25;
+                }
+            } else {
+                if (this.y < player.y - 25) {
+                    this.y += .25;
+                } else if (this.y > player.y + 25) {
+                    this.y -= .25;
+                }
+            }
+        } else {
+            if(this.x == player.x) {
+                this.y += .25;
+            } else {
+                this.x += .25;
+            }
         }
 
         if (this.x == temp_x && this.y == temp_y) {
