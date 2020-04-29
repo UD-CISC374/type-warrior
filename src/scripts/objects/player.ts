@@ -22,7 +22,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.maxHealth = 100;
         this.health = 100;
         this.strength = 1;
-        this.speed = 0;
+        this.speed = 1;
         this.is_flipped = false;
         this.commands = new Map();
         this.coins = 0;
@@ -223,6 +223,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.is_flipped = a_player.is_flipped;
         this.commands = a_player.commands;
         this.coins = a_player.coins;
+        this.strength = a_player.strength;
     }
 
     public add_command(key: string, value: boolean) {
