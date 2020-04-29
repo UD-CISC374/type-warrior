@@ -80,7 +80,7 @@ export default class shopScene extends Phaser.Scene {
         this.coinDisplay.setText("Coins: " + this.player.get_coins());
 
         this.heal_player = Math.round((100 - this.player.get_health()) / 2);
-        this.shoplist_display.text = "Available Purchases: " + this.shoplist + "\nheal player: " + this.heal_player + " coins" + "\nType 'close shoplist' to close this list...";
+        this.shoplist_display.text = "Available Purchases: " + this.shoplist + "\nheal player: " + this.heal_player + "\nupgrade strength: " + (this.player.get_strength() * 10) + " coins" + "\nType 'close shoplist' to close this list...";
 
         // update the shoplist string
         let temp_shoplist: string[] = [""];
@@ -92,6 +92,14 @@ export default class shopScene extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustUp(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
             if(this.words == "Not Enough Coins!") {
                 this.words = "";
+            }
+            if(this.words == "upgrade strength"){
+                if(this.player.get_coins() >= (this.player.get_strength() * 10)){
+                    this.player.subtract_coins((this.player.get_strength() * 10));
+                    this.player.addStrength(1);
+                }else{
+                    this.words = "Not Enough Coins!";
+                }
             }
             if (this.words == "exit") {
                 this.scene.start('MainScene', { player: this.player, level: this.level });

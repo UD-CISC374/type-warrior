@@ -106,7 +106,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     public hit_enemy(player: Player, words: string): boolean {
         if ((this.x > player.x) && (this.x < player.x + 50) && (this.y < player.y + 25) && (this.y > player.y - 25)) {
             if (words == "attack right") {
-                this.current_health -= 10;
+                this.current_health -= (10 * player.get_strength());
             } else if (words == "attack right with sword") {
                 this.current_health -= 30;
             }

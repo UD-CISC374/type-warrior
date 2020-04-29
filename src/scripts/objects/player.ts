@@ -1,7 +1,11 @@
 export default class Player extends Phaser.Physics.Arcade.Sprite {
 
+    //stats
     private maxHealth: number;
     private health: number;
+    private strength: number;
+    private speed: number;
+
     private is_flipped: boolean;
     private commands: Map<string, boolean>;
     private coins: number;
@@ -17,6 +21,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setScale(2, 2);
         this.maxHealth = 100;
         this.health = 100;
+        this.strength = 0;
+        this.speed = 0;
         this.is_flipped = false;
         this.commands = new Map();
         this.coins = 0;
@@ -178,6 +184,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             return true;
         }
 
+    }
+
+    public get_strength(){
+        return this.strength;
+    }
+
+    public addStrength(amount: number){
+        this.strength += amount;
+    }
+
+    public get_speed(){
+        return this.speed;
+    }
+
+    public addSpeed(amount: number){
+        this.speed += amount;
     }
 
     public get_health() {
