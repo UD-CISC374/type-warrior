@@ -76,13 +76,15 @@ export default class MainScene extends Phaser.Scene {
                 break;
             case 1:
                 // if the player selected new game, then listen to see if they press enter to start the mainscene
-                if (this.words != "" || Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
+                if (this.words != "" || Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER]) ||
+                    this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.BACKSPACE].isDown) {
                     this.scene.start('MainScene', { commands: this.commands, level: this.level });
                 }
                 break;
             case 2:
                 // if the player selected help, then listen to see if they press enter to go back to the options list
-                if (this.words != "" || Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
+                if (this.words != "" || Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])||
+                this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.BACKSPACE].isDown) {
                     this.menuLabel.setText(this.menuOptions);
                     this.menuLabel.setX(this.scale.width/4);
                     this.menuOption = 0;
