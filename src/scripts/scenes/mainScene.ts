@@ -146,6 +146,9 @@ export default class MainScene extends Phaser.Scene {
 
   // the update function
   update() {
+    if(this.check_typo()) {
+      this.words = "";
+    }
     this.player.move();
     if (!this.player.visible) {
       this.scene.start('MainMenuScene');
@@ -340,5 +343,16 @@ export default class MainScene extends Phaser.Scene {
       }
     });
     return suggestedCommands;
+  }
+
+  check_typo(): boolean {
+    let output = true;
+    let temp_words = this.words;
+    this.command_map.forEach(function (value, key) {
+      if(key.includes(temp_words) && value[1]) {
+        output = false;
+      }
+    });
+    return output;
   }
 }
