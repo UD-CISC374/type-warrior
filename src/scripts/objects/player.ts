@@ -58,6 +58,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             }
             if(this.block_timer.width < -100){
                 this.block_timer.setVisible(false);
+                this.shield.setVisible(false);
             }
         }
 
@@ -89,17 +90,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     public command(words: string) {
         if (words == "block") {
             this.block_time = this.scene.time.now;
-
-            this.block_timer = new Phaser.GameObjects.Rectangle(this.scene, this.x + 5, this.y - 15, (((this.scene.time.now - this.block_time)/1000)/5) * 75, 5, 0x0000ff);
-            this.scene.add.existing(this.block_timer);
-
-            this.blocking = true;
             this.shield = this.scene.add.image(this.x, this.y+10, "shield");
             this.shield.setScale(.15);
-        } else {
-            this.block_timer.destroy();
-            this.blocking = false;
-            this.shield.destroy();
+            this.block_timer = new Phaser.GameObjects.Rectangle(this.scene, this.x + 5, this.y - 15, (((this.scene.time.now - this.block_time)/1000)/5) * 75, 5, 0x0000ff);
+            this.scene.add.existing(this.block_timer);
+            this.shield.setVisible(true);
+            this.blocking = true;
         }
 
         if (words == "move left") {
