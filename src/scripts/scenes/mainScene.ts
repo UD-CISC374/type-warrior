@@ -146,7 +146,9 @@ export default class MainScene extends Phaser.Scene {
 
   // the update function
   update() {
+    // check if the current typed thing is a typo
     if(this.check_typo()) {
+      // if there is a typo, do something ...
       this.words = "";
     }
     this.player.move();

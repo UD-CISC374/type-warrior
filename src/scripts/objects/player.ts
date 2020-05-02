@@ -183,7 +183,34 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             });
             return true;
         }
-
+        if ((words == "cast fireball right") && (this.commands.get("cast fireball right") != undefined)) {
+            this.setFlipX(false);
+            this.is_flipped = false;
+            this.play('magic_anim');
+            this.once('animationcomplete', () => {
+                this.play("idle_anim");
+            });
+        }
+        if ((words == "cast fireball left") && (this.commands.get("cast fireball left") != undefined)) {
+            this.setFlipX(true);
+            this.is_flipped = true;
+            this.play('magic_anim');
+            this.once('animationcomplete', () => {
+                this.play("idle_anim");
+            });
+        }
+        if ((words == "cast fireball forward") && (this.commands.get("cast fireball forward") != undefined)) {
+            this.play('magic_anim');
+            this.once('animationcomplete', () => {
+                this.play("idle_anim");
+            });
+        }
+        if ((words == "cast fireball backward") && (this.commands.get("cast fireball backward") != undefined)) {
+            this.play('magic_anim');
+            this.once('animationcomplete', () => {
+                this.play("idle_anim");
+            });
+        }
     }
 
     public get_strength(){
