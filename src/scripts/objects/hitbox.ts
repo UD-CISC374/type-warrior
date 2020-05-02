@@ -1,4 +1,4 @@
-export default class Player extends Phaser.Physics.Arcade.Sprite {
+export default class Hitbox extends Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, attacker: Phaser.Physics.Arcade.Sprite, direction: number) {
         switch(direction) {
             case 0:
