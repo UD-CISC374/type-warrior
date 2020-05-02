@@ -11,7 +11,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     private blocking: boolean;
     private block_timer: Phaser.GameObjects.Rectangle;
     block_time: number;
-    private shield;
+    private shield: Phaser.GameObjects.Image;
 
     private is_flipped: boolean;
     private commands: Map<string, boolean>;
@@ -56,10 +56,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if(this.blocking){
             this.block_timer.setX(this.x + 5);
             this.block_timer.setY(this.y - 35)
-            if (this.block_timer.width != Math.round((((this.scene.time.now - this.block_time)/1000)/5) * 75)) {
+            if (this.block_timer.width >= 0) {
                 this.block_timer.width -= 1;
-            }
-            if(this.block_timer.width < -100){
+            } else {
                 this.block_timer.setVisible(false);
                 this.shield.setVisible(false);
             }
@@ -90,15 +89,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    public command(words: string) {
+    public command(words: string): boolean {
         if (words == "block") {
-            this.block_time = this.scene.time.now;
             this.shield = this.scene.add.image(this.x, this.y+10, "shield");
             this.shield.setScale(.15);
-            this.block_timer = new Phaser.GameObjects.Rectangle(this.scene, this.x + 5, this.y - 15, (((this.scene.time.now - this.block_time)/1000)/5) * 75, 5, 0x0000ff);
+            this.block_timer = new Phaser.GameObjects.Rectangle(this.scene, this.x + 5, this.y - 15, 100, 5, 0x0000ff);
             this.scene.add.existing(this.block_timer);
             this.shield.setVisible(true);
             this.blocking = true;
+            return true;
         }
 
         if (words == "move left") {
@@ -214,6 +213,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
             });
+            return true;
         }
         if ((words == "cast fireball left") && (this.commands.get("cast fireball left") != undefined)) {
             this.setFlipX(true);
@@ -222,54 +222,58 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
             });
+            return true;
         }
         if ((words == "cast fireball forward") && (this.commands.get("cast fireball forward") != undefined)) {
             this.play('magic_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
             });
+            return true;
         }
         if ((words == "cast fireball backward") && (this.commands.get("cast fireball backward") != undefined)) {
             this.play('magic_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
             });
+            return true;
         }
+        return false;
     }
 
-    public get_strength(){
+    public get_strength() : number{
         return this.strength;
     }
 
-    public addStrength(amount: number){
+    public addStrength(amount: number) : void {
         this.strength += amount;
     }
 
-    public get_speed(){
+    public get_speed() : number{
         return this.speed;
     }
 
-    public addSpeed(amount: number){
+    public addSpeed(amount: number) : void {
         this.speed += amount;
     }
 
-    public get_health() {
+    public get_health() : number {
         return this.health;
     }
 
-    public get_commands() {
+    public get_commands() : Map<string, boolean> {
         return this.commands;
     }
 
-    public get_coins() {
+    public get_coins() : number {
         return this.coins;
     }
 
-    public set_health(new_health: number) {
+    public set_health(new_health: number) : void {
         this.health = new_health;
     }
 
-    public make_player(a_player: Player) {
+    public make_player(a_player: Player) : void {
         this.health = a_player.health;
         this.is_flipped = a_player.is_flipped;
         this.commands = a_player.commands;
@@ -277,33 +281,33 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.strength = a_player.strength;
     }
 
-    public add_command(key: string, value: boolean) {
+    public add_command(key: string, value: boolean) : void {
         this.commands.set(key, value);
     }
 
-    public add_commands(commands: Map<string, boolean>) {
+    public add_commands(commands: Map<string, boolean>) : void {
         this.commands = commands;
     }
 
-    public add_coins(coins: number) {
+    public add_coins(coins: number) : void {
         this.coins += coins;
     }
 
-    public heal(heal_amount: number) {
+    public heal(heal_amount: number) : void {
         this.health += heal_amount;
         if (this.health > 100) {
             this.health = 100;
         }
     }
 
-    public subtract_coins(coin_loss: number) {
+    public subtract_coins(coin_loss: number) : void {
         this.coins -= coin_loss;
         if (this.coins < 0) {
             this.coins = 0;
         }
     }
 
-    public isBlocking() {
+    public isBlocking() : boolean {
         return this.blocking;
     }
 
