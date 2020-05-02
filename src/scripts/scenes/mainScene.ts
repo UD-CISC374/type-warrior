@@ -42,7 +42,7 @@ export default class MainScene extends Phaser.Scene {
 
   // the last tracked WPM of the player
   private WPM: number;
-  private WPM_arr: Array<number>;
+  private numCommands: number;
 
   // the constructor for the scene
   constructor() {
@@ -96,8 +96,8 @@ export default class MainScene extends Phaser.Scene {
 
   // create function for the scene
   create() {
-    // set the array for wpm to be empty
-    this.WPM_arr = [];
+    // set the start numCommands to 0
+    this.numCommands = 0;
 
     // add the necessary input keys for the player to type
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -162,13 +162,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.suggestedCommands = this.checkContain();
     // update the display of the WPM
-    let WPM_average: number = 0;
-    if(this.WPM_arr.length == 0) {
-      this.WPMLabel.text = "Average WPM: 0";
-    } else {
-      WPM_average = this.get_WPM_average();
-      this.WPMLabel.text = "Average WPM: " + Math.round(WPM_average);
-    }
+    this.WPMLabel.text = "Average WPM: " + Math.round(this.WPM);
 
     // set the commandDisplay to default false
     this.commandDisplay.setVisible(false);
@@ -237,9 +231,12 @@ export default class MainScene extends Phaser.Scene {
     if (!Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
       return;
     }
-    this.timeWPM = this.time.now - this.timeWPM;
-    this.WPM = this.getWPM();
-    this.WPM_arr.push(this.WPM);
+
+    if(this.command_map.get(this.words) != undefined) {
+      this.timeWPM = this.time.now - this.timeWPM;
+      this.WPM = (this.WPM * this.numCommands + this.getWPM()) / (this.numCommands+1);
+      this.numCommands++;
+    }
 
     // spawns a new enemy if there is none and the player types in the correct command
     if (this.words == "fight onward!" && this.enemies.length == 0) {
@@ -278,13 +275,6 @@ export default class MainScene extends Phaser.Scene {
 
     // reset the player's entered words
     this.words = "";
-  }
-  get_WPM_average(): number {
-    let total: number = 0;
-    for(let i = 0; i < this.WPM_arr.length; ++i) {
-      total += this.WPM_arr[i];
-    }
-    return total / this.WPM_arr.length;
   }
 
   // listens for player input and update accordingly
