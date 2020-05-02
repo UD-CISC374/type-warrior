@@ -6,10 +6,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     private strength: number;
     private speed: number;
 
+    private blocking: boolean;
+    private block_timer: Phaser.GameObjects.Rectangle;
+    block_time: number;
+    private shield;
+
     private is_flipped: boolean;
     private commands: Map<string, boolean>;
     private coins: number;
-    private blocking: boolean;
     private health_bar: Phaser.GameObjects.Rectangle;
     private x_destination: number;
     private y_destination: number;
@@ -26,6 +30,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.is_flipped = false;
         this.commands = new Map();
         this.coins = 0;
+        this.block_time = this.scene.time.now;
         this.health_bar = new Phaser.GameObjects.Rectangle(this.scene, x + 5, y - 25, (this.health / this.maxHealth) * 75, 5, 0x00ff00);
         this.x_destination = this.x;
         this.y_destination = this.y;
@@ -43,6 +48,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             }
         } else {
             this.health_bar.destroy();
+        }
+
+        if(this.blocking){
+            this.block_timer.setX(this.x + 5);
+            this.block_timer.setY(this.y - 35)
+            if (this.block_timer.width != Math.round((((this.scene.time.now - this.block_time)/1000)/5) * 75)) {
+                this.block_timer.width -= 1;
+            }
+            if(this.block_timer.width < -100){
+                this.block_timer.setVisible(false);
+            }
         }
 
         // if the player is at where they are supposed to be at, do nothing
@@ -72,9 +88,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     public command(words: string) {
         if (words == "block") {
+            this.block_time = this.scene.time.now;
+
+            this.block_timer = new Phaser.GameObjects.Rectangle(this.scene, this.x + 5, this.y - 15, (((this.scene.time.now - this.block_time)/1000)/5) * 75, 5, 0x0000ff);
+            this.scene.add.existing(this.block_timer);
+
             this.blocking = true;
+            this.shield = this.scene.add.image(this.x, this.y+10, "shield");
+            this.shield.setScale(.15);
         } else {
+            this.block_timer.destroy();
             this.blocking = false;
+            this.shield.destroy();
         }
 
         if (words == "move left") {
