@@ -44,6 +44,8 @@ export default class MainScene extends Phaser.Scene {
   private WPM: number;
   private numCommands: number;
 
+  private tintTime: number;
+
   // the constructor for the scene
   constructor() {
     super({ key: 'MainScene' });
@@ -149,7 +151,11 @@ export default class MainScene extends Phaser.Scene {
     // check if the current typed thing is a typo
     if(this.check_typo()) {
       // if there is a typo, do something ...
+      this.tintTime = this.time.now;
+      this.background.setTint(0xff0000, 0xff0000, 0xff0000, 0xff0000);
       this.words = "";
+    }else if(this.time.now > (this.tintTime + 1000)){
+      this.background.clearTint();
     }
     this.player.move();
     if (!this.player.visible) {
