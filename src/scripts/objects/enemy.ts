@@ -27,6 +27,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.play("demon-idle");
                 this.max_health = 75;
                 this.current_health = 75;
+                this.setScale(1.5);
                 break;
             default:
                 // this.setTexture('knight-idle');
