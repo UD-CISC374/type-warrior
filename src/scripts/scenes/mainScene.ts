@@ -167,10 +167,14 @@ export default class MainScene extends Phaser.Scene {
     }else if(this.time.now > (this.tintTime + 1000)){
       this.background.clearTint();
     }
-    this.player.move();
+
     if (!this.player.visible) {
-      this.scene.start('MainMenuScene');
+      this.scene.start('EndGameScene', {WPM: this.WPM, typos: 0});
+      //this.scene.start('MainMenuScene');
     }
+    
+    this.player.move();
+    
     // checks if the player wants to open the shop
     if (this.words == "shop!") {
       this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level });
