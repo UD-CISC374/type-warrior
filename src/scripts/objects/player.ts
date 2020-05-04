@@ -1,4 +1,4 @@
-import Hitbox from "./hitbox";
+import Hitbox from "./fireball";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
 
@@ -19,7 +19,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     private health_bar: Phaser.GameObjects.Rectangle;
     private x_destination: number;
     private y_destination: number;
-    private melee_hitboxes: Array<Hitbox>;
 
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
