@@ -1,7 +1,9 @@
 import Player from "./player";
 import { Time } from "phaser";
+import Fireball from "./fireball";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
+    body: Phaser.Physics.Arcade.Body;
     // properties of an enemy
     private enemy_class: number;
     private max_health: number;
@@ -40,6 +42,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.lastAttack = scene.time.now;
         this.is_flipped = false;
         this.health_bar = new Phaser.GameObjects.Rectangle(this.scene, x + 10, y - 25, (this.current_health / this.max_health) * 75, 5, 0xff0000);
+        scene.physics.world.enableBody(this);
         this.scene.add.existing(this.health_bar);
         this.scene.add.existing(this);
     }
@@ -227,5 +230,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 player.stopBlock();
             }
         }
+    }
+
+    hit_with_fireball(fireball) {
+        this.current_health -= 50;
+    }
+
+    kill() {
+        this.health_bar.destroy();
+        this.destroy();
     }
 }

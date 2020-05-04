@@ -1,5 +1,6 @@
 import Player from '../objects/player';
 import Enemy from '../objects/enemy';
+import Fireball from '../objects/fireball';
 
 export default class MainScene extends Phaser.Scene {
   // the player
@@ -48,6 +49,9 @@ export default class MainScene extends Phaser.Scene {
 
   private tintTime: number;
 
+  // fireball group
+  private fireballs: Phaser.GameObjects.Group;
+
   // the constructor for the scene
   constructor() {
     super({ key: 'MainScene' });
@@ -62,6 +66,7 @@ export default class MainScene extends Phaser.Scene {
     // inititates the enemy over top the background
     this.current_enemy = new Enemy(this, 250, 100, 1);
     this.enemies = [];
+    //
     this.enemies.push(this.current_enemy);
 
     // check if the player is passed from another scene
@@ -150,6 +155,24 @@ export default class MainScene extends Phaser.Scene {
     this.critDisplay = this.add.bitmapText(this.scale.width - 175, this.scale.height - 10, "pixelFont", "WPM OVER 90; CRIT ACTIVATED", 16);
     this.critDisplay.tint = 0x000000;
     this.critDisplay.setVisible(false);
+
+    // inititate fireballs group
+    this.fireballs = this.add.group();
+    this.fireballs.runChildUpdate = true;
+
+    this.physics.add.overlap(this.enemies, this.fireballs, this.fireball_collision, undefined, this);
+  }
+  fireball_collision(enemy, fireball) {
+    enemy.hit_with_fireball();
+      fireball.destroy();
+      if(enemy.get_health() <= 0) {
+        let index = this.enemies.indexOf(enemy, 0);
+          if (index > -1) {
+            this.enemies.splice(index, 1);
+          }
+          
+          enemy.kill();
+      }
   }
 
   // the update function
@@ -296,6 +319,18 @@ export default class MainScene extends Phaser.Scene {
       }
     }
 
+    if(this.words.includes("fireball")) {
+      if(this.words.includes("forward")) {
+        this.fireballs.add(new Fireball(this,this.player, 0));
+      } else if(this.words.includes("right")) {
+        this.fireballs.add(new Fireball(this,this.player, 1));
+      } else if(this.words.includes("backward")) {
+        this.fireballs.add(new Fireball(this,this.player, 2));
+      } else if(this.words.includes("left")) {
+        this.fireballs.add(new Fireball(this,this.player, 3));
+      }
+    }
+
     // reset the player's entered words
     this.words = "";
   }
@@ -361,6 +396,10 @@ export default class MainScene extends Phaser.Scene {
   }
 
   check_typo(): boolean {
+    let EASTER_EGG: string = "plus ultra!";
+    if(EASTER_EGG.includes(this.words)) {
+      return false;
+    }
     let output = true;
     let temp_words = this.words;
     this.command_map.forEach(function (value, key) {
