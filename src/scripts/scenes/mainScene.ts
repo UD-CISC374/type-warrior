@@ -44,6 +44,7 @@ export default class MainScene extends Phaser.Scene {
   // the last tracked WPM of the player
   private WPM: number;
   private numCommands: number;
+  private typos: number;
 
   private tintTime: number;
 
@@ -95,6 +96,7 @@ export default class MainScene extends Phaser.Scene {
       this.update_commands();
     }
     this.level = data.level;
+    this.typos = 0;
   }
 
   // create function for the scene
@@ -161,6 +163,7 @@ export default class MainScene extends Phaser.Scene {
     // check if the current typed thing is a typo
     if(this.check_typo()) {
       // if there is a typo, do something ...
+      this.typos += 1;
       this.tintTime = this.time.now;
       this.background.setTint(0xff0000, 0xff0000, 0xff0000, 0xff0000);
       this.words = "";
@@ -169,7 +172,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     if (!this.player.visible) {
-      this.scene.start('EndGameScene', {WPM: this.WPM, typos: 0});
+      this.scene.start('EndGameScene', {WPM: this.WPM, typos: this.typos});
       //this.scene.start('MainMenuScene');
     }
     
