@@ -36,6 +36,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.health_bar = new Phaser.GameObjects.Rectangle(this.scene, x + 5, y - 25, (this.health / this.maxHealth) * 75, 5, 0x00ff00);
         this.x_destination = this.x;
         this.y_destination = this.y;
+        this.setDepth(1);
+        this.health_bar.setDepth(1);
         scene.add.existing(this.health_bar);
         scene.add.existing(this);
     }

@@ -30,6 +30,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.max_health = 75;
                 this.current_health = 75;
                 this.setScale(1.5);
+                this.setOrigin(.5, .65);
                 break;
             default:
                 // this.setTexture('knight-idle');
@@ -100,7 +101,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             }
         } else {
             if (this.x == player.x) {
-                this.y += .25;
+                this.y = player.y + 25;
+            } else if (this.y == player.y) {
+                this.x += .25;
             } else {
                 this.x += .25;
             }
