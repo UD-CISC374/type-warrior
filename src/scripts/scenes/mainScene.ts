@@ -24,6 +24,7 @@ export default class MainScene extends Phaser.Scene {
   private fightDisplay: Phaser.GameObjects.BitmapText;
   private suggestDisplay: Phaser.GameObjects.BitmapText;
   private suggestCommandsDisplay: Phaser.GameObjects.BitmapText;
+  private critDisplay: Phaser.GameObjects.BitmapText;
 
   // Command storage 
   private commands: string[];
@@ -144,10 +145,19 @@ export default class MainScene extends Phaser.Scene {
     this.fightDisplay.tint = 0x00000;
     this.suggestDisplay = this.add.bitmapText(10, this.scale.height - 30, "pixelFont", "try 'shop' or 'help", 20);
     this.suggestDisplay.tint = 0x00000;
+    this.critDisplay = this.add.bitmapText(this.scale.width - 175, this.scale.height - 10, "pixelFont", "WPM OVER 90; CRIT ACTIVATED", 16);
+    this.critDisplay.tint = 0x000000;
+    this.critDisplay.setVisible(false);
   }
 
   // the update function
   update() {
+    // display critdisplay?
+    if(this.WPM > 90) {
+      this.critDisplay.setVisible(true);
+    } else {
+      this.critDisplay.setVisible(false);
+    }
     // check if the current typed thing is a typo
     if(this.check_typo()) {
       // if there is a typo, do something ...
@@ -268,7 +278,7 @@ export default class MainScene extends Phaser.Scene {
       // checks if the enemy is attacked by the command
       for (let i = 0; i < this.enemies.length; i++) {
         this.current_enemy = this.enemies[i];
-        if (this.current_enemy.hit_enemy(this.player, this.words)) {
+        if (this.current_enemy.hit_enemy(this.player, this.words, this.WPM)) {
           this.enemies[i].setActive(false);
           let index = this.enemies.indexOf(this.enemies[i], 0);
           if (index > -1) {

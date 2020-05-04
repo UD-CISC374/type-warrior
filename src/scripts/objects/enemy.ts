@@ -130,30 +130,36 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    public hit_enemy(player: Player, words: string): boolean {
+    public hit_enemy(player: Player, words: string, WPM: number): boolean {
+        let wpm_mult: number;
+        if(WPM > 90) {
+            wpm_mult = 2;
+        } else {
+            wpm_mult = 1;
+        }
         if ((this.x > player.x) && (this.x < player.x + 50) && (this.y < player.y + 25) && (this.y > player.y - 25)) {
             if (words == "attack right") {
-                this.current_health -= (10 * player.get_strength());
+                this.current_health -= (10 * player.get_strength() * wpm_mult);
             } else if (words == "attack right with sword") {
-                this.current_health -= 30;
+                this.current_health -= 30 * wpm_mult;
             }
         } else if ((this.x < player.x) && (this.x > player.x - 50) && (this.y < player.y + 25) && (this.y > player.y - 25)) {
             if (words == "attack left") {
-                this.current_health -= 10;
+                this.current_health -= 10 * wpm_mult;
             } else if (words == "attack left with sword") {
-                this.current_health -= 30;
+                this.current_health -= 30 * wpm_mult;
             }
         } else if ((this.y < player.y) && (this.y > player.y - 50) && (this.x < player.x + 25) && (this.x > player.x - 25)) {
             if (words == "attack forward") {
-                this.current_health -= 10;
+                this.current_health -= 10 * wpm_mult;
             } else if (words == "attack forward with sword") {
-                this.current_health -= 30;
+                this.current_health -= 30 * wpm_mult;
             }
         } else if ((this.y > player.y) && (this.y < player.y + 50) && (this.x < player.x + 25) && (this.x > player.x - 25)) {
             if (words == "attack backward") {
-                this.current_health -= 10;
+                this.current_health -= 10 * wpm_mult;
             } else if (words == "attack backward with sword") {
-                this.current_health -= 30;
+                this.current_health -= 30 * wpm_mult;
             }
         }
 
