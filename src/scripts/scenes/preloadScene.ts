@@ -56,7 +56,7 @@ export default class PreloadScene extends Phaser.Scene {
 
     this.load.spritesheet("demon_move", "assets/spritesheets/demon-run.png", {
       frameWidth: 100,
-      frameHeight:70
+      frameHeight: 70
     });
 
     this.load.spritesheet("minotaur-idle", "assets/spritesheets/Minotaur.png", {
@@ -210,7 +210,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.commands.set("cast fireball backward", ["casts fireball backward", false, 75]);
 
     // start the main menu scene and pass it the commands list
-    let start_level:number = 1;
+    let start_level: number = 1;
     this.scene.start('MainMenuScene', { commands: this.commands, level: start_level });
   }
 }

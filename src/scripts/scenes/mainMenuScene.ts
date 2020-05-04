@@ -57,7 +57,7 @@ export default class MainScene extends Phaser.Scene {
         // if there is a save game on file, allow loading the save with load or auto loading the most recent save with continue
         if (temp_bool) {
             this.menuOptions = ["Type one of the following...\n     Continue\n     New Game\n     Load\n     Help"];
-        // otherwise display the only the new game option and the help option where you can view the basic information about how to play the game
+            // otherwise display the only the new game option and the help option where you can view the basic information about how to play the game
         } else {
             this.menuOptions = ["Type one of the following...\n     New Game\n      Help"];
         }
@@ -83,10 +83,10 @@ export default class MainScene extends Phaser.Scene {
                 break;
             case 2:
                 // if the player selected help, then listen to see if they press enter to go back to the options list
-                if (this.words != "" || Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])||
-                this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.BACKSPACE].isDown) {
+                if (this.words != "" || Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER]) ||
+                    this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.BACKSPACE].isDown) {
                     this.menuLabel.setText(this.menuOptions);
-                    this.menuLabel.setX(this.scale.width/4);
+                    this.menuLabel.setX(this.scale.width / 4);
                     this.menuOption = 0;
                     this.words = "";
                 }

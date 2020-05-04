@@ -49,19 +49,19 @@ export default class shopScene extends Phaser.Scene {
         this.wordLabel = this.add.bitmapText(10, 5, "pixelFont", "Command", 16);
         this.wordLabel.tint = 0xff6611;
         this.words = "";
-        this.shopExplanation = this.add.bitmapText(10, 25, "pixelFont", 
-        "To open the list of items you can buy, type shoplist," +
-        "\nHeal displays the cost to fully heal back up to your max health" +
-        "\nto heal, type heal and it will take either the amount to fully heal" +
-        "\nif you have enough, or all of your coins and heal at a fraction" +
-        "\nof your health proportionate to the price you pay," +
-        "\nTo buy a command listed in the shoplist, type" +
-        "\n'buy' + the command you want to buy," +
-        "\nType exit to exit the shop", 16);
+        this.shopExplanation = this.add.bitmapText(10, 25, "pixelFont",
+            "To open the list of items you can buy, type shoplist," +
+            "\nHeal displays the cost to fully heal back up to your max health" +
+            "\nto heal, type heal and it will take either the amount to fully heal" +
+            "\nif you have enough, or all of your coins and heal at a fraction" +
+            "\nof your health proportionate to the price you pay," +
+            "\nTo buy a command listed in the shoplist, type" +
+            "\n'buy' + the command you want to buy," +
+            "\nType exit to exit the shop", 16);
         this.shopExplanation.tint = 0xff6611;
 
 
-        this.coinDisplay = this.add.bitmapText(10, this.scale.height-20, "pixelFont", "Coins", 20);
+        this.coinDisplay = this.add.bitmapText(10, this.scale.height - 20, "pixelFont", "Coins", 20);
         this.coinDisplay.setText("Coins: " + this.player.get_coins());
         this.coinDisplay.tint = 0xff6611;
 
@@ -89,15 +89,15 @@ export default class shopScene extends Phaser.Scene {
         });
         this.shoplist = temp_shoplist;
 
-        if(Phaser.Input.Keyboard.JustUp(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
-            if(this.words == "Not Enough Coins!") {
+        if (Phaser.Input.Keyboard.JustUp(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER])) {
+            if (this.words == "Not Enough Coins!") {
                 this.words = "";
             }
-            if(this.words == "upgrade strength"){
-                if(this.player.get_coins() >= (this.player.get_strength() * 10)){
+            if (this.words == "upgrade strength") {
+                if (this.player.get_coins() >= (this.player.get_strength() * 10)) {
                     this.player.subtract_coins((this.player.get_strength() * 10));
                     this.player.addStrength(1);
-                }else{
+                } else {
                     this.words = "Not Enough Coins!";
                 }
             }
@@ -112,7 +112,7 @@ export default class shopScene extends Phaser.Scene {
                 this.shopExplanation.setVisible(true);
                 this.words = "";
             } else if (this.words == "help") {
-    
+
             } else if (this.words == "heal") {
                 if (this.player.get_coins() < this.heal_player) {
                     this.player.heal(this.player.get_coins() * 2);
@@ -125,13 +125,13 @@ export default class shopScene extends Phaser.Scene {
                 }
                 this.words = "";
             }
-    
+
             let temp_words: string = this.words;
             let temp_player: Player = this.player;
             let temp_commands: Map<string, number> = this.command_shopList;
             this.command_shopList.forEach(function (value, key) {
                 if (temp_words == ("buy " + key)) {
-                    if(!(temp_player.get_coins() >= value)) {
+                    if (!(temp_player.get_coins() >= value)) {
                         temp_words = "Not Enough Coins!";
                     } else {
                         temp_player.add_command(key, true);
@@ -144,7 +144,7 @@ export default class shopScene extends Phaser.Scene {
             this.player = temp_player;
             this.command_shopList = temp_commands;
 
-            if(this.words != "Not Enough Coins!") {
+            if (this.words != "Not Enough Coins!") {
                 this.words = "";
             }
         }

@@ -66,8 +66,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         let temp_x: number = this.x;
         let temp_y: number = this.y;
 
-        if(!(this.x < player.x + 25 && this.x > player.x - 25 && this.y < player.y + 25 && this.y > player.y - 25)) {
-            if(this.y != player.y) {
+        if (!(this.x < player.x + 25 && this.x > player.x - 25 && this.y < player.y + 25 && this.y > player.y - 25)) {
+            if (this.y != player.y) {
                 if (this.x < player.x) {
                     this.x += .25;
                     if (this.is_flipped) { this.setFlipX(false); this.is_flipped = false; }
@@ -84,8 +84,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     if (!this.is_flipped) { this.setFlipX(true); this.is_flipped = true; }
                 }
             }
-    
-            if(this.x != player.x) {
+
+            if (this.x != player.x) {
                 if (this.y < player.y) {
                     this.y += .25;
                 } else if (this.y > player.y) {
@@ -99,7 +99,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         } else {
-            if(this.x == player.x) {
+            if (this.x == player.x) {
                 this.y += .25;
             } else {
                 this.x += .25;
@@ -135,7 +135,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     public hit_enemy(player: Player, words: string, WPM: number): boolean {
         let wpm_mult: number;
-        if(WPM > 90) {
+        if (WPM > 90) {
             wpm_mult = 2;
         } else {
             wpm_mult = 1;

@@ -51,7 +51,7 @@ export default class Fireball extends Phaser.Physics.Arcade.Sprite {
                 break;
         }
 
-        if(this.y > this.scene.scale.height || this.x > this.scene.scale.width || this.y < 0 || this.x < 0) {
+        if (this.y > this.scene.scale.height || this.x > this.scene.scale.width || this.y < 0 || this.x < 0) {
             this.destroy();
         }
     }

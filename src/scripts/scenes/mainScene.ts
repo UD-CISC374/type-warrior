@@ -64,10 +64,7 @@ export default class MainScene extends Phaser.Scene {
     this.background.setOrigin(0, 0);
 
     // inititates the enemy over top the background
-    this.current_enemy = new Enemy(this, 250, 100, 1);
     this.enemies = [];
-    //
-    this.enemies.push(this.current_enemy);
 
     // check if the player is passed from another scene
     if (data.player == undefined) {
@@ -164,43 +161,43 @@ export default class MainScene extends Phaser.Scene {
   }
   fireball_collision(enemy, fireball) {
     enemy.hit_with_fireball();
-      fireball.destroy();
-      if(enemy.get_health() <= 0) {
-        let index = this.enemies.indexOf(enemy, 0);
-          if (index > -1) {
-            this.enemies.splice(index, 1);
-          }
-          
-          enemy.kill();
+    fireball.destroy();
+    if (enemy.get_health() <= 0) {
+      let index = this.enemies.indexOf(enemy, 0);
+      if (index > -1) {
+        this.enemies.splice(index, 1);
       }
+
+      enemy.kill();
+    }
   }
 
   // the update function
   update() {
     // display critdisplay?
-    if(this.WPM > 90) {
+    if (this.WPM > 90) {
       this.critDisplay.setVisible(true);
     } else {
       this.critDisplay.setVisible(false);
     }
     // check if the current typed thing is a typo
-    if(this.check_typo()) {
+    if (this.check_typo()) {
       // if there is a typo, do something ...
       this.typos += 1;
       this.tintTime = this.time.now;
       this.background.setTint(0xff0000, 0xff0000, 0xff0000, 0xff0000);
       this.words = "";
-    }else if(this.time.now > (this.tintTime + 1000)){
+    } else if (this.time.now > (this.tintTime + 1000)) {
       this.background.clearTint();
     }
 
     if (!this.player.visible) {
-      this.scene.start('EndGameScene', {WPM: this.WPM, typos: this.typos});
+      this.scene.start('EndGameScene', { WPM: this.WPM, typos: this.typos });
       //this.scene.start('MainMenuScene');
     }
-    
+
     this.player.move();
-    
+
     // checks if the player wants to open the shop
     if (this.words == "shop!") {
       this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level });
@@ -278,24 +275,28 @@ export default class MainScene extends Phaser.Scene {
       return;
     }
 
-    if(this.command_map.get(this.words) != undefined) {
+    if (this.command_map.get(this.words) != undefined) {
       this.timeWPM = this.time.now - this.timeWPM;
-      this.WPM = (this.WPM * this.numCommands + this.getWPM()) / (this.numCommands+1);
+      this.WPM = (this.WPM * this.numCommands + this.getWPM()) / (this.numCommands + 1);
       this.numCommands++;
     }
 
     // spawns a new enemy if there is none and the player types in the correct command
     if (this.words == "fight onward!" && this.enemies.length == 0) {
-      this.enemies = [];
-      for (let i = 0; i < this.level; i++) {
-        let x = Math.random() * 500;
-        let y = Math.random() * 500;
-        let z = Phaser.Math.Between(0, 1);
-        this.current_enemy = new Enemy(this, x, y, z);
+      if (this.level == 1) {
+        this.current_enemy = new Enemy(this, 250, 100, 1);
         this.enemies.push(this.current_enemy);
+      } else {
+        this.enemies = [];
+        for (let i = 0; i < this.level / 2; i++) {
+          let x = Math.random() * 500;
+          let y = Math.random() * 500;
+          let z = Phaser.Math.Between(0, 1);
+          this.current_enemy = new Enemy(this, x, y, z);
+          this.enemies.push(this.current_enemy);
+        }
       }
       this.words = "";
-      this.level += 1;
     }
 
     //EASTER EGG
@@ -317,17 +318,20 @@ export default class MainScene extends Phaser.Scene {
           this.player.add_coins(this.current_enemy.get_coins());
         }
       }
+      if (this.enemies.length == 0) {
+        this.level += 1;
+      }
     }
 
-    if(this.words.includes("fireball")) {
-      if(this.words.includes("forward")) {
-        this.fireballs.add(new Fireball(this,this.player, 0));
-      } else if(this.words.includes("right")) {
-        this.fireballs.add(new Fireball(this,this.player, 1));
-      } else if(this.words.includes("backward")) {
-        this.fireballs.add(new Fireball(this,this.player, 2));
-      } else if(this.words.includes("left")) {
-        this.fireballs.add(new Fireball(this,this.player, 3));
+    if (this.words.includes("fireball")) {
+      if (this.words.includes("forward")) {
+        this.fireballs.add(new Fireball(this, this.player, 0));
+      } else if (this.words.includes("right")) {
+        this.fireballs.add(new Fireball(this, this.player, 1));
+      } else if (this.words.includes("backward")) {
+        this.fireballs.add(new Fireball(this, this.player, 2));
+      } else if (this.words.includes("left")) {
+        this.fireballs.add(new Fireball(this, this.player, 3));
       }
     }
 
@@ -397,13 +401,13 @@ export default class MainScene extends Phaser.Scene {
 
   check_typo(): boolean {
     let EASTER_EGG: string = "plus ultra!";
-    if(EASTER_EGG.includes(this.words)) {
+    if (EASTER_EGG.includes(this.words)) {
       return false;
     }
     let output = true;
     let temp_words = this.words;
     this.command_map.forEach(function (value, key) {
-      if(key.includes(temp_words) && value[1]) {
+      if (key.includes(temp_words) && value[1]) {
         output = false;
       }
     });
