@@ -44,6 +44,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/images/desert.png"
   },
   {
+    "revision": "8b085129891bf4c117817a29c122e9f4",
+    "url": "assets/images/shield.png"
+  },
+  {
     "revision": "f00b0e14a61c209d8ae5ab05a9a07dc3",
     "url": "assets/images/shop_background.jpg"
   },
@@ -53,15 +57,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   },
   {
     "revision": "528c6775a54486859aa17d71525a2bed",
-    "url": "assets/spritesheets/Minotaur - Sprite Sheet.png"
+    "url": "assets/spritesheets/Minotaur.png"
   },
   {
     "revision": "4f6b0b46717a7913ad3e272733107f11",
-    "url": "assets/spritesheets/adventurer-hand-combat-Sheet.png"
+    "url": "assets/spritesheets/adv-h2h.png"
   },
   {
     "revision": "c363b13c7ba5b60c6d9e1bde3213afe3",
-    "url": "assets/spritesheets/adventurer-v1.5-Sheet.png"
+    "url": "assets/spritesheets/adv.png"
   },
   {
     "revision": "652e9f53d2b03843b97b2658d78c9852",
@@ -74,6 +78,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "be6625892b3fdc2107673ef6d08f9dbe",
     "url": "assets/spritesheets/demon-run.png"
+  },
+  {
+    "revision": "c945fd96f4c6f4fc0fbb8714ad8f13e6",
+    "url": "assets/spritesheets/fireball_LR.png"
+  },
+  {
+    "revision": "4afca47d754ecf4970750b83708ed523",
+    "url": "assets/spritesheets/fireball_UD.png"
   },
   {
     "revision": "cc3cd02006ea4d35ec01ed21fefc2b2f",
@@ -89,11 +101,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   },
   {
     "revision": "9d9c9481e0f99bacdb0de4dcdd0d2ec7",
-    "url": "assets/spritesheets/knight-sprite-sheet.png"
+    "url": "assets/spritesheets/knight.png"
   },
   {
     "revision": "c48885871ae6d8e4ecf105b30d4f3fe3",
     "url": "assets/spritesheets/magic_cast.png"
+  },
+  {
+    "revision": "71b040ee28e73a6945671cdbaf1d7046",
+    "url": "assets/spritesheets/player_move.png"
   },
   {
     "revision": "605c57a77e3f51c1aeda5a8e27836e96",
@@ -108,12 +124,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "favicon.ico"
   },
   {
-    "revision": "a1658b7dee3114c627debecda1f3e04a",
+    "revision": "5c3b2e08b7f2eb09773ef7a1a240e650",
     "url": "index.html"
   },
   {
-    "revision": "fa4b9468e84d658c4508",
-    "url": "main.92286bddd0ccdce8c482.bundle.js"
+    "revision": "a41f5c85826361c2cb10",
+    "url": "main.97d0c24029601b0ed39b.bundle.js"
   },
   {
     "revision": "003187cab0ecf7a20e343e2ba6db4a34",
