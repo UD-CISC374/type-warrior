@@ -112,6 +112,11 @@ export default class MainScene extends Phaser.Scene {
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    
     for (let i: number = Phaser.Input.Keyboard.KeyCodes.A; i <= Phaser.Input.Keyboard.KeyCodes.Z; i++) {
       this.input.keyboard.addKey(i);
     }
@@ -174,6 +179,23 @@ export default class MainScene extends Phaser.Scene {
 
   // the update function
   update() {
+    let up: boolean = this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.UP].isDown;
+    let down: boolean = this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.DOWN].isDown;
+    let left: boolean = this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.LEFT].isDown;
+    let right: boolean = this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.RIGHT].isDown;
+    if (up) {
+      this.player.movement("up");
+    } else if (down) {
+      this.player.movement("down");
+    }
+    if (left) {
+      this.player.movement("left");
+    } else if (right) {
+      this.player.movement("right");
+    } 
+    if (!up && !down && !left && !right) {
+      this.player.movement("");
+    }
     // display critdisplay?
     if (this.WPM > 90) {
       this.critDisplay.setVisible(true);
@@ -412,5 +434,20 @@ export default class MainScene extends Phaser.Scene {
       }
     });
     return output;
+  }
+
+  move_player () {
+    if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.UP])) {
+      this.player.movement("up");
+    }
+    if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.DOWN])) {
+      this.player.movement("down");
+    }
+    if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.LEFT])) {
+      this.player.movement("left");
+    }
+    if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.RIGHT])) {
+      this.player.movement("right");
+    }
   }
 }

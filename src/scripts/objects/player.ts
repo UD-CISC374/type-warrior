@@ -90,6 +90,40 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
+    movement (direction: string) {
+        if (direction == "up") {
+            this.y -= .5;
+            this.y_destination = this.y;
+            if (this.anims.getCurrentKey() != "player_move_anim") {
+                this.play("player_move_anim");
+            }
+        } else if (direction == "down") {
+            this.y += .5;
+            this.y_destination = this.y;
+            if (this.anims.getCurrentKey() != "player_move_anim") {
+                this.play("player_move_anim");
+            }
+        } else if(direction == "left") {
+            this.setFlipX(true);
+            this.x -= .5;
+            this.x_destination = this.x;
+            if (this.anims.getCurrentKey() != "player_move_anim") {
+                this.play("player_move_anim");
+            }
+        } else if(direction == "right") {
+            this.setFlipX(false);
+            this.x += .5;
+            this.x_destination = this.x;
+            if (this.anims.getCurrentKey() != "player_move_anim") {
+                this.play("player_move_anim");
+            }
+        } else {
+            if(this.anims.getCurrentKey() != "idle_anim") {
+                this.play("idle_anim");
+            }
+        }
+    }
+
     public command(words: string): boolean {
         if (words == "block") {
             this.shield = this.scene.add.image(this.x, this.y + 10, "shield");
