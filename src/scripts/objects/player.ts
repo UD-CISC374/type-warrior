@@ -118,7 +118,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 this.play("player_move_anim");
             }
         } else {
-            if(this.anims.getCurrentKey() != "idle_anim") {
+            if(this.anims.getCurrentKey() != "idle_anim" && !this.anims.getCurrentKey().includes("attack") && !this.anims.getCurrentKey().includes("cast")) {
                 this.play("idle_anim");
             }
         }
@@ -155,13 +155,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             return true;
         }
 
-        if (words == "move forward") {
+        if (words == "move up") {
             this.y_destination = this.y - 25;
             this.play("player_move_anim");
             return true;
         }
 
-        if (words == "move backward") {
+        if (words == "move down") {
             this.y_destination = this.y + 25;
             this.play("player_move_anim");
             return true;
@@ -193,7 +193,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             return true;
         }
 
-        if (words == "attack forward") {
+        if (words == "attack up") {
             this.play('attack_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
@@ -227,14 +227,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             });
             return true;
         }
-        if ((words == "attack forward with sword") && (this.commands.get("attack forward with sword") != undefined)) {
+        if ((words == "attack up with sword") && (this.commands.get("attack up with sword") != undefined)) {
             this.play('sword-attack_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
             });
             return true;
         }
-        if ((words == "attack backward with sword") && (this.commands.get("attack backward with sword") != undefined)) {
+        if ((words == "attack down with sword") && (this.commands.get("attack down with sword") != undefined)) {
             this.play('sword-attack_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
@@ -259,14 +259,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             });
             return true;
         }
-        if ((words == "cast fireball forward") && (this.commands.get("cast fireball forward") != undefined)) {
+        if ((words == "cast fireball up") && (this.commands.get("cast fireball up") != undefined)) {
             this.play('magic_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
             });
             return true;
         }
-        if ((words == "cast fireball backward") && (this.commands.get("cast fireball backward") != undefined)) {
+        if ((words == "cast fireball down") && (this.commands.get("cast fireball down") != undefined)) {
             this.play('magic_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");

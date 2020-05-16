@@ -184,8 +184,8 @@ export default class PreloadScene extends Phaser.Scene {
     // movement commands
     this.commands.set("move left", ["Move your character to the left", true, 0]);
     this.commands.set("move right", ["Move your character to the right", true, 0]);
-    this.commands.set("move forward", ["Advance your character forwards", true, 0]);
-    this.commands.set("move backward", ["Retreat backwards", true, 0]);
+    this.commands.set("move up", ["Advance your character up", true, 0]);
+    this.commands.set("move down", ["Retreat down", true, 0]);
     this.commands.set("turn around", ["Rotate your character 180", true, 0]);
 
 
@@ -193,21 +193,21 @@ export default class PreloadScene extends Phaser.Scene {
     // default attack commands (punches)
     this.commands.set("attack left", ["attack to the left direction", true, 0]);
     this.commands.set("attack right", ["attack to the right direction", true, 0]);
-    this.commands.set("attack forward", ["attack in front", true, 0]);
-    this.commands.set("attack backward", ["attack behind you", true, 0]);
+    this.commands.set("attack up", ["attack upward", true, 0]);
+    this.commands.set("attack down", ["attack behind you", true, 0]);
     this.commands.set("block", ["Take 0 damage while the shield timer is up", true, 0]);
 
     // purchasable commands
     // sword commands
     this.commands.set("attack left with sword", ["attack to the left direction", false, 45]);
     this.commands.set("attack right with sword", ["attack to the right direction with a sword", false, 45]);
-    this.commands.set("attack forward with sword", ["attack in front", false, 45]);
-    this.commands.set("attack backward with sword", ["attack behind you", false, 45]);
+    this.commands.set("attack up with sword", ["attack in front", false, 45]);
+    this.commands.set("attack up with sword", ["attack behind you", false, 45]);
     // magic commands
     this.commands.set("cast fireball left", ["casts fireball in the left direction", false, 75]);
     this.commands.set("cast fireball right", ["casts fireball in the right direction", false, 75]);
-    this.commands.set("cast fireball forward", ["casts fireball forward", false, 75]);
-    this.commands.set("cast fireball backward", ["casts fireball backward", false, 75]);
+    this.commands.set("cast fireball up", ["casts fireball up", false, 75]);
+    this.commands.set("cast fireball down", ["casts fireball down", false, 75]);
 
     // start the main menu scene and pass it the commands list
     let start_level: number = 1;
