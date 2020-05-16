@@ -59,7 +59,7 @@ export default class MainScene extends Phaser.Scene {
             this.menuOptions = ["Type one of the following...\n     Continue\n     New Game\n     Load\n     Help"];
             // otherwise display the only the new game option and the help option where you can view the basic information about how to play the game
         } else {
-            this.menuOptions = ["Type one of the following...\n     New Game\n      Help"];
+            this.menuOptions = ["Type one of the following...\n     New Game"];
         }
         this.menuLabel.setText(this.menuOptions);
     }
