@@ -21,14 +21,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 // this.setTexture('knight-idle');
                 this.enemy_class = 0;
                 this.play("knight-idle");
-                this.max_health = 50;
-                this.current_health = 50;
+                this.max_health = 25;
+                this.current_health = 25;
                 break;
             case 1:
                 this.enemy_class = 1;
                 this.play("demon-idle");
-                this.max_health = 75;
-                this.current_health = 75;
+                this.max_health = 40;
+                this.current_health = 40;
                 this.setScale(1.5);
                 this.setOrigin(.5, .65);
                 break;
@@ -36,8 +36,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 // this.setTexture('knight-idle');
                 this.enemy_class = 0;
                 this.play("knight-idle");
-                this.max_health = 50;
-                this.current_health = 50;
+                this.max_health = 25;
+                this.current_health = 25;
                 break;
         };
         this.lastAttack = scene.time.now;
