@@ -26,6 +26,7 @@ export default class MainScene extends Phaser.Scene {
   private suggestDisplay: Phaser.GameObjects.BitmapText;
   private suggestCommandsDisplay: Phaser.GameObjects.BitmapText;
   private critDisplay: Phaser.GameObjects.BitmapText;
+  private typoDisplay: Phaser.GameObjects.BitmapText;
 
   // Command storage 
   private commands: string[];
@@ -157,6 +158,8 @@ export default class MainScene extends Phaser.Scene {
     this.critDisplay = this.add.bitmapText(this.scale.width - 175, this.scale.height - 10, "pixelFont", "WPM OVER 90; CRIT ACTIVATED", 16);
     this.critDisplay.tint = 0x000000;
     this.critDisplay.setVisible(false);
+    this.typoDisplay = this.add.bitmapText(this.scale.width/4, this.scale.height/2, "pixelFont", "OH NO! TYPO!", 50);
+    this.typoDisplay.setVisible(false);
 
     // inititate fireballs group
     this.fireballs = this.add.group();
@@ -209,8 +212,10 @@ export default class MainScene extends Phaser.Scene {
       this.tintTime = this.time.now;
       this.background.setTint(0xff0000, 0xff0000, 0xff0000, 0xff0000);
       this.words = "";
+      this.typoDisplay.setVisible(true);
     } else if (this.time.now > (this.tintTime + 1000)) {
       this.background.clearTint();
+      this.typoDisplay.setVisible(false);
     }
 
     if (!this.player.visible) {
