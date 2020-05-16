@@ -195,7 +195,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.commands.set("attack right", ["attack to the right direction", true, 0]);
     this.commands.set("attack forward", ["attack in front", true, 0]);
     this.commands.set("attack backward", ["attack behind you", true, 0]);
-    this.commands.set("block", ["Take 0 damage until another command is entered", true, 0]);
+    this.commands.set("block", ["Take 0 damage while the shield timer is up", true, 0]);
 
     // purchasable commands
     // sword commands
