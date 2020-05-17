@@ -77,6 +77,9 @@ export default class MainScene extends Phaser.Scene {
 
   // init function. Allows passing the player object between scenes
   init(data) {
+    if (data.tutorial == undefined) {
+      this.inTutorial = true;
+    }
     // initiate the background as the back most image
     this.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, "background");
     this.background.setOrigin(0, 0);
@@ -121,8 +124,6 @@ export default class MainScene extends Phaser.Scene {
 
   // create function for the scene
   create() {
-    // start the game in the tutorial
-    this.inTutorial = true;
 
     // set the tutorial array full of commands that need to be performed
     this.tutorialCommands = new Array<string>();
