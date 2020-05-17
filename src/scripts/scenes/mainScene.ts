@@ -365,8 +365,10 @@ export default class MainScene extends Phaser.Scene {
     }
 
     // checks if the player wants to open the shop
-    if (this.words == "shop!") {
+    if (this.words == "shop!" && this.enemies.length == 0) {
       this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level });
+    } else if (this.words == "shop!") {
+      this.words = ""; 
     }
 
     this.suggestedCommands = this.checkContain();
