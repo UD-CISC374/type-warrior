@@ -45,13 +45,30 @@ export default class MainScene extends Phaser.Scene {
 
   // the last tracked WPM of the player
   private WPM: number;
+
+  // the number of commands that have been entered for calculating WPM
   private numCommands: number;
+
+  // typo counter
   private typos: number;
 
+  // timer for the typo red tint
   private tintTime: number;
 
   // fireball group
   private fireballs: Phaser.GameObjects.Group;
+
+  // boolean for tutorial
+  private inTutorial: boolean;
+
+  // array to hold commands for tutorial
+  private tutorialCommands: Array<string>;
+
+  // counter for movement in tutorial
+  private tutorialMove: number;
+
+  // display for tutorial text
+  private tutorialLabel: Phaser.GameObjects.BitmapText;
 
   // the constructor for the scene
   constructor() {
@@ -104,6 +121,29 @@ export default class MainScene extends Phaser.Scene {
 
   // create function for the scene
   create() {
+    // start the game in the tutorial
+    this.inTutorial = true;
+
+    // set the tutorial array full of commands that need to be performed
+    this.tutorialCommands = new Array<string>();
+    this.tutorialCommands.push("" + "help");
+    this.tutorialCommands.push("" + "shop!");
+    this.tutorialCommands.push("" + "block");
+    this.tutorialCommands.push("" + "attack right");
+    this.tutorialCommands.push("" + "attack left");
+    this.tutorialCommands.push("" + "attack down");
+    this.tutorialCommands.push("" + "attack up");
+    this.tutorialCommands.push("right");
+    this.tutorialCommands.push("left");
+    this.tutorialCommands.push("down");
+    this.tutorialCommands.push("up");
+
+    // set the tutorial movement counter to 0
+    this.tutorialMove = 0;
+
+    // initiate the tutorial label
+    this.tutorialLabel = this.add.bitmapText(100,75,"pixelFont", "",16);
+
     // set the start numCommands to 0
     this.numCommands = 0;
 
@@ -117,7 +157,7 @@ export default class MainScene extends Phaser.Scene {
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-    
+
     for (let i: number = Phaser.Input.Keyboard.KeyCodes.A; i <= Phaser.Input.Keyboard.KeyCodes.Z; i++) {
       this.input.keyboard.addKey(i);
     }
@@ -158,7 +198,7 @@ export default class MainScene extends Phaser.Scene {
     this.critDisplay = this.add.bitmapText(this.scale.width - 175, this.scale.height - 10, "pixelFont", "WPM OVER 90; CRIT ACTIVATED", 16);
     this.critDisplay.tint = 0x000000;
     this.critDisplay.setVisible(false);
-    this.typoDisplay = this.add.bitmapText(this.scale.width/4, this.scale.height/2, "pixelFont", "OH NO! TYPO!", 50);
+    this.typoDisplay = this.add.bitmapText(this.scale.width / 4, this.scale.height / 2, "pixelFont", "OH NO! TYPO!", 50);
     this.typoDisplay.setVisible(false);
 
     // inititate fireballs group
@@ -182,6 +222,56 @@ export default class MainScene extends Phaser.Scene {
 
   // the update function
   update() {
+    if (this.inTutorial) {
+      this.player.move();
+      this.update_tutorialLabel();
+      this.wordLabel.text = "Command:    " + this.words;  
+      let next_comm: string = this.tutorialCommands[this.tutorialCommands.length - 1];
+
+      if ((next_comm == "up" && this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.UP].isDown) ||
+        (next_comm == "down" && this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.DOWN].isDown) ||
+        (next_comm == "left" && this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.LEFT].isDown) ||
+        (next_comm == "right" && this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.RIGHT].isDown)) {
+        this.player.movement(next_comm);
+        this.tutorialMove++;
+        this.words = "";
+        if (this.tutorialMove == 50) {
+          // stop movement
+          this.player.movement("");
+          // reset the tutorail movement counter to 0
+          this.tutorialMove = 0;
+          // remove the command
+          this.tutorialCommands.pop();
+        }
+        return;
+      }
+      if(this.tutorialLabel.text == "This would open up the shop for you to \nupgrade and heal! \nPress backspace to clear message") {
+        return;
+      }
+      this.addLetters();
+      if (this.check_typo()) {
+        this.words = "";
+      } else if (this.words == next_comm) {
+        this.wordLabel.text = "true";
+        if (next_comm == ("" + "shop!")) {
+          this.tutorialLabel.text = "This would open up the shop for you to \nupgrade and heal! \nPress backspace to clear message";
+        } else if (next_comm == ("" + "help")) {
+          this.tutorialCommands.pop();
+          if(this.tutorialCommands.length == 0) {
+            this.tutorialLabel.setVisible(false);
+          }
+        } else {
+          this.player.command(next_comm);
+          this.words = "";
+          this.tutorialCommands.pop();
+        }
+      }
+      if (this.tutorialCommands.length == 0) {
+        this.inTutorial = false;
+      }
+      return;
+    }
+
     let up: boolean = this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.UP].isDown;
     let down: boolean = this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.DOWN].isDown;
     let left: boolean = this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.LEFT].isDown;
@@ -195,7 +285,7 @@ export default class MainScene extends Phaser.Scene {
       this.player.movement("left");
     } else if (right) {
       this.player.movement("right");
-    } 
+    }
     if (!up && !down && !left && !right) {
       this.player.movement("");
     }
@@ -441,7 +531,7 @@ export default class MainScene extends Phaser.Scene {
     return output;
   }
 
-  move_player () {
+  move_player() {
     if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.UP])) {
       this.player.movement("up");
     }
@@ -454,5 +544,20 @@ export default class MainScene extends Phaser.Scene {
     if (Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.RIGHT])) {
       this.player.movement("right");
     }
+  }
+
+  update_tutorialLabel(){
+    if(this.tutorialLabel.text == "This would open up the shop for you to \nupgrade and heal! \nPress backspace to clear message") {
+      if(Phaser.Input.Keyboard.JustDown(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.BACKSPACE])) {
+        this.words = "";
+        this.tutorialCommands.pop();
+      }
+    }
+    let next_comm: string = this.tutorialCommands[this.tutorialCommands.length-1];
+    if(next_comm == "up" || next_comm == "down" || next_comm == "left" || next_comm == "right") {
+      this.tutorialLabel.text = "Press and hold the " + next_comm + " arrow to move " + next_comm + "!";
+      return;
+    }
+    this.tutorialLabel.text = "Type '" + next_comm + "'";
   }
 }

@@ -201,7 +201,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             return true;
         }
 
-        if (words == "attack backward") {
+        if (words == "attack down") {
             this.play('attack_anim');
             this.once('animationcomplete', () => {
                 this.play("idle_anim");
