@@ -91,7 +91,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    movement (direction: string) {
+    movement(direction: string) {
         if (direction == "up") {
             this.y -= .5;
             this.y_destination = this.y;
@@ -104,14 +104,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             if (this.anims.getCurrentKey() != "player_move_anim") {
                 this.play("player_move_anim");
             }
-        } else if(direction == "left") {
+        } else if (direction == "left") {
             this.setFlipX(true);
             this.x -= .5;
             this.x_destination = this.x;
             if (this.anims.getCurrentKey() != "player_move_anim") {
                 this.play("player_move_anim");
             }
-        } else if(direction == "right") {
+        } else if (direction == "right") {
             this.setFlipX(false);
             this.x += .5;
             this.x_destination = this.x;
@@ -119,7 +119,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 this.play("player_move_anim");
             }
         } else {
-            if(this.anims.getCurrentKey() != "idle_anim" && !this.anims.getCurrentKey().includes("attack") && !this.anims.getCurrentKey().includes("cast")) {
+            if (this.anims.getCurrentKey() != "idle_anim" && !this.anims.getCurrentKey().includes("attack") && !this.anims.getCurrentKey().includes("cast")) {
                 this.play("idle_anim");
             }
         }

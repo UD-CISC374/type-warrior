@@ -35,7 +35,7 @@ export default class EndGameScene extends Phaser.Scene {
     }
 
     update(): void {
-        if(this.time.now < this.timer) {
+        if (this.time.now < this.timer) {
             return;
         } else {
             this.endGameLabel.text = "Your average WPM = " + Math.round(this.WPM) + "\nYour number of typos = " + this.typo_count + "\n\nPress Enter to go back to main menu...";
