@@ -186,6 +186,7 @@ export default class MainScene extends Phaser.Scene {
     this.healthLabel.tint = 0x000000;
     this.commandDisplay = this.add.bitmapText(10, 40, "pixelFont", "display", 16);
     this.commandDisplay.tint = 0x00000;
+    this.commandDisplay.setDepth(1);
     this.suggestCommandsDisplay = this.add.bitmapText(10, 25, "pixelFont", "Suggested: ", 16);
     this.suggestCommandsDisplay.tint = 0x000000;
 
@@ -230,8 +231,11 @@ export default class MainScene extends Phaser.Scene {
 
   // the update function
   update() {
-    if (this.inTutorial) {
+    if (this.words != "help") {
       this.player.move();
+    }
+    
+    if (this.inTutorial) {
       this.update_tutorialLabel();
       this.wordLabel.text = "Command:    " + this.words;  
       let next_comm: string = this.tutorialCommands[this.tutorialCommands.length - 1];
@@ -283,6 +287,12 @@ export default class MainScene extends Phaser.Scene {
     let down: boolean = this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.DOWN].isDown;
     let left: boolean = this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.LEFT].isDown;
     let right: boolean = this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.RIGHT].isDown;
+    if(this.words == "help") {
+      up = false;
+      down = false;
+      left = false;
+      right = false;
+    }
     if (up) {
       this.player.movement("up");
     } else if (down) {
@@ -353,7 +363,6 @@ export default class MainScene extends Phaser.Scene {
         return;
       }
     }
-    this.player.move();
 
     // checks if the player wants to open the shop
     if (this.words == "shop!") {
