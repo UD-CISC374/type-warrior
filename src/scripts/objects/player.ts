@@ -62,6 +62,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             } else {
                 this.block_timer.setVisible(false);
                 this.shield.setVisible(false);
+                this.blocking = false;
             }
         }
 
