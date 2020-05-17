@@ -245,8 +245,16 @@ export default class MainScene extends Phaser.Scene {
         this.enemies.splice(index, 1);
       }
 
+      // give the player coins
+      this.player.add_coins(enemy.get_coins());
+
       // kill the enemy
       enemy.kill();
+
+      // if kill last enemy, increment level
+      if (this.enemies.length == 0) {
+        this.level++;
+      }
     }
   }
 
@@ -486,6 +494,8 @@ export default class MainScene extends Phaser.Scene {
           this.current_enemy = new Enemy(this, x, y, z);
           this.enemies.push(this.current_enemy);
         }
+        // add the collisions for fireballs and enemies
+        this.physics.add.overlap(this.enemies, this.fireballs, this.fireball_collision, undefined, this);
       }
       this.words = "";
     }
@@ -516,11 +526,11 @@ export default class MainScene extends Phaser.Scene {
 
     // adds fireballs when cast
     if (this.words.includes("fireball")) {
-      if (this.words.includes("forward")) {
+      if (this.words.includes("up")) {
         this.fireballs.add(new Fireball(this, this.player, 0));
       } else if (this.words.includes("right")) {
         this.fireballs.add(new Fireball(this, this.player, 1));
-      } else if (this.words.includes("backward")) {
+      } else if (this.words.includes("down")) {
         this.fireballs.add(new Fireball(this, this.player, 2));
       } else if (this.words.includes("left")) {
         this.fireballs.add(new Fireball(this, this.player, 3));
