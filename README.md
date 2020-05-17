@@ -1,32 +1,16 @@
-# educational-phaser-game-template
 
-Template for designing educational Phaser Games
+# Type Warriors
 
-# Important Files
+Authors: William Rembish & Matthew Novosel
 
-These files are for coding your game:
+# Quick Summary
 
-* [src/scripts/game.ts](src/scripts/game.ts): The starting file of your game.
+Welcome to the world of Type Warriors, where your typing skills are tested against waves of enemies. Type in commands to attack, block, and upgrade your hero as you fight enemies for money and fame. Typos are penalized with a startling red screen and can throw off your whole groove. Get a high enough words per minute and you will be rewarded with critical damage on your attacks. Use the shop to heal, get stronger attacks, and even learn the arcane arts of casting fireballs. This game's goal is to help with improving typing speed and accuracy in a fun and fast paced RPG-style gaming experience.
+#
+<img src="https://github.com/UD-CISC374/type-warrior/blob/master/src/assets/screenshots/Type_Warriors-Full_Screenshot.png?raw=true"  
+alt="Game Screenshot"  
+style="float: left; margin-right: 10px;" />
+#
 
-These files are for documenting your game:
- 
-* [egdd.md](egdd.md): The educational game design document describing this game in more depth.
-
-These [package.json](package.json) settings are for configuring the metadata of your game and should be updated:
-
-* `name`: This must be a lower-case version of your repository name on GitHub, without spaces.
-* `description`: Give a quick, one sentence summary of your game.
-* `game`:
-    * `url`: Change this to be the EXACT name of your repository on GitHub.
-    * `shortName`: Choose a short name for your game for [Progressive Web App](https://medium.com/@amberleyjohanna/seriously-though-what-is-a-progressive-web-app-56130600a093) packaging.
-    * `name`: Choose a longer, complete name for your game.
-* `repository`:
-    * `url`: Change this URL to be a link to your GitHub repository.
-* `homepage`: Change this URL to be a link to the final version of your game's EGDD.
-* `contributors`: This should be an array (list) of strings, where each string is like `"Barney Rubble <b@rubble.com> (http://barnyrubble.tumblr.com/)"`.
-
-You should edit the following images to create icons for your game, if it gets installed as a [Progressive Web App](https://medium.com/@amberleyjohanna/seriously-though-what-is-a-progressive-web-app-56130600a093):
-
-* [src/assets/icons/icons-192.png](src/assets/icons/icons-192.png): This is a 192x192 pixel version of your game's icon.
-* [src/assets/icons/icons-512.png](src/assets/icons/icons-512.png): This is a 512x512 pixel version of your game's icon.
-* [src/assets/icons/favicon.ico](src/assets/icons/favicon.ico): The [Favicon](https://en.wikipedia.org/wiki/Favicon) for your game.
+[https://youtu.be/vL1vCO2w6Ck](https://youtu.be/vL1vCO2w6Ck)
+<iframe width="900" height="555.88" src="https://www.youtube.com/embed/vL1vCO2w6Ck" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
