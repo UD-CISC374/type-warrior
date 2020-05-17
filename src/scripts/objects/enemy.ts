@@ -156,15 +156,15 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.current_health -= (30 * player.get_strength() * wpm_mult);
             }
         } else if ((this.y < player.y) && (this.y > player.y - 50) && (this.x < player.x + 25) && (this.x > player.x - 25)) {
-            if (words == "attack forward") {
+            if (words == "attack up") {
                 this.current_health -= (10 * player.get_strength() * wpm_mult);
-            } else if (words == "attack forward with sword") {
+            } else if (words == "attack up with sword") {
                 this.current_health -= (30 * player.get_strength() * wpm_mult);
             }
         } else if ((this.y > player.y) && (this.y < player.y + 50) && (this.x < player.x + 25) && (this.x > player.x - 25)) {
-            if (words == "attack backward") {
+            if (words == "attack down") {
                 this.current_health -= (10 * player.get_strength() * wpm_mult);
-            } else if (words == "attack backward with sword") {
+            } else if (words == "attack down with sword") {
                 this.current_health -= (30 * player.get_strength() * wpm_mult);
             }
         }
