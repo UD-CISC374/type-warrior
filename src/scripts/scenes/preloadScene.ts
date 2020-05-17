@@ -182,10 +182,10 @@ export default class PreloadScene extends Phaser.Scene {
 
 
     // movement commands
-    this.commands.set("move left", ["Move your character to the left", true, 0]);
-    this.commands.set("move right", ["Move your character to the right", true, 0]);
-    this.commands.set("move up", ["Advance your character up", true, 0]);
-    this.commands.set("move down", ["Retreat down", true, 0]);
+    //this.commands.set("move left", ["Move your character to the left", true, 0]);
+    //this.commands.set("move right", ["Move your character to the right", true, 0]);
+    //this.commands.set("move up", ["Advance your character up", true, 0]);
+    //this.commands.set("move down", ["Retreat down", true, 0]);
     this.commands.set("turn around", ["Rotate your character 180", true, 0]);
 
 

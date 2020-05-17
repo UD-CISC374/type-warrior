@@ -128,7 +128,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (words == "block") {
             this.shield = this.scene.add.image(this.x, this.y + 10, "shield");
             this.shield.setScale(.15);
+            this.shield.setDepth(1);
             this.block_timer = new Phaser.GameObjects.Rectangle(this.scene, this.x + 5, this.y - 15, 100, 5, 0x0000ff);
+            this.block_timer.setDepth(1);
             this.scene.add.existing(this.block_timer);
             this.shield.setVisible(true);
             this.blocking = true;

@@ -199,6 +199,7 @@ export default class MainScene extends Phaser.Scene {
     this.fightDisplay = this.add.bitmapText(0, this.scale.height - 120, "pixelFont", "'fight onward!' to continue", 40);
     this.fightDisplay.setVisible(false);
     this.fightDisplay.tint = 0x00000;
+    this.fightDisplay.setDepth(1);
     this.suggestDisplay = this.add.bitmapText(10, this.scale.height - 30, "pixelFont", "try 'shop' or 'help", 20);
     this.suggestDisplay.tint = 0x00000;
     this.critDisplay = this.add.bitmapText(this.scale.width - 175, this.scale.height - 10, "pixelFont", "WPM OVER 90; CRIT ACTIVATED", 16);
