@@ -70,6 +70,9 @@ export default class MainScene extends Phaser.Scene {
   // display for tutorial text
   private tutorialLabel: Phaser.GameObjects.BitmapText;
 
+  // 
+  private advLevel: boolean;
+
   // the constructor for the scene
   constructor() {
     super({ key: 'MainScene' });
@@ -77,6 +80,20 @@ export default class MainScene extends Phaser.Scene {
 
   // init function. Allows passing the player object between scenes
   init(data): void {
+    if (data.numComm == undefined) {
+      // set the start numCommands to 0
+      this.numCommands = 0;
+    } else {
+      this.numCommands = data.numComm;
+    }
+
+    if(data.WPM == undefined) {
+      // initiate the player words per minute to 0
+      this.WPM = 0;
+    } else {
+      this.WPM = data.WPM;
+    }
+
     if (data.tutorial == undefined) {
       this.inTutorial = true;
     } else {
@@ -126,6 +143,7 @@ export default class MainScene extends Phaser.Scene {
 
   // create function for the scene
   create(): void {
+    this.advLevel = false;
 
     // set the tutorial array full of commands that need to be performed
     this.tutorialCommands = new Array<string>();
@@ -148,9 +166,6 @@ export default class MainScene extends Phaser.Scene {
     this.tutorialLabel = this.add.bitmapText(75, 115, "pixelFont", "", 18);
     this.tutorialLabel.tint = 0x000000;
 
-    // set the start numCommands to 0
-    this.numCommands = 0;
-
     // add the necessary input keys for the player to type
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
@@ -168,9 +183,6 @@ export default class MainScene extends Phaser.Scene {
 
     // initiate the words to an empty string
     this.words = "";
-
-    // initiate the player words per minute to 0
-    this.WPM = 0;
 
     // inititates the comms string to use for the command display
     let comms: string[] = [""];
@@ -252,8 +264,9 @@ export default class MainScene extends Phaser.Scene {
       enemy.kill();
 
       // if kill last enemy, increment level
-      if (this.enemies.length == 0) {
+      if (this.enemies.length == 0 && this.advLevel) {
         this.level++;
+        this.advLevel = false;
       }
     }
   }
@@ -427,7 +440,7 @@ export default class MainScene extends Phaser.Scene {
 
     // checks if the player wants to open the shop
     if (this.words == "shop!" && this.enemies.length == 0) {
-      this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level });
+      this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level, WPM: this.WPM, numComm: this.numCommands });
     } else if (this.words == "shop!") {
       this.words = "";
     }
@@ -502,6 +515,7 @@ export default class MainScene extends Phaser.Scene {
         // add the collisions for fireballs and enemies
         this.physics.add.overlap(this.enemies, this.fireballs, this.fireball_collision, undefined, this);
       }
+      this.advLevel = true;
       this.words = "";
     }
 
@@ -524,8 +538,9 @@ export default class MainScene extends Phaser.Scene {
           this.player.add_coins(this.current_enemy.get_coins());
         }
       }
-      if (this.enemies.length == 0) {
+      if (this.enemies.length == 0 && this.advLevel) {
         this.level += 1;
+        this.advLevel = false;
       }
     }
 
