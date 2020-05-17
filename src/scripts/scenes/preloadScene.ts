@@ -202,7 +202,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.commands.set("attack left with sword", ["attack to the left direction", false, 45]);
     this.commands.set("attack right with sword", ["attack to the right direction with a sword", false, 45]);
     this.commands.set("attack up with sword", ["attack in front", false, 45]);
-    this.commands.set("attack up with sword", ["attack behind you", false, 45]);
+    this.commands.set("attack down with sword", ["attack behind you", false, 45]);
     // magic commands
     this.commands.set("cast fireball left", ["casts fireball in the left direction", false, 75]);
     this.commands.set("cast fireball right", ["casts fireball in the right direction", false, 75]);

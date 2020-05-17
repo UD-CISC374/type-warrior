@@ -267,6 +267,11 @@ export default class MainScene extends Phaser.Scene {
 
     // if the tutorial is active
     if (this.inTutorial) {
+      if (this.words == "skip") {
+        this.inTutorial = false;
+        this.tutorialLabel.setVisible(false);
+        return;
+      }
       // update the tutorial label with this function
       this.update_tutorialLabel();
       // updates the words label to display what is being typed during the tutorial
@@ -604,6 +609,9 @@ export default class MainScene extends Phaser.Scene {
   check_typo(): boolean {
     let EASTER_EGG: string = "plus ultra!";
     if (EASTER_EGG.includes(this.words)) {
+      return false;
+    }
+    if ("skip".includes(this.words) && this.inTutorial) {
       return false;
     }
     let output = true;
