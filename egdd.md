@@ -2,7 +2,7 @@
 
 ## Elevator Pitch
 
-You are a warrior in a dangerous world with enemies abound. You will use your typing knowledge to traverse each battlefield and deliver a multitude of attacks and defenses to your enemies to emerge victorious or perish along the way.
+You are a warrior in a dangerous world with enemies abound. You will use your typing knowledge to survive each enemy wave of attacks and deliver a multitude of attacks and defenses to your enemies to emerge victorious or perish along the way.
 
 ## Influences (Brief)
 
@@ -18,10 +18,10 @@ You are a warrior in a dangerous world with enemies abound. You will use your ty
 
 ## Core Gameplay Mechanics (Brief)
 
-- Move around the battlefield by typing in a command to do so. e.g. "move forward", "step back", "dodge left"
-- Perform various attacks and defences with typing commands such as "swing right hand", "cast fireball", "block left swing"
-- A mistype causes the type input to stop, the letter you messed up on turns red, and you can't type another command for a brief moment
-- Whenever the enemy uses a command, you have a short indicated timeframe to react to their command. e.g. enemy: "swing left hand" player: "block left swing"
+- Move around the battlefield by using the arrow keys
+- Perform various attacks and defences with typing commands such as "attack right", "cast fireball", "block"
+- A mistype causes the type input to reset, the screen glows red for a second and the user must retry their input.
+- Being able to time the enemies attack is important as the block command only lasts seconds.
 - Defeating an enemy gives you gold. Gold can be used to buy equipment,spells, and upgrades at the shop.
 
 # Learning Aspects
@@ -50,7 +50,7 @@ Our taget audience would be anyone who wants to improve their typing skills, ran
 *What do they need to know prior to trying this game?*
 
 - Prior to the game, players need to have basic knowledge of the keyboard keys layout.
-- Prior to the game, players need to be able to spell simple words such as "move", "swing", "cast", etc.
+- Prior to the game, players need to be able to spell simple words such as "move", "attack", "cast", etc.
 
 
 ## Assessment Measures
@@ -72,7 +72,7 @@ This is a game primarily for one person, although there might be an optional pvp
 ## Player Modes
 
 - Single-player: You battle progressively harder enemies where the player has lower reaction timers the more enemies you beat. You can upgrade your equipment and abilities at the shop with gold earned by defeating enemies.
-- PVP: Play against a friend, where the reaction timers are set to a reasonably short time and you both have equivalent items and abilities. See who is the best typer between the two of you.
+
 
 # Gameplay Objectives
 
@@ -85,15 +85,14 @@ This is a game primarily for one person, although there might be an optional pvp
 
 # Procedures/Actions
 
-The game constantly listens for keyboard input from the player. The player types in the commands they want to perform, and if they type in a character in the command that doesn't match any of the possible commands the game stops them, indicates the character they typed in that was wrong, and prevents them from typing for a short timeframe.
+The game constantly listens for keyboard input from the player. The player types in the commands they want to perform, and if they type in a character in the command that doesn't match any of the possible commands the game stops them, indicates the character they typed in that was wrong, and allows them to restart their command immediately.
 
-When not in combat with an enemy you can either click to continue to a new enemy or click the shop to open up the shop menu where you can click what upgrades you want. If you have enough gold the action gives you the upgrade, otherwise it tells you that you don't have enough gold.
+When not in combat with an enemy you can either type fight onward! to continue to a new enemy/enemies or enter the shop with the shop command to open up the shop menu where you can click what upgrades you want. If you have enough gold the action gives you the upgrade, otherwise it tells you that you don't have enough gold.
 
 # Rules
 
-- If the player mistypes a character in a command they are entering, the game displays the character as red and stops them from typing for a short timeframe.
+- If the player mistypes a character in a command they are entering, the game flashes red for a few seconds while ressetting the players current input.
 - If the player types in a complete correct command, or hits enter to submit the command and it is a valid command, the proper action is performed.
-- When an enemy performs an action the game indicates what that action is and a timer indicating the timeframe the player has to type in a reaction command.
 - over time, enemies become harder. This means the following
   - the enemy has more health
   - the enemy does more damage
@@ -111,17 +110,15 @@ When not in combat with an enemy you can either click to continue to a new enemy
 ## Core Gameplay Mechanics (Detailed)
 
 - Type based movements:
-       If the player needs to move, they need to type out where they want to move. If the player wants to attack they
-       have to type it out. Everything that the player does has to be typed out.
+       The player may only use the arrow keys for movement. If the player wants to attack they
+       have to type it out. Everything that the player does, other than movement, has to be typed out.
 - Purchasing Equipment: 
         Over time the player will accumulate coins, coins can be used to purchase better equipment, whether it is a weapon,
         armor, or spells.
-- *Core Gameplay Mechanic #3*: *Describe in 2 paragraphs or less, along with how it generally works*
-
     
 ## Feedback
 
-Progress is shown through visually showing the player when something is mistyped by making the character glow red. 
+Progress is shown through visually showing the player when something is mistyped by making the screen glow red. 
 It is also shown by showing the player that they typed the correct command by the player doing what the player typed.
 
 We will keep a player stat that shows how fast the player can type based off of WPM, The player can see progress in the long term learning objective by seeing their words per minute increase over time.
@@ -159,9 +156,7 @@ The goal of the game is to be somewhat challenging so that the player is actuall
 - Environment Art/Textures:
   - shop background: a background with shop aspects to it. Like a shopkeeper, a register, some items on display
   - Combat location to fight enemies
-    - Arena
-    - forest
-    - field
+    -desert
 
 ## Audio
 
