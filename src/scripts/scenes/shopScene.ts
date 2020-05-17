@@ -15,6 +15,7 @@ export default class shopScene extends Phaser.Scene {
     private level: number;
     private WPM: number;
     private numComms: number;
+    private typos: number;
 
     constructor() {
         super({ key: 'ShopScene' });
@@ -31,6 +32,8 @@ export default class shopScene extends Phaser.Scene {
 
         this.WPM = data.WPM;
         this.numComms = data.numComm;
+
+        this.typos = data.typos;
     }
 
     create() {
@@ -107,7 +110,7 @@ export default class shopScene extends Phaser.Scene {
                 }
             }
             if (this.words == "exit") {
-                this.scene.start('MainScene', { player: this.player, level: this.level, tutorial: false, WPM: this.WPM, numComm: this.numComms });
+                this.scene.start('MainScene', { player: this.player, level: this.level, tutorial: false, WPM: this.WPM, numComm: this.numComms, typos: this.typos });
             } else if (this.words == "shoplist") {
                 this.shoplist_display.setVisible(true);
                 this.shopExplanation.setVisible(false);

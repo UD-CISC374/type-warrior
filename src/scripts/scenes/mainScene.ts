@@ -138,7 +138,11 @@ export default class MainScene extends Phaser.Scene {
       this.update_commands();
     }
     this.level = data.level;
-    this.typos = 0;
+    if (data.typos == undefined) {
+      this.typos = 0;
+    } else {
+      this.typos = data.typos;
+    }
   }
 
   // create function for the scene
@@ -400,7 +404,6 @@ export default class MainScene extends Phaser.Scene {
 
     if (!this.player.visible) {
       this.scene.start('EndGameScene', { WPM: this.WPM, typos: this.typos });
-      //this.scene.start('MainMenuScene');
     }
 
     // update the display of the WPM
@@ -440,7 +443,7 @@ export default class MainScene extends Phaser.Scene {
 
     // checks if the player wants to open the shop
     if (this.words == "shop!" && this.enemies.length == 0) {
-      this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level, WPM: this.WPM, numComm: this.numCommands });
+      this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level, WPM: this.WPM, numComm: this.numCommands, typos: this.typos });
     } else if (this.words == "shop!") {
       this.words = "";
     }
