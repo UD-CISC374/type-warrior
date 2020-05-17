@@ -20,7 +20,7 @@ export default class EndGameScene extends Phaser.Scene {
     }
 
     create(): void {
-        this.timer = 20000;
+        this.timer = this.time.now + 15000;
         // add background to the scene
         this.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, "background");
         this.background.setOrigin(0, 0);
