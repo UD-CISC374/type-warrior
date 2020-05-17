@@ -31,7 +31,7 @@ export default class EndGameScene extends Phaser.Scene {
         // add the endgame bitmaptext label to the scene
         this.endGameLabel = this.add.bitmapText(10, 25, "pixelFont", "Your average WPM = " + Math.round(this.WPM) + "\nYour number of typos = "
             + this.typo_count, 25);
-        this.endGameLabel.setTint(0xffffff);
+        this.endGameLabel.setTint(0x000000);
     }
 
     update(): void {

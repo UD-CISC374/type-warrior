@@ -51,8 +51,10 @@ export default class MainScene extends Phaser.Scene {
 
         // add the word label to the scene so the player can see what they are typing
         this.wordLabel = this.add.bitmapText(10, 5, "pixelFont", "Command", 16);
+        this.wordLabel.tint = 0x00000;
         // adds the menu label to the scene with options 
         this.menuLabel = this.add.bitmapText(this.scale.width / 4, 55, "pixelFont", "Command", 22);
+        this.menuLabel.tint = 0x000000;
         let temp_bool: boolean = false; // temporary boolean set to false so we can have a way to check later if there is a save game
         // if there is a save game on file, allow loading the save with load or auto loading the most recent save with continue
         if (temp_bool) {

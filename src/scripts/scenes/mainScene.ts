@@ -142,7 +142,8 @@ export default class MainScene extends Phaser.Scene {
     this.tutorialMove = 0;
 
     // initiate the tutorial label
-    this.tutorialLabel = this.add.bitmapText(100,75,"pixelFont", "",16);
+    this.tutorialLabel = this.add.bitmapText(75,115,"pixelFont", "",18);
+    this.tutorialLabel.tint = 0x000000;
 
     // set the start numCommands to 0
     this.numCommands = 0;
@@ -163,7 +164,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     // initiate the words to an empty string
-    this.words = "help";
+    this.words = "";
 
     // initiate the player words per minute to 0
     this.WPM = 0;
@@ -179,18 +180,23 @@ export default class MainScene extends Phaser.Scene {
 
     // inititate the bitmaps to display
     this.wordLabel = this.add.bitmapText(10, 5, "pixelFont", "Command", 16);
+    this.wordLabel.tint = 0x000000;
     this.healthLabel = this.add.bitmapText(this.scale.width - 75, 5, "pixelFont", "health", 16);
+    this.healthLabel.tint = 0x000000;
     this.commandDisplay = this.add.bitmapText(10, 40, "pixelFont", "display", 16);
     this.commandDisplay.tint = 0x00000;
     this.suggestCommandsDisplay = this.add.bitmapText(10, 25, "pixelFont", "Suggested: ", 16);
+    this.suggestCommandsDisplay.tint = 0x000000;
 
     this.coinDisplay = this.add.bitmapText(this.scale.width - 175, 5, "pixelFont", "Coins", 16);
     this.coinDisplay.setText("Coins: " + this.player.get_coins());
+    this.coinDisplay.tint = 0x000000;
     this.levelDisplay = this.add.bitmapText(this.scale.width - 175, 25, "pixelFont", "Coins", 16);
+    this.levelDisplay.tint = 0x000000;
     this.timeAttack = this.time.now;
     this.WPMLabel = this.add.bitmapText(10, this.scale.height - 10, "pixelFont", "WPM:", 16);
     this.WPMLabel.tint = 0x00000;
-    this.fightDisplay = this.add.bitmapText(0, this.scale.height - 170, "pixelFont", "'fight onward!' to continue", 40);
+    this.fightDisplay = this.add.bitmapText(0, this.scale.height - 120, "pixelFont", "'fight onward!' to continue", 40);
     this.fightDisplay.setVisible(false);
     this.fightDisplay.tint = 0x00000;
     this.suggestDisplay = this.add.bitmapText(10, this.scale.height - 30, "pixelFont", "try 'shop' or 'help", 20);
@@ -252,7 +258,6 @@ export default class MainScene extends Phaser.Scene {
       if (this.check_typo()) {
         this.words = "";
       } else if (this.words == next_comm) {
-        this.wordLabel.text = "true";
         if (next_comm == ("" + "shop!")) {
           this.tutorialLabel.text = "This would open up the shop for you to \nupgrade and heal! \nPress backspace to clear message";
         } else if (next_comm == ("" + "help")) {
@@ -313,14 +318,6 @@ export default class MainScene extends Phaser.Scene {
       //this.scene.start('MainMenuScene');
     }
 
-    this.player.move();
-
-    // checks if the player wants to open the shop
-    if (this.words == "shop!") {
-      this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level });
-    }
-
-    this.suggestedCommands = this.checkContain();
     // update the display of the WPM
     this.WPMLabel.text = "Average WPM: " + Math.round(this.WPM);
 
@@ -328,7 +325,7 @@ export default class MainScene extends Phaser.Scene {
     this.commandDisplay.setVisible(false);
 
     // update the command display to hold all available commands
-    this.commandDisplay.text = "Commands: " + this.commands;
+    this.commandDisplay.text = "Commands: " + this.commands + "\nbackspace or enter to exit help";
     this.suggestCommandsDisplay.text = "Suggested: " + this.suggestedCommands;
     // update the coins display with the players current coins
     this.coinDisplay.setText("Coins: " + this.player.get_coins());
@@ -346,6 +343,22 @@ export default class MainScene extends Phaser.Scene {
 
     // update the health label to display the character's current health
     this.healthLabel.text = "Health: " + this.player.get_health();
+
+    if(this.words == "help") {
+      if(this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.BACKSPACE].isDown || this.input.keyboard.keys[Phaser.Input.Keyboard.KeyCodes.ENTER].isDown) {
+        this.words = "";
+      } else {
+        return;
+      }
+    }
+    this.player.move();
+
+    // checks if the player wants to open the shop
+    if (this.words == "shop!") {
+      this.scene.start('ShopScene', { player: this.player, commands: this.store_map, level: this.level });
+    }
+
+    this.suggestedCommands = this.checkContain();
 
     let words_wpm: string = this.words;
     // check if the player is typing
