@@ -58,14 +58,15 @@ export default class shopScene extends Phaser.Scene {
         this.wordLabel.tint = 0xff6611;
         this.words = "";
         this.shopExplanation = this.add.bitmapText(10, 25, "pixelFont",
-            "To open the list of items you can buy, type shoplist," +
+            "To open the list of items you can buy, type 'shoplist'," +
             "\nHeal displays the cost to fully heal back up to your max health" +
-            "\nto heal, type heal and it will take either the amount to fully heal" +
+            "\nto heal, type 'heal' and it will take either the amount to fully heal" +
             "\nif you have enough, or all of your coins and heal at a fraction" +
             "\nof your health proportionate to the price you pay," +
+            "\nTo upgrade your strength, type 'upgrade strength'" +
             "\nTo buy a command listed in the shoplist, type" +
             "\n'buy' + the command you want to buy," +
-            "\nType exit to exit the shop", 16);
+            "\nType 'exit' to exit the shop", 16);
         this.shopExplanation.tint = 0xff6611;
 
 
