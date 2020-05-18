@@ -56,6 +56,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/images/standing.png"
   },
   {
+    "revision": "08a70f09b09ed8bde12447580d573a40",
+    "url": "assets/screenshots/Type_Warriors-Full_Screenshot.png"
+  },
+  {
+    "revision": "71158b7d3a3e1ab8726b7ed08b8a07ec",
+    "url": "assets/screenshots/Type_Warriors-Mini_Screenshot.png"
+  },
+  {
     "revision": "528c6775a54486859aa17d71525a2bed",
     "url": "assets/spritesheets/Minotaur.png"
   },
@@ -124,12 +132,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "favicon.ico"
   },
   {
-    "revision": "5c3b2e08b7f2eb09773ef7a1a240e650",
+    "revision": "1e16d108c06091b75f2984326263f955",
     "url": "index.html"
   },
   {
-    "revision": "a41f5c85826361c2cb10",
-    "url": "main.97d0c24029601b0ed39b.bundle.js"
+    "revision": "add5b299fcbfddb1b8f1",
+    "url": "main.617ddef0b90fc682d670.bundle.js"
   },
   {
     "revision": "003187cab0ecf7a20e343e2ba6db4a34",
